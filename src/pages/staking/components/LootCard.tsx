@@ -1,5 +1,5 @@
 import { ButtonBase, styled } from '@mui/material'
-import Progress from '../../components/Progress'
+import Progress from 'components/Progress'
 
 const LootCardStyle = styled('div')({
   flex: 1,
@@ -54,7 +54,7 @@ export default function LootCard(props: IProps) {
           <img src={props.imgsrc} />
         </div>
         <p className={'loot-card-title'}>{props.title}</p>
-        <Progress val={props.progress} total={7}></Progress>
+        <Progress val={props.progress} total={7} ></Progress>
         <StakeButton disabled={props.isstaked}>{props.isstaked ? 'Staked' : 'Stake'}</StakeButton>
       </div>
     </LootCardStyle>
