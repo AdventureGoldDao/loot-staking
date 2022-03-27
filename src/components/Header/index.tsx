@@ -23,17 +23,9 @@ interface Tab extends TabContent {
 }
 
 export const Tabs: Tab[] = [
-  {
-    title: 'Test',
-    subTab: [
-      { title: 'Test1', route: routes.test1 },
-      { title: 'Test2', route: routes.test2 }
-    ]
-  },
-
-  { title: 'Test3', route: routes.test3 },
-  { title: 'DAO', link: 'https://dao.antimatter.finance/#/' },
-  { title: 'Docs', link: 'https://docs.antimatter.finance/' }
+  { title: 'Staking', route: routes.test3 },
+  { title: 'Governance', link: 'https://dao.antimatter.finance/#/' },
+  { title: 'About', link: 'https://docs.antimatter.finance/' }
 ]
 
 const navLinkSX = ({ theme }: any) => ({
@@ -52,13 +44,11 @@ const StyledAppBar = styled(AppBar)(({ theme }) => ({
   position: 'relative',
   height: theme.height.header,
   backgroundColor: theme.palette.background.paper,
-  flexDirection: 'row',
-  alignItems: 'center',
-  justifyContent: 'space-between',
+  alignItems: 'left',
   boxShadow: 'none',
   padding: '0 40px 0 25px!important',
   zIndex: theme.zIndex.drawer,
-  borderBottom: '1px solid rgba(0, 0, 0, 0.1)',
+  borderBottom: `1px solid ${theme.palette.text.primary}`,
   // [theme.breakpoints.down('md')]: {
   //   position: 'fixed',
   //   bottom: 0,
@@ -67,20 +57,22 @@ const StyledAppBar = styled(AppBar)(({ theme }) => ({
   //   borderTop: '1px solid ' + theme.bgColor.bg4,
   //   justifyContent: 'center'
   // },
+  '#header-main': {
+    width: 1120,
+    margin: '0 auto'
+  },
   '& .link': {
     textDecoration: 'none',
-    fontSize: 14,
-    color: theme.palette.text.primary,
-    opacity: 0.5,
+    color: theme.palette.text.disabled,
     marginRight: 48,
+    fontWeight: 600,
+    fontStyle: 'normal',
     paddingBottom: '30px',
-    borderBottom: '2px solid transparent',
     '&.active': {
-      opacity: 1,
-      borderColor: theme.palette.text.primary
+      color: theme.palette.text.primary
     },
     '&:hover': {
-      opacity: 1
+      color: theme.palette.text.primary
     }
   },
   [theme.breakpoints.down('lg')]: {
@@ -110,8 +102,7 @@ const Filler = styled('div')(({ theme }) => ({
 
 const MainLogo = styled(NavLink)(({ theme }) => ({
   '& img': {
-    width: 180.8,
-    height: 34.7
+    width: 104
   },
   '&:hover': {
     cursor: 'pointer'
@@ -123,7 +114,6 @@ const MainLogo = styled(NavLink)(({ theme }) => ({
 }))
 
 const LinksWrapper = muiStyled('div')(({ theme }) => ({
-  marginLeft: 60,
   [theme.breakpoints.down('lg')]: {
     marginLeft: 0
   }
@@ -142,9 +132,9 @@ export default function Header() {
       <MobileMenu isOpen={mobileMenuOpen} onDismiss={handleMobileMenueDismiss} />
       <Filler />
       <StyledAppBar>
-        <Box display="flex" alignItems="center">
+        <Box id={'header-main'} display="flex" alignItems="center" height={'100%'} justifyContent={'space-between'}>
           <MainLogo id={'antimatter'} to={'/'}>
-            <Image src={antimatter} alt={'antimatter'} />
+            <Image className={'img'} src={antimatter} alt={'antimatter'} />
           </MainLogo>
           <HideOnMobile breakpoint="md">
             <LinksWrapper>
@@ -186,7 +176,6 @@ export default function Header() {
                             <ExternalLink
                               href={sub.link}
                               className={'link'}
-                              color="#00000050"
                               sx={{
                                 '&:hover': {
                                   color: '#232323!important'
@@ -231,9 +220,6 @@ export default function Header() {
               )}
             </LinksWrapper>
           </HideOnMobile>
-        </Box>
-
-        <Box display="flex" alignItems="center" gap={{ xs: '6px', sm: '20px' }}>
           <NetworkSelect />
           <Web3Status />
           <ShowOnMobile breakpoint="md">

@@ -4,7 +4,7 @@ const StyledLinearProgress = styled(LinearProgress)(({ theme }) => ({
   height: 10,
   borderRadius: 5,
   [`&.${linearProgressClasses.colorPrimary}`]: {
-    backgroundColor: 'rgba(37, 37, 37, 0.1)'
+    backgroundColor: '#474747'
   },
   [`& .${linearProgressClasses.bar}`]: {
     borderRadius: 5,
@@ -12,22 +12,15 @@ const StyledLinearProgress = styled(LinearProgress)(({ theme }) => ({
   }
 }))
 
-export default function Progress({ val, total, unit }: { val: number; total: number; unit: string }) {
+export default function Progress({ val, total }: { val: number; total: number }) {
   const value = (val / total) * 100
-
   return (
-    <Box display="grid" sx={{ width: 'max-content' }} columnGap={6} rowGap={4}>
-      <Typography
-        fontSize={12}
-        sx={{ gridRowStart: 1, gridRowEnd: 'span 2', textAlign: 'center', display: 'flex', alignItems: 'flex-end' }}
-      >
-        {value | 0}%
-      </Typography>
-      <Typography
-        fontSize={12}
-        sx={{ gridColumnStart: 2, gridColumnEnd: 'span 1', textAlign: 'center' }}
-      >{`${val} ${unit} / ${total} ${unit}`}</Typography>
-      <StyledLinearProgress variant="determinate" value={value} sx={{ width: 120 }} />
+    <Box sx={{ width: 'max-content' }}>
+      <StyledLinearProgress variant="determinate" value={value} sx={{ width: 205 }} />
+      <Box color={'#B7B7B7'} marginTop={5} fontSize={14} display={'flex'} justifyContent={'space-between'}>
+        <Typography fontSize={12}>{`Hold day`}</Typography>
+        <Typography fontSize={12} sx={{ textAlign: 'right' }}>{`${val}/${total}`}</Typography>
+      </Box>
     </Box>
   )
 }

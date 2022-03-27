@@ -50,13 +50,20 @@ export default function Button(props: Props) {
 
 export function BlackButton({ style, ...props }: Props) {
   const theme = useTheme()
+  console.log(style)
   return (
     <Button
       {...props}
       style={{
-        backgroundColor: theme.palette.text.primary,
+        backgroundColor: 'rgba(0,0,0,0)',
+        border: `2px solid ${theme.palette.text.primary}`,
+        color: theme.palette.text.primary,
+        padding: '12px 24px',
+        width: 'auto',
+        height: 'auto',
         '&:hover': {
-          background: '#515151'
+          background: theme.palette.text.primary,
+          color: theme.palette.background.paper
         },
         '&:disabled': {
           backgroundColor: '#B9B9B9'

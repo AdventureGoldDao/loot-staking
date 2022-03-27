@@ -87,12 +87,12 @@ export const theme = {
     },
     background: {
       default: '#F2F5FA',
-      paper: '#FFFFFF'
+      paper: '#1E252B'
     },
     text: {
-      primary: '#252525',
+      primary: '#A5FFBE',
       secondary: 'rgba(0, 0, 0, 0.6)',
-      disabled: '#F2F5FA'
+      disabled: '#6E757C'
     },
     action: {
       disabledOpacity: 0.8
@@ -123,7 +123,7 @@ export const theme = {
     gradient1: '#ffffff linear-gradient(154.62deg, #77C803 9.44%, #28A03E 59.25%);'
   },
   height: {
-    header: '80px',
+    header: '130px',
     mobileHeader: '51px',
     footer: '60px'
   },
@@ -146,18 +146,18 @@ export const override: any = {
   MuiCssBaseline: {
     styleOverrides: {
       body: {
-        backgroundColor: theme.palette.background.default,
+        backgroundColor: theme.palette.background.paper,
         fontSize: 16,
         overflow: 'auto!important',
         paddingRight: '0px!important'
       },
       'html, input, textarea, button, body': {
-        fontFamily: 'Roboto, -apple-system, BlinkMacSystemFont, sans-serif',
+        fontFamily: 'Inconsolata, Roboto, -apple-system, BlinkMacSystemFont, sans-serif',
         fontDisplay: 'fallback'
       },
       '@supports (font-variation-settings: normal)': {
         'html, input, textarea, button, body': {
-          fontFamily: 'Roboto, -apple-system, BlinkMacSystemFont, sans-serif',
+          fontFamily: 'Inconsolata, Roboto, -apple-system, BlinkMacSystemFont, sans-serif',
           fontDisplay: 'fallback'
         }
       }
@@ -168,14 +168,14 @@ export const override: any = {
       root: {
         fontSize: 16,
         fontWeight: 500,
-        fontFamily: 'Roboto, -apple-system, BlinkMacSystemFont, sans-serif!important'
+        fontFamily: 'Inconsolata, Roboto, -apple-system, BlinkMacSystemFont, sans-serif!important'
       }
     }
   },
   MuiButton: {
     styleOverrides: {
       root: {
-        fontFamily: 'Roboto, -apple-system, BlinkMacSystemFont, sans-serif!important',
+        fontFamily: 'Inconsolata, Roboto, -apple-system, BlinkMacSystemFont, sans-serif!important',
         color: theme.palette.primary.contrastText,
         fontWeight: 500,
         borderRadius: theme.shape.borderRadius,
@@ -257,7 +257,7 @@ export const override: any = {
     styleOverrides: {
       root: {
         lineHeight: 1.2,
-        fontFamily: 'Roboto, -apple-system, BlinkMacSystemFont, sans-serif!important'
+        fontFamily: 'Inconsolata, Roboto, -apple-system, BlinkMacSystemFont, sans-serif!important'
       },
       body1: {
         fontSize: 14

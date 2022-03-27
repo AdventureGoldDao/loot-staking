@@ -14,9 +14,9 @@ import { ReactComponent as Web3StatusIconSvg } from 'assets/svg/web3status_icon.
 import useBreakpoint from 'hooks/useBreakpoint'
 
 const ActionButton = styled(BlackButton)(({ theme }) => ({
-  backgroundColor: theme.palette.error.main,
   fontSize: '14px',
   marginBottom: 15,
+  padding: '16px 24px',
   [theme.breakpoints.down('sm')]: {
     maxWidth: 320,
     width: '100%',
