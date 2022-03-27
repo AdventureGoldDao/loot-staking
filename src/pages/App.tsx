@@ -11,10 +11,12 @@ import { ModalProvider } from 'context/ModalContext'
 import stakingntftitle from '../assets/svg/staking-ntf-title.svg'
 import iconmaster from '../assets/svg/icon-master.svg'
 import loottitle from '../assets/svg/loot-title.svg'
+import boredtitle from '../assets/svg/bored-title.svg'
 import icondamons from '../assets/svg/icon-damons.svg'
 import Footer from 'components/Footer'
 import { BlackButton } from '../components/Button/Button'
 import LootCard from './components/LootCard'
+import ActionButton from '../components/Button/ActionButton'
 
 const AppWrapper = styled('div')(({ theme }) => ({
   display: 'flex',
@@ -62,35 +64,46 @@ const BodyWrapper = styled('div')(({ theme }) => ({
     position: 'absolute',
     right: '0'
   },
-  '#loot-box': {
+  '#main-box': {
     marginTop: 70
   },
-  '.loot-column-box': {
+  '.column-main-box': {
     flex: 1
   },
-  '#loot-column-box-header': {
+  '#column-box-header': {
     'padding-bottom': 31,
     borderBottom: `1px solid #253A27`
   },
-  '.loot-column-header-data': {
+  '.column-header-data': {
     marginRight: 20
   },
-  '.loot-column-header-data-text': {
+  '.column-header-data-text': {
     fontStyle: 'normal'
   },
-  '.loot-column-header-data-icon': {
+  '.column-header-data-icon': {
     verticalAlign: '-6px',
     marginRight: '6px'
   },
-  '.loot-column-header-more': {
+  '.column-header-more': {
     border: 'none',
     borderBottom: `1px solid ${theme.palette.text.primary}`,
     'vertical-align': 2
   },
-  '#loot-column-box-body': {
+  '.bored-box': {
+    marginTop: 70
+  },
+  '#column-box-body': {
     marginTop: 40
   },
-  '.loot-column-content': {
+  '.no-bored-box': {
+    color: '#B7B7B7',
+    fontSize: 16,
+    textAlign: 'center'
+  },
+  '.no-bored-box-desc': {
+    marginBottom: 34
+  },
+  '.column-content': {
     flex: 1
   },
   [theme.breakpoints.down('md')]: {
@@ -113,34 +126,59 @@ export default function App() {
                 <BlackButton>Learn More</BlackButton>
                 <img className={'staking-ntf-box-icon'} src={iconmaster} alt={''} />
               </div>
-              <Box id={'loot-box'} display="flex">
-                <div className={'loot-column-box'}>
-                  <Box id={'loot-column-box-header'} display="flex" justifyContent={'space-between'}>
-                    <img src={loottitle} alt={'Loot (for Adventures)'} />
-                    <span className={'loot-column-header-right'}>
-                      <span className={'loot-column-header-data'}>
-                        <img className={'loot-column-header-data-icon'} src={icondamons} alt={'damons'} />
-                        <i className={'loot-column-header-data-text'}>60%</i>
+              <Box id={'main-box'} display="flex">
+                <div className={'column-main-box'}>
+                  <div className={'column-box'}>
+                    <Box id={'column-box-header'} display="flex" justifyContent={'space-between'}>
+                      <img src={loottitle} alt={'Loot (for Adventures)'} />
+                      <span className={'column-header-right'}>
+                        <span className={'column-header-data'}>
+                          <img className={`column-header-data-icon`} src={icondamons} alt={'damons'} />
+                          <i className={'column-header-data-text'}>60%</i>
+                        </span>
+                        <ButtonBase className={'column-header-more'}>More</ButtonBase>
                       </span>
-                      <ButtonBase className={'loot-column-header-more'}>More</ButtonBase>
-                    </span>
-                  </Box>
-                  <Box id={'loot-column-box-body'} display="grid" gridTemplateColumns={'1fr 1fr'} columnGap={50}>
-                    <LootCard
-                      imgsrc={`https://ss3.baidu.com/-fo3dSag_xI4khGko9WTAnF6hhy/zhidao/wh%3D450%2C600/sign=a5dda3cf7bf0f736d8ab44053f659f2f/b03533fa828ba61ea66a5d9f4234970a314e59fd.jpg`}
-                      title={'Bag #5913'}
-                      progress={0}
-                      isstaked={false}
-                    ></LootCard>
-                    <LootCard
-                      imgsrc={`https://ss3.baidu.com/-fo3dSag_xI4khGko9WTAnF6hhy/zhidao/wh%3D450%2C600/sign=a5dda3cf7bf0f736d8ab44053f659f2f/b03533fa828ba61ea66a5d9f4234970a314e59fd.jpg`}
-                      title={'Bag #5913'}
-                      progress={5}
-                      isstaked={true}
-                    ></LootCard>
-                  </Box>
+                    </Box>
+                    <Box id={'column-box-body'} display="grid" gridTemplateColumns={'1fr 1fr'} columnGap={50}>
+                      <LootCard
+                        imgsrc={`https://ss3.baidu.com/-fo3dSag_xI4khGko9WTAnF6hhy/zhidao/wh%3D450%2C600/sign=a5dda3cf7bf0f736d8ab44053f659f2f/b03533fa828ba61ea66a5d9f4234970a314e59fd.jpg`}
+                        title={'Bag #5913'}
+                        progress={0}
+                        isstaked={false}
+                      ></LootCard>
+                      <LootCard
+                        imgsrc={`https://ss3.baidu.com/-fo3dSag_xI4khGko9WTAnF6hhy/zhidao/wh%3D450%2C600/sign=a5dda3cf7bf0f736d8ab44053f659f2f/b03533fa828ba61ea66a5d9f4234970a314e59fd.jpg`}
+                        title={'Bag #5913'}
+                        progress={5}
+                        isstaked={true}
+                      ></LootCard>
+                    </Box>
+                  </div>
+                  <div className={'column-box bored-box'}>
+                    <Box id={'column-box-header'} display="flex" justifyContent={'space-between'}>
+                      <img src={boredtitle} alt={'Bored Ape Yacht Club'} />
+                      <span className={'column-header-right'}>
+                        <span className={'column-header-data'}>
+                          <img className={`column-header-data-icon`} src={icondamons} alt={'damons'} />
+                          <i className={'column-header-data-text'}>40%</i>
+                        </span>
+                        <ButtonBase className={'column-header-more'}>More</ButtonBase>
+                      </span>
+                    </Box>
+                    <Box id={'column-box-body'}>
+                      <div className={'no-bored-box'}>
+                        <p className={'no-bored-box-desc'}>No “Bored Ape Yacht Club” found in your wallet</p>
+                        <ActionButton
+                          width={`205px`}
+                          height={`30px`}
+                          actionText={'Buy'}
+                          onAction={function() {}}
+                        ></ActionButton>
+                      </div>
+                    </Box>
+                  </div>
                 </div>
-                <div className={'loot-column-content'}></div>
+                <div className={'column-content'}></div>
               </Box>
               <Popups />
               <Polling />
