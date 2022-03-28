@@ -1,8 +1,8 @@
 import { Chain } from 'models/chain'
 import { ReactComponent as ETH } from 'assets/svg/eth_logo.svg'
 import EthUrl from 'assets/svg/eth_logo.svg'
-import BSCUrl from 'assets/svg/binance.svg'
-import { ReactComponent as BSC } from 'assets/svg/binance.svg'
+// import BSCUrl from 'assets/svg/binance.svg'
+// import { ReactComponent as BSC } from 'assets/svg/binance.svg'
 
 export enum ChainId {
   MAINNET = 1,
@@ -15,19 +15,27 @@ export enum ChainId {
 
 export const NETWORK_CHAIN_ID: ChainId = process.env.REACT_APP_CHAIN_ID
   ? parseInt(process.env.REACT_APP_CHAIN_ID)
-  : ChainId.BSC
+  : ChainId.MAINNET
 
-export const IS_TEST_NET = !!(NETWORK_CHAIN_ID === ChainId.ROPSTEN)
+export const IS_TEST_NET = !!(NETWORK_CHAIN_ID === ChainId.RINKEBY)
 
 export const ChainList = [
   {
     icon: <ETH />,
     logo: EthUrl,
-    symbol: 'Ropsten',
-    name: 'Ropsten Test Network',
-    id: ChainId.ROPSTEN,
-    hex: '0x3'
+    symbol: 'Ethereum',
+    name: 'Ethereum Main Network',
+    id: ChainId.MAINNET,
+    hex: '0x1'
   },
+  // {
+  //   icon: <ETH />,
+  //   logo: EthUrl,
+  //   symbol: 'Ropsten',
+  //   name: 'Ropsten Test Network',
+  //   id: ChainId.ROPSTEN,
+  //   hex: '0x3'
+  // },
   {
     icon: <ETH />,
     logo: EthUrl,
@@ -36,22 +44,22 @@ export const ChainList = [
     id: ChainId.RINKEBY,
     hex: '0x4'
   },
-  {
-    icon: <ETH />,
-    logo: EthUrl,
-    symbol: 'Kovan',
-    name: 'Kovan Testnet',
-    id: ChainId.KOVAN,
-    hex: '0x2a'
-  },
-  {
-    icon: <BSC height={20} width={20} />,
-    logo: BSCUrl,
-    symbol: 'BSC',
-    name: 'Binance Smart Chain',
-    id: ChainId.BSC,
-    hex: '0x38'
-  }
+  // {
+  //   icon: <ETH />,
+  //   logo: EthUrl,
+  //   symbol: 'Kovan',
+  //   name: 'Kovan Testnet',
+  //   id: ChainId.KOVAN,
+  //   hex: '0x2a'
+  // },
+  // {
+  //   icon: <BSC height={20} width={20} />,
+  //   logo: BSCUrl,
+  //   symbol: 'BSC',
+  //   name: 'Binance Smart Chain',
+  //   id: ChainId.BSC,
+  //   hex: '0x38'
+  // }
 ]
 
 export const ChainListMap: {
@@ -85,17 +93,17 @@ export const SUPPORTED_NETWORKS: {
     rpcUrls: ['https://mainnet.infura.io/v3'],
     blockExplorerUrls: ['https://etherscan.com']
   },
-  [ChainId.ROPSTEN]: {
-    chainId: '0x3',
-    chainName: 'Ropsten',
-    nativeCurrency: {
-      name: 'Ropsten',
-      symbol: 'ETH',
-      decimals: 18
-    },
-    rpcUrls: ['https://ropsten.infura.io/v3/'],
-    blockExplorerUrls: ['https://ropsten.etherscan.io/']
-  },
+  // [ChainId.ROPSTEN]: {
+  //   chainId: '0x3',
+  //   chainName: 'Ropsten',
+  //   nativeCurrency: {
+  //     name: 'Ropsten',
+  //     symbol: 'ETH',
+  //     decimals: 18
+  //   },
+  //   rpcUrls: ['https://ropsten.infura.io/v3/'],
+  //   blockExplorerUrls: ['https://ropsten.etherscan.io/']
+  // },
   [ChainId.RINKEBY]: {
     chainId: '0x4',
     chainName: 'Rinkeby',
@@ -106,17 +114,17 @@ export const SUPPORTED_NETWORKS: {
     },
     rpcUrls: ['https://rinkeby.infura.io/v3/'],
     blockExplorerUrls: ['https://rinkeby.etherscan.io/']
-  },
-  [ChainId.KOVAN]: {
-    chainId: '0x2a',
-    chainName: 'Kovan',
-    nativeCurrency: {
-      name: 'Kovan',
-      symbol: 'ETH',
-      decimals: 18
-    },
-    rpcUrls: ['https://kovan.infura.io/v3/'],
-    blockExplorerUrls: ['https://kovan.etherscan.io/']
+  // },
+  // [ChainId.KOVAN]: {
+  //   chainId: '0x2a',
+  //   chainName: 'Kovan',
+  //   nativeCurrency: {
+  //     name: 'Kovan',
+  //     symbol: 'ETH',
+  //     decimals: 18
+  //   },
+  //   rpcUrls: ['https://kovan.infura.io/v3/'],
+  //   blockExplorerUrls: ['https://kovan.etherscan.io/']
   }
   // [ChainId.BSC]: {
   //   chainId: '0x38',

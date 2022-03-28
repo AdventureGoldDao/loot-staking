@@ -35,7 +35,7 @@ export const binance = new BscConnector({ supportedChainIds: [56] })
 
 // mainnet only
 export const walletconnect = new WalletConnectConnector({
-  rpc: { 56: NETWORK_URL },
+  rpc: { 1: NETWORK_URL },
   bridge: 'https://bridge.walletconnect.org',
   qrcode: true,
   pollingInterval: 15000

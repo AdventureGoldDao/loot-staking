@@ -2,8 +2,9 @@ import { Contract } from '@ethersproject/contracts'
 import { abi as GOVERNANCE_ABI } from '../constants/abis/governance.json'
 import ANTIMATTER_ABI from '../constants/abis/antimatter.json'
 import ANTIMATTER_GOVERNANCE_ABI from '../constants/abis/governance.json'
+import STAKING_ABI from '../constants/abis/loot-staking.json'
 import { useMemo } from 'react'
-import { ANTIMATTER_ADDRESS, GOVERNANCE_ADDRESS, ANTIMATTER_GOVERNANCE_ADDRESS } from '../constants'
+import { ANTIMATTER_ADDRESS, GOVERNANCE_ADDRESS, ANTIMATTER_GOVERNANCE_ADDRESS, STAKING_ADDRESS } from '../constants'
 import ENS_PUBLIC_RESOLVER_ABI from '../constants/abis/ens-public-resolver.json'
 import ENS_ABI from '../constants/abis/ens-registrar.json'
 import { ERC20_BYTES32_ABI } from '../constants/abis/erc20'
@@ -96,4 +97,9 @@ export function useSocksController(): Contract | null {
 
 export function useAntiMatterGovernanceContract(): Contract | null {
   return useContract(ANTIMATTER_GOVERNANCE_ADDRESS, ANTIMATTER_GOVERNANCE_ABI, false)
+}
+
+export function useStakingContract(): Contract | null {
+  const { chainId } = useActiveWeb3React()
+  return useContract(chainId && STAKING_ADDRESS[chainId], STAKING_ABI.abi, true)
 }

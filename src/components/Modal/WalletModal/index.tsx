@@ -199,7 +199,7 @@ export default function WalletModal({
               ? `Please connect to the    ${
                   SUPPORTED_NETWORKS[NETWORK_CHAIN_ID]
                     ? SUPPORTED_NETWORKS[NETWORK_CHAIN_ID]?.chainName
-                    : 'Binance Smart Chain'
+                    : 'Ethereum'
                 }.`
               : 'Error connecting. Try refreshing the page.'}
           </Box>
@@ -211,6 +211,9 @@ export default function WalletModal({
                   return
                 }
                 const params = SUPPORTED_NETWORKS[id as ChainId]
+                console.log(JSON.stringify(SUPPORTED_NETWORKS))
+                console.log(NETWORK_CHAIN_ID)
+                
                 params?.nativeCurrency.symbol === 'ETH'
                   ? window.ethereum?.request?.({
                       method: 'wallet_switchEthereumChain',
@@ -220,7 +223,7 @@ export default function WalletModal({
               }}
             >
               Connect to{' '}
-              {SUPPORTED_NETWORKS[NETWORK_CHAIN_ID] ? SUPPORTED_NETWORKS[NETWORK_CHAIN_ID]?.chainName : 'BSC'}
+              {SUPPORTED_NETWORKS[NETWORK_CHAIN_ID] ? SUPPORTED_NETWORKS[NETWORK_CHAIN_ID]?.chainName : 'ETH'}
             </Button>
           )}
         </>

@@ -7,7 +7,7 @@ import { HideOnMobile, ShowOnMobile } from 'theme/index'
 import PlainSelect from 'components/Select/PlainSelect'
 import Image from 'components/Image'
 import antimatter from '../../assets/svg/chain_swap.svg'
-import { routes } from 'constants/routes'
+// import { routes } from 'constants/routes'
 import MobileMenu from './MobileMenu'
 import NetworkSelect from './NetworkSelect'
 
@@ -23,9 +23,9 @@ interface Tab extends TabContent {
 }
 
 export const Tabs: Tab[] = [
-  { title: 'Staking', route: routes.test3 },
-  { title: 'Governance', link: 'https://dao.antimatter.finance/#/' },
-  { title: 'About', link: 'https://docs.antimatter.finance/' }
+  { title: 'Staking', route: '/staking' },
+  { title: 'Governance', link: '/comingsoon' },
+  { title: 'About', link: '/comingsoon' }
 ]
 
 const navLinkSX = ({ theme }: any) => ({
