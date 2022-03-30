@@ -4,8 +4,9 @@ import loottitle from './assets/loot-title.svg'
 import boredtitle from './assets/bored-title.svg'
 import icondamons from './assets/icon-damons.svg'
 import { BlackButton } from 'components/Button/Button'
-import LootCard from './components/LootCard'
 import ActionButton from 'components/Button/ActionButton'
+import { Box, ButtonBase, styled } from '@mui/material'
+import { LookCardGroup } from './components/LookCardGroup'
 import { Box, ButtonBase, Grid, styled } from '@mui/material'
 
 const StakingWrapper = styled('div')(({ theme }) => ({
@@ -150,20 +151,7 @@ export const Staking = () => {
                 <ButtonBase className={'column-header-more'}>More</ButtonBase>
               </span>
             </Box>
-            <Box id={'column-box-body'} display="grid" gridTemplateColumns={'1fr 1fr'} columnGap={50}>
-              <LootCard
-                imgsrc={`https://ss3.baidu.com/-fo3dSag_xI4khGko9WTAnF6hhy/zhidao/wh%3D450%2C600/sign=a5dda3cf7bf0f736d8ab44053f659f2f/b03533fa828ba61ea66a5d9f4234970a314e59fd.jpg`}
-                title={'Bag #5913'}
-                progress={0}
-                isstaked={false}
-              ></LootCard>
-              <LootCard
-                imgsrc={`https://ss3.baidu.com/-fo3dSag_xI4khGko9WTAnF6hhy/zhidao/wh%3D450%2C600/sign=a5dda3cf7bf0f736d8ab44053f659f2f/b03533fa828ba61ea66a5d9f4234970a314e59fd.jpg`}
-                title={'Bag #5913'}
-                progress={5}
-                isstaked={true}
-              ></LootCard>
-            </Box>
+            <LookCardGroup />
           </div>
           <div className={'column-box bored-box'}>
             <Box id={'column-box-header'} display="flex" justifyContent={'space-between'}>
