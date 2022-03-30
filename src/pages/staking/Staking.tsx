@@ -5,7 +5,6 @@ import boredtitle from './assets/bored-title.svg'
 import icondamons from './assets/icon-damons.svg'
 import { BlackButton } from 'components/Button/Button'
 import ActionButton from 'components/Button/ActionButton'
-import { Box, ButtonBase, styled } from '@mui/material'
 import { LookCardGroup } from './components/LookCardGroup'
 import { Box, ButtonBase, Grid, styled } from '@mui/material'
 
