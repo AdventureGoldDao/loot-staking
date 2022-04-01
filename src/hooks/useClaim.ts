@@ -5,7 +5,7 @@ import { useTransactionAdder } from '../state/transactions/hooks'
 import { useActiveWeb3React } from '.'
 import { useStakingContract } from './useContract'
 
-export function useStaking() {
+export function useClaim() {
   const addTransaction = useTransactionAdder()
   const contract = useStakingContract()
   const { account } = useActiveWeb3React()
@@ -17,9 +17,9 @@ export function useStaking() {
       const args = [tokenID]
       console.log('🚀 ~ file: useCreateOrderCallback.ts ~ line 18 ~ useCreateOrderCallback ~ args', args)
       console.log('tokenid', tokenID)
-      return contract.estimateGas.signalLootStake(args, { from: account }).then(estimatedGasLimit => {
+      return contract.estimateGas.claimLootRewards(args, { from: account }).then(estimatedGasLimit => {
         return contract
-          .signalLootStake(args, {
+          .claimLootRewards(args, {
             gasLimit: calculateGasMargin(estimatedGasLimit),
             // gasLimit: '3500000',
             from: account

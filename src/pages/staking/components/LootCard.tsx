@@ -6,6 +6,7 @@ import Progress from 'components/Progress'
 import useModal from 'hooks/useModal'
 import { useStaking } from 'hooks/useStaking'
 import { useCallback } from 'react'
+import { useNFTInfo } from '../../../hooks/useNFT'
 //import { useNFTInfo } from '../../../hooks/useNFT'
 
 const LootCardStyle = styled('div')({
@@ -57,10 +58,11 @@ const StakeButton = styled(ButtonBase)({
 export default function LootCard(props: IProps) {
   const { showModal, hideModal } = useModal()
   const { signalLootStake } = useStaking()
-
+  const { isStake } = useNFTInfo('123', false)
+  console.log('isStake', isStake)
   const handleStake = useCallback(async () => {
     showModal(<TransactionPendingModal />)
-    signalLootStake(1)
+    signalLootStake(1111)
       .then(() => {
         hideModal()
         showModal(<TransactionSubmittedModal />)

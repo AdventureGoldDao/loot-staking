@@ -140,7 +140,7 @@ export const BLOCKED_ADDRESSES: string[] = [
 export const LOOT_ADDRESS: { [chainId in ChainId]: string } = {
   [ChainId.MAINNET]: '',
   [ChainId.ROPSTEN]: '',
-  [ChainId.RINKEBY]: '0x84e3547f63ad6e5a1c4fe82594977525c764f0e8',
+  [ChainId.RINKEBY]: '0x84E3547f63ad6E5A1c4FE82594977525C764F0E8',
   [ChainId.KOVAN]: '',
   [ChainId.GÖRLI]: '',
   [ChainId.BSC]: ''
@@ -149,7 +149,7 @@ export const LOOT_ADDRESS: { [chainId in ChainId]: string } = {
 export const LOOT_M_ADDRESS: { [chainId in ChainId]: string } = {
   [ChainId.MAINNET]: '',
   [ChainId.ROPSTEN]: '',
-  [ChainId.RINKEBY]: '0x84e3547f63ad6e5a1c4fe82594977525c764f0e8',
+  [ChainId.RINKEBY]: '0xD991EafE6b2D36F786365e0cEB3b6Dbe61097c90',
   [ChainId.KOVAN]: '',
   [ChainId.GÖRLI]: '',
   [ChainId.BSC]: ''
@@ -158,7 +158,7 @@ export const LOOT_M_ADDRESS: { [chainId in ChainId]: string } = {
 export const STAKING_ADDRESS: { [chainId in ChainId]: string } = {
   [ChainId.MAINNET]: '',
   [ChainId.ROPSTEN]: '',
-  [ChainId.RINKEBY]: '0xbc9d385e665c8ccf02b6ba71b447f1594e5a9fb7',
+  [ChainId.RINKEBY]: '0x82cBE92Bd9d67249816D868239D54e9669aCD37a',
   [ChainId.KOVAN]: '',
   [ChainId.GÖRLI]: '',
   [ChainId.BSC]: ''

@@ -7,6 +7,7 @@ import { BlackButton } from 'components/Button/Button'
 import ActionButton from 'components/Button/ActionButton'
 import { LookCardGroup } from './components/LookCardGroup'
 import { Box, ButtonBase, Grid, styled } from '@mui/material'
+import { useMyNFTs } from '../../hooks/useNFT'
 // import { useAccountLootIds } from 'hooks/useBlockVision'
 // import { useLootNFTDetail } from 'hooks/useNFTInfo'
 
@@ -137,6 +138,8 @@ export const Staking = () => {
   // console.log('🚀 ~ file: Staking.tsx ~ line 136 ~ Staking ~ res', res1)
   // const res = useLootNFTDetail('loot', '300')
   // console.log('🚀 ~ file: Staking.tsx ~ line 139 ~ Staking ~ res', res)
+
+  useMyNFTs()
 
   return (
     <StakingWrapper>
