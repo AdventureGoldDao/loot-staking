@@ -15,10 +15,22 @@ interface Props {
   style?: React.CSSProperties & SxProps<Theme>
   active?: boolean
   disableRipple?: boolean
+  borderRadius?: string
 }
 
 export default function Button(props: Props) {
-  const { onClick, disabled, style, width, height, fontSize, backgroundColor, color, disableRipple } = props
+  const {
+    onClick,
+    disabled,
+    style,
+    width,
+    height,
+    fontSize,
+    backgroundColor,
+    color,
+    disableRipple,
+    borderRadius
+  } = props
   const theme = useTheme()
   return (
     <ButtonBase
@@ -31,14 +43,14 @@ export default function Button(props: Props) {
         fontSize: fontSize || 16,
         fontWeight: 500,
         transition: '.3s',
-        borderRadius: `${theme.shape.borderRadius}px`,
+        borderRadius: borderRadius || `${theme.shape.borderRadius}px`,
         backgroundColor: backgroundColor || theme.palette.primary.main,
         color: color || theme.palette.primary.contrastText,
         '&:hover': {
           backgroundColor: theme.palette.primary.dark
         },
         '&:disabled': {
-          backgroundColor: theme.palette.primary.light
+          opacity: 0.3
         },
         ...style
       }}

@@ -23,6 +23,7 @@ import { getContract } from '../utils'
 import { useActiveWeb3React } from './index'
 import { ChainId } from '../constants/chain'
 import ERC721_ABI from '../constants/abis/erc721.json'
+import { LootType } from './useNFTInfo'
 
 // returns null on errors
 function useContract(address: string | undefined, ABI: any, withSignerIfPossible = true): Contract | null {
@@ -112,7 +113,7 @@ export function useStakingContract(): Contract | null {
   return useContract(chainId && STAKING_ADDRESS[chainId], STAKING_ABI.abi, true)
 }
 
-export function useLoot721Contract(type: 'loot' | 'lootm'): Contract | null {
+export function useLoot721Contract(type: LootType): Contract | null {
   const { chainId } = useActiveWeb3React()
 
   return useContract(

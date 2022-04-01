@@ -81,7 +81,7 @@ export default function Select(props: Props) {
           },
           '& .MuiSelect-icon': {
             display: disabled ? 'none' : 'block',
-            color: theme.palette.text.secondary
+            color: '#A5FFBE'
           },
           '& .Mui-disabled.MuiInputBase-input': {
             color: theme.palette.text.primary,
@@ -112,7 +112,8 @@ export default function Select(props: Props) {
                 }
               },
               '& li:hover': {
-                backgroundColor: theme => theme.palette.primary.light
+                backgroundColor: '#37412F',
+                color: '#fff'
               },
               '& li:last-child': {
                 borderBottom: 'none'

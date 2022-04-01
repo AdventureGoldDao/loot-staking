@@ -1,6 +1,6 @@
 import { useCallback } from 'react'
 import { useDispatch } from 'react-redux'
-import { Typography, Box, useTheme, styled } from '@mui/material'
+import { Typography, Box, useTheme } from '@mui/material'
 import { useActiveWeb3React } from 'hooks/'
 import { AppDispatch } from 'state/'
 import { clearAllTransactions } from 'state/transactions/actions'
@@ -16,13 +16,13 @@ import SecondaryButton from 'components/Button/SecondaryButton'
 import TextButton from 'components/Button/TextButton'
 import { OutlinedCard } from 'components/Card'
 
-const Dot = styled('span')({
-  width: 24,
-  height: 24,
-  background: 'linear-gradient(135deg, #ffffff 4.17%, rgba(255, 255, 255, 0) 75%)',
-  border: '0.6px solid #ffffff',
-  borderRadius: '50%'
-})
+// const Dot = styled('span')({
+//   width: 24,
+//   height: 24,
+//   background: 'linear-gradient(135deg, #ffffff 4.17%, rgba(255, 255, 255, 0) 75%)',
+//   border: '0.6px solid #ffffff',
+//   borderRadius: '50%'
+// })
 
 function renderTransactions(transactions: string[]) {
   return (
@@ -75,14 +75,12 @@ export default function AccountDetails({
 
   return (
     <>
-      <Box display="grid" width="100%" padding="16px" gridTemplateRows="50px 20px 20px" gap="12px" marginBottom="20px">
-        <Box
-          display="flex"
-          justifyContent="center"
-          alignItems="center"
-          marginBottom="20px"
-          color={theme.textColor.text3}
-        >
+      <Box display="grid" width="100%" padding="16px" gap="20px">
+        <Typography variant="h6" fontWeight={600} fontSize={24} color="#fff">
+          Account
+        </Typography>
+        <Box sx={{ borderBottom: '1px solid #5D8866' }}></Box>
+        <Box display="flex" justifyContent="space-between" alignItems="center" color={'#fff'}>
           {formatConnectorName()}
           {connector !== injected && connector !== walletlink && (
             <SecondaryButton
@@ -103,20 +101,14 @@ export default function AccountDetails({
           fontWeight={500}
           gap="16px"
           alignItems="center"
-          width="100%"
-          justifyContent="center"
           id="web3-account-identifier-row"
+          color={'#fff'}
         >
-          {connector && <Dot />}
-          {ENSName ? <span> {ENSName}</span> : <span> {account && shortenAddress(account)}</span>}
-        </Box>
-
-        <Box display="flex" justifyContent="center" width="100%" color={theme.textColor.text3}>
-          {account && (
-            <Copy toCopy={account}>
-              <Typography variant="body2">Copy Address</Typography>
-            </Copy>
-          )}
+          <Box>
+            {/* {connector && <Dot />} */}
+            {ENSName ? <span> {ENSName}</span> : <span> {account && shortenAddress(account)}</span>}
+          </Box>
+          <Box color={theme.textColor.text3}>{account && <Copy toCopy={account}></Copy>}</Box>
         </Box>
       </Box>
       <Box display="flex" gap="10px" width="100%" justifyContent="center">

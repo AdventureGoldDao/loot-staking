@@ -64,10 +64,10 @@ const StyledAppBar = styled(AppBar)(({ theme }) => ({
   '& .link': {
     textDecoration: 'none',
     color: theme.palette.text.disabled,
-    marginRight: 48,
+    // marginRight: 48,
     fontWeight: 600,
     fontStyle: 'normal',
-    paddingBottom: '30px',
+    // paddingBottom: '30px',
     '&.active': {
       color: theme.palette.text.primary
     },
@@ -76,7 +76,6 @@ const StyledAppBar = styled(AppBar)(({ theme }) => ({
     }
   },
   [theme.breakpoints.down('lg')]: {
-    '& .link': { marginRight: 15 },
     padding: '0 24px 0 0!important'
   },
   [theme.breakpoints.down('md')]: {
@@ -101,6 +100,7 @@ const Filler = styled('div')(({ theme }) => ({
 }))
 
 const MainLogo = styled(NavLink)(({ theme }) => ({
+  width: 270,
   '& img': {
     width: 104
   },
@@ -113,7 +113,7 @@ const MainLogo = styled(NavLink)(({ theme }) => ({
   }
 }))
 
-const LinksWrapper = muiStyled('div')(({ theme }) => ({
+const LinksWrapper = muiStyled(Box)(({ theme }) => ({
   [theme.breakpoints.down('lg')]: {
     marginLeft: 0
   }
@@ -137,7 +137,7 @@ export default function Header() {
             <Image className={'img'} src={antimatter} alt={'antimatter'} />
           </MainLogo>
           <HideOnMobile breakpoint="md">
-            <LinksWrapper>
+            <LinksWrapper display={'flex'} gap="48px" alignItems={'center'}>
               {Tabs.map(({ title, route, subTab, link, titleContent }, idx) =>
                 subTab ? (
                   <Box
@@ -220,8 +220,10 @@ export default function Header() {
               )}
             </LinksWrapper>
           </HideOnMobile>
-          <NetworkSelect />
-          <Web3Status />
+          <Box display={'flex'} gap="20px">
+            <NetworkSelect />
+            <Web3Status />
+          </Box>
           <ShowOnMobile breakpoint="md">
             <IconButton
               sx={{
