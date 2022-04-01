@@ -137,11 +137,11 @@ export const BLOCKED_ADDRESSES: string[] = [
 // Rinkeby Staking
 // 0x0482e3E1B59800a2edd587F2F310566168aFBB93
 
-// 
+//
 export const STAKING_ADDRESS: { [chainId in ChainId]: string } = {
   [ChainId.MAINNET]: '',
   [ChainId.ROPSTEN]: '',
-  [ChainId.RINKEBY]: '0xcE2F28eb20f933179ACD80E5A397aF815cBD5337',
+  [ChainId.RINKEBY]: '0xbc9d385e665c8ccf02b6ba71b447f1594e5a9fb7',
   [ChainId.KOVAN]: '',
   [ChainId.GÖRLI]: '',
   [ChainId.BSC]: ''

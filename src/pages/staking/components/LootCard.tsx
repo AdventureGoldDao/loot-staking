@@ -6,6 +6,7 @@ import Progress from 'components/Progress'
 import useModal from 'hooks/useModal'
 import { useStaking } from 'hooks/useStaking'
 import { useCallback } from 'react'
+import { useNFTInfo } from '../../../hooks/useNFT'
 
 const LootCardStyle = styled('div')({
   flex: 1,
@@ -35,6 +36,7 @@ interface IProps {
   title: string
   progress: number
   isstaked: boolean
+  tokenId: string
 }
 
 const StakeButton = styled(ButtonBase)({
@@ -55,11 +57,13 @@ const StakeButton = styled(ButtonBase)({
 export default function LootCard(props: IProps) {
   const { showModal, hideModal } = useModal()
   const { signalLootStake } = useStaking()
-
+  //const { tokenId } = props
+  const nftInfo = useNFTInfo('123', false)
+  console.log('nftInfo', nftInfo.isStake)
   const handleStake = useCallback(
     async () => {
       showModal(<TransactionPendingModal />)
-      signalLootStake(1)
+      signalLootStake([123])
         .then(() => {
           hideModal()
           showModal(<TransactionSubmittedModal />)
@@ -67,7 +71,7 @@ export default function LootCard(props: IProps) {
         .catch((err: any) => {
           hideModal()
           showModal(
-            <MessageBox type="error">{err.error && err.error.message ? err.error.message : err?.message}</MessageBox>
+            <MessageBox type='error'>{err.error && err.error.message ? err.error.message : err?.message}</MessageBox>
           )
           console.error(err)
         })
@@ -81,8 +85,8 @@ export default function LootCard(props: IProps) {
           <img src={props.imgsrc} />
         </div>
         <p className={'loot-card-title'}>{props.title}</p>
-        <Progress val={props.progress} total={7} ></Progress>
-        <StakeButton disabled={props.isstaked} onClick={handleStake}>{props.isstaked ? 'Staked' : 'Stake'}</StakeButton>
+        <Progress val={props.progress} total={7}></Progress>
+        <StakeButton disabled={props.isstaked} onClick={handleStake}>{nftInfo.isStake ? 'Staked' : 'Stake'}</StakeButton>
       </div>
     </LootCardStyle>
   )
