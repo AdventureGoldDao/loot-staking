@@ -7,6 +7,8 @@ import { BlackButton } from 'components/Button/Button'
 import ActionButton from 'components/Button/ActionButton'
 import { LookCardGroup } from './components/LookCardGroup'
 import { Box, ButtonBase, Grid, styled } from '@mui/material'
+// import { useAccountLootIds } from 'hooks/useBlockVision'
+// import { useLootNFTDetail } from 'hooks/useNFTInfo'
 
 const StakingWrapper = styled('div')(({ theme }) => ({
   display: 'flex',
@@ -78,31 +80,31 @@ const StakingWrapper = styled('div')(({ theme }) => ({
   },
   '.column-content': {
     flex: 1,
-    marginLeft:48
+    marginLeft: 48
   },
   '.column-item-box': {
-    padding:40,
+    padding: 40,
     backgroundColor: `#37412F`,
-    borderRadius:20
+    borderRadius: 20
   },
   '.column-item-box .grid-item-box': {
-    color:'#fff',
+    color: '#fff',
     marginTop: 24,
     fontSize: 14
   },
-  '.column-item-box .grid-item-box:first-of-type':{
-    marginTop:0
+  '.column-item-box .grid-item-box:first-of-type': {
+    marginTop: 0
   },
   '.column-item-box .grid-item-box .grid-item-title': {
-    textAlign:'left'
+    textAlign: 'left'
   },
   '.column-item-box .grid-item-box .grid-item-value': {
-    textAlign:'right'
+    textAlign: 'right'
   },
-  '.column-item-footer':{
-    textAlign:'center',
-    borderTop:'1px solid #253A27',
-    paddingTop:30,
+  '.column-item-footer': {
+    textAlign: 'center',
+    borderTop: '1px solid #253A27',
+    paddingTop: 30,
     marginTop: 54
   },
   '.earned-item-box': {
@@ -117,17 +119,24 @@ const StakingWrapper = styled('div')(({ theme }) => ({
   }
 }))
 
-function GridItem(props:{title?:string,value:string}){
+function GridItem(props: { title?: string; value: string }) {
   return (
     <Grid className={'grid-item-box'} container>
-      <Grid className={'grid-item-title'}  item xs={4}>{props.title}</Grid>
-      <Grid className={'grid-item-value'} item xs={8}>{props.value}</Grid>
+      <Grid className={'grid-item-title'} item xs={4}>
+        {props.title}
+      </Grid>
+      <Grid className={'grid-item-value'} item xs={8}>
+        {props.value}
+      </Grid>
     </Grid>
   )
 }
 
 export const Staking = () => {
-  
+  // const res1 = useAccountLootIds('loot')
+  // console.log('🚀 ~ file: Staking.tsx ~ line 136 ~ Staking ~ res', res1)
+  // const res = useLootNFTDetail('loot', '300')
+  // console.log('🚀 ~ file: Staking.tsx ~ line 139 ~ Staking ~ res', res)
 
   return (
     <StakingWrapper>
@@ -166,14 +175,14 @@ export const Staking = () => {
             <Box id={'column-box-body'}>
               <div className={'no-bored-box'}>
                 <p className={'no-bored-box-desc'}>No “Bored Ape Yacht Club” found in your wallet</p>
-                  <ActionButton
-                    width={`205px`}
-                    height={`30px`}
-                    actionText={'Buy'}
-                    onAction={function () {
-                      window.open('https://opensea.io/collection/lootproject')
-                    }}
-                  ></ActionButton>
+                <ActionButton
+                  width={`205px`}
+                  height={`30px`}
+                  actionText={'Buy'}
+                  onAction={function() {
+                    window.open('https://opensea.io/collection/lootproject')
+                  }}
+                ></ActionButton>
               </div>
             </Box>
           </div>
@@ -184,18 +193,20 @@ export const Staking = () => {
             <GridItem title={'My NFT staked'} value={'5'}></GridItem>
             <GridItem title={'Staked value'} value={'13.3 ETH'}></GridItem>
             <GridItem title={'Expected to earn (staked 7 days)'} value={'20.33 AGLD'}></GridItem>
-            <div className='column-item-footer'>
+            <div className="column-item-footer">
               <GridItem title={'AGLD earned'} value={'100.33 AGLD'}></GridItem>
               <Grid className={'grid-item-box earned-item-box'} container>
-                <Grid className={'grid-item-title'}  item xs={4}></Grid>
-                <Grid className={'grid-item-value earned-item-value'} item xs={8}>≈$130</Grid>
+                <Grid className={'grid-item-title'} item xs={4}></Grid>
+                <Grid className={'grid-item-value earned-item-value'} item xs={8}>
+                  ≈$130
+                </Grid>
               </Grid>
               <Box marginTop={'47px'}>
                 <ActionButton
                   width={`280px`}
                   height={`48px`}
                   actionText={'Claim'}
-                  onAction={function () {}}
+                  onAction={function() {}}
                 ></ActionButton>
               </Box>
             </div>

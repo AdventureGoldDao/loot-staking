@@ -75,7 +75,7 @@ const chains: ChainObject = {
   [ChainId.RINKEBY]: {
     link: 'https://rinkeby.etherscan.io/',
     builder: explorers.etherscan
-  },
+  }
   // [ChainId.ROPSTEN]: {
   //   link: 'https://ropsten.etherscan.io',
   //   builder: explorers.etherscan

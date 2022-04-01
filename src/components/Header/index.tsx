@@ -207,10 +207,10 @@ export default function Header() {
                         ? pathname.includes(route)
                           ? 'active'
                           : pathname.includes('account')
-                            ? route.includes('account')
-                              ? 'active'
-                              : ''
+                          ? route.includes('account')
+                            ? 'active'
                             : ''
+                          : ''
                         : '') + ' link'
                     }
                   >
