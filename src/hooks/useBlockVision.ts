@@ -2,6 +2,7 @@ import { LOOT_M_ADDRESS, LOOT_ADDRESS } from '../constants'
 import { useEffect, useMemo, useState } from 'react'
 import { fetchAccountERC721Ids } from 'utils/fetch/blockVision'
 import { useActiveWeb3React } from '.'
+import { LootType } from './useNFTInfo'
 
 export function useAccountERC721Ids(contractAddress: string | undefined) {
   const { account, chainId } = useActiveWeb3React()
@@ -40,7 +41,7 @@ export function useAccountERC721Ids(contractAddress: string | undefined) {
   return { loading, result }
 }
 
-export function useAccountLootIds(type: 'loot' | 'lootm') {
+export function useAccountLootIds(type: LootType) {
   const { chainId } = useActiveWeb3React()
 
   const contractAddress = useMemo(() => {

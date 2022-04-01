@@ -11,12 +11,12 @@ export function useStaking() {
   const { account } = useActiveWeb3React()
 
   const signalLootStake = useCallback(
-    async (tokenID: number) => {
+    async (tokenID: string[]) => {
       if (!account) throw new Error('none account')
       if (!contract) throw new Error('none contract')
-      const args = [tokenID]
-      console.log('🚀 ~ file: useCreateOrderCallback.ts ~ line 18 ~ useCreateOrderCallback ~ args', args)
-      console.log('tokenid', tokenID)
+      const args = tokenID
+      console.log('🚀 ~ file: useStaking.ts ~ line 18 ~ args', args)
+
       return contract.estimateGas.signalLootStake(args, { from: account }).then(estimatedGasLimit => {
         return contract
           .signalLootStake(args, {
@@ -26,7 +26,32 @@ export function useStaking() {
           })
           .then((response: TransactionResponse) => {
             addTransaction(response, {
-              summary: 'Staking'
+              summary: 'Stake Loot'
+            })
+            return response.hash
+          })
+      })
+    },
+    [account, addTransaction, contract]
+  )
+
+  const signalLootMoreStake = useCallback(
+    async (tokenID: string[]) => {
+      if (!account) throw new Error('none account')
+      if (!contract) throw new Error('none contract')
+      const args = tokenID
+      console.log('🚀 ~ file: useStaking.ts ~ line 43 ~ args', args)
+
+      return contract.estimateGas.signalMLootStake(args, { from: account }).then(estimatedGasLimit => {
+        return contract
+          .signalMLootStake(args, {
+            gasLimit: calculateGasMargin(estimatedGasLimit),
+            // gasLimit: '3500000',
+            from: account
+          })
+          .then((response: TransactionResponse) => {
+            addTransaction(response, {
+              summary: 'Stake Loot more'
             })
             return response.hash
           })
@@ -36,6 +61,7 @@ export function useStaking() {
   )
 
   return {
-    signalLootStake
+    signalLootStake,
+    signalLootMoreStake
   }
 }

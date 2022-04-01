@@ -9,7 +9,9 @@ export interface NFTInfo {
   description: string
 }
 
-export function useLootNFTDetail(type: 'loot' | 'lootm', id: string | undefined): { loading: boolean; data: NFTInfo } {
+export type LootType = 'loot' | 'lootm'
+
+export function useLootNFTDetail(type: LootType, id: string | undefined): { loading: boolean; data: NFTInfo | null } {
   const contract = useLoot721Contract(type)
   const url = useSingleCallResult(contract, 'tokenURI', [id])
   const nftUrl = useMemo(() => {

@@ -1,20 +1,23 @@
-import { ButtonBase, styled } from '@mui/material'
-import MessageBox from 'components/Modal/TransactionModals/MessageBox'
-import TransactionPendingModal from 'components/Modal/TransactionModals/TransactionPendingModal'
-import TransactionSubmittedModal from 'components/Modal/TransactionModals/TransactiontionSubmittedModal'
+import { styled } from '@mui/material'
+import { useMemo } from 'react'
 import Progress from 'components/Progress'
-import useModal from 'hooks/useModal'
-import { useStaking } from 'hooks/useStaking'
-import { useCallback } from 'react'
-import { useNFTInfo } from '../../../hooks/useNFT'
 //import { useNFTInfo } from '../../../hooks/useNFT'
+import { LootType, useLootNFTDetail } from 'hooks/useNFTInfo'
+import { useNFTInfo } from '../../../hooks/useNFT'
 
-const LootCardStyle = styled('div')({
+const LootCardStyle = styled('div')(({ selected }: { selected?: boolean }) => ({
   flex: 1,
+  cursor: 'pointer',
+  border: selected ? `1px solid rgba(165, 255, 190, 1)` : `1px solid transparent`,
+  borderRadius: 20,
+  transition: 'border .3s',
+  '&: hover': {
+    borderColor: selected ? 'rgba(165, 255, 190, 1)' : 'rgba(165, 255, 190, .3)'
+  },
   '.loot-card-box': {
     background: 'rgba(55, 65, 47, 0.5)',
     borderRadius: 20,
-    padding: 25
+    padding: '25px  25px 40px 25px'
   },
   '.loot-card-img-box': {
     width: 205,
@@ -30,63 +33,46 @@ const LootCardStyle = styled('div')({
     marginBottom: 16,
     color: '#fff'
   }
-})
+}))
 
-interface IProps {
-  imgsrc: string
-  title: string
-  progress: number
-  isstaked: boolean
+// const StakeButton = styled(ButtonBase)({
+//   border: 'none',
+//   width: '100%',
+//   background: 'linear-gradient(265.56deg, #24F986 -0.27%, #1EF65B -0.26%, #00D060 98.59%)',
+//   padding: '5px 32px',
+//   fontSize: 16,
+//   color: '#fff',
+//   marginTop: 20,
+//   borderRadius: '10px',
+//   '&:disabled': {
+//     background: 'linear-gradient(265.56deg, #24F986 -0.27%, #17B944 -0.26%, #058942 98.59%)',
+//     cursor: 'not-allowed'
+//   }
+// })
+
+export default function LootCard({
+  tokenId,
+  type,
+  selectedList,
+  toggleSelect
+}: {
   tokenId: string
-}
-
-const StakeButton = styled(ButtonBase)({
-  border: 'none',
-  width: '100%',
-  background: 'linear-gradient(265.56deg, #24F986 -0.27%, #1EF65B -0.26%, #00D060 98.59%)',
-  padding: '5px 32px',
-  fontSize: 16,
-  color: '#fff',
-  marginTop: 20,
-  borderRadius: '10px',
-  '&:disabled': {
-    background: 'linear-gradient(265.56deg, #24F986 -0.27%, #17B944 -0.26%, #058942 98.59%)',
-    cursor: 'not-allowed'
-  }
-})
-
-export default function LootCard(props: IProps) {
-  const { showModal, hideModal } = useModal()
-  const { signalLootStake } = useStaking()
-  const { isStake } = useNFTInfo('123', false)
-  console.log('isStake', isStake)
-  const handleStake = useCallback(async () => {
-    showModal(<TransactionPendingModal />)
-    signalLootStake(1111)
-      .then(() => {
-        hideModal()
-        showModal(<TransactionSubmittedModal />)
-      })
-      .catch((err: any) => {
-        hideModal()
-        showModal(
-          <MessageBox type="error">{err.error && err.error.message ? err.error.message : err?.message}</MessageBox>
-        )
-        console.error(err)
-      })
-  }, [hideModal, showModal, signalLootStake])
+  type: LootType
+  selectedList: string[]
+  toggleSelect: (id: string) => void
+}) {
+  const { data } = useLootNFTDetail(type, tokenId)
+  useNFTInfo(tokenId, false)
+  const isSelected = useMemo(() => selectedList.includes(tokenId), [selectedList, tokenId])
 
   return (
-    <LootCardStyle>
+    <LootCardStyle onClick={() => toggleSelect(tokenId)} selected={isSelected}>
       <div className={'loot-card-box'}>
         <div className={'loot-card-img-box'}>
-          <img src={props.imgsrc} />
+          <img src={data?.image} />
         </div>
-        <p className={'loot-card-title'}>{props.title}</p>
-        <Progress val={props.progress} total={7}></Progress>
-        <StakeButton disabled={props.isstaked} onClick={handleStake}>
-          {props.isstaked ? 'Staked' : 'Stake'}
-        </StakeButton>
+        <p className={'loot-card-title'}>{data?.name}</p>
+        <Progress val={0} total={7}></Progress>
       </div>
     </LootCardStyle>
   )

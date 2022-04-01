@@ -239,8 +239,15 @@ export default function WalletModal({
       )
     }
     return (
-      <>
-        {walletView === WALLET_VIEWS.ACCOUNT && <Typography variant="h6">Connect to a wallet</Typography>}
+      <Box width={'100%'}>
+        {walletView === WALLET_VIEWS.ACCOUNT && (
+          <>
+            <Typography variant="h6" fontWeight={600} fontSize={24} color="#fff">
+              Connect to a wallet
+            </Typography>
+            <Box sx={{ borderBottom: '1px solid #5D8866' }} mt="30px" mb="30px"></Box>
+          </>
+        )}
 
         {walletView === WALLET_VIEWS.PENDING ? (
           <PendingView
@@ -261,16 +268,16 @@ export default function WalletModal({
             </OutlineButton>
           </PendingView>
         ) : (
-          <Box display="grid" gap="10px" width="100%" justifyContent="center">
+          <Box display="grid" gap="30px" width="100%">
             {getOptions()}
           </Box>
         )}
-      </>
+      </Box>
     )
   }
 
   return (
-    <Modal customIsOpen={walletModalOpen} customOnDismiss={toggleWalletModal} maxWidth="560px" closeIcon={true}>
+    <Modal customIsOpen={walletModalOpen} customOnDismiss={toggleWalletModal} maxWidth="512px" closeIcon={true}>
       <Box width={'100%'} padding="32px" display="flex" flexDirection="column" alignItems="center" gap={20}>
         {getModalContent()}
       </Box>

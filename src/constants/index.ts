@@ -163,3 +163,5 @@ export const STAKING_ADDRESS: { [chainId in ChainId]: string } = {
   [ChainId.GÖRLI]: '',
   [ChainId.BSC]: ''
 }
+
+export const EPOCH_DURATION = 600

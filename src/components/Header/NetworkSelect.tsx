@@ -21,7 +21,7 @@ export default function NetworkSelect() {
         height={isDownSm ? '24px' : '36px'}
         style={{
           background: 'transparent',
-          border: '1px solid rgba(0, 0, 0, 0.1)',
+          border: '1px solid #A5FFBE',
           '& .Mui-disabled.MuiSelect-select.MuiInputBase-input': {
             paddingRight: isDownSm ? 0 : 10,
             color: theme => theme.palette.text.primary,
