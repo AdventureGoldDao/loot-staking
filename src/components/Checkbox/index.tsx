@@ -13,7 +13,7 @@ export default function _Checkbox(props: Props) {
   const { checked, onChange, label = '', disabled } = props
   return (
     <FormControlLabel
-      sx={{ margin: 0, fontSize: 16, fontWeight: 400 }}
+      sx={{ margin: 0, fontWeight: 400, '& .MuiFormControlLabel-label': { fontSize: 18 } }}
       control={
         <Checkbox
           sx={{ padding: 0, marginRight: '12px' }}

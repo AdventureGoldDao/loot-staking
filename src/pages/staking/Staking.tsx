@@ -21,6 +21,9 @@ import TransactionSubmittedModal from 'components/Modal/TransactionModals/Transa
 import useModal from 'hooks/useModal'
 import { useStaking } from 'hooks/useStaking'
 import { useWalletModalToggle } from 'state/application/hooks'
+import { ExternalLink } from 'theme/components'
+import ClaimModal from './components/ClaimModal'
+import InfoModal from './components/InfoModal'
 
 const StakingWrapper = styled('div')(({ theme }) => ({
   display: 'flex',
@@ -283,7 +286,9 @@ export const Staking = () => {
                   <img className={`column-header-data-icon`} src={icondamons} alt={'damons'} />
                   <i className={'column-header-data-text'}>60%</i>
                 </span>
-                <ButtonBase className={'column-header-more'}>More</ButtonBase>
+                <ButtonBase className={'column-header-more'} onClick={() => showModal(<InfoModal />)}>
+                  More
+                </ButtonBase>
               </span>
             </Box>
             <Box display={'flex'} mt={'22px'} justifyContent="space-between" alignItems={'center'}>
@@ -318,7 +323,9 @@ export const Staking = () => {
                   <img className={`column-header-data-icon`} src={icondamons} alt={'damons'} />
                   <i className={'column-header-data-text'}>60%</i>
                 </span>
-                <ButtonBase className={'column-header-more'}>More</ButtonBase>
+                <ButtonBase className={'column-header-more'} onClick={() => showModal(<InfoModal />)}>
+                  More
+                </ButtonBase>
               </span>
             </Box>
             <Box display={'flex'} mt={'22px'} justifyContent="space-between" alignItems={'center'}>
@@ -351,7 +358,9 @@ export const Staking = () => {
                   <img className={`column-header-data-icon`} src={icondamons} alt={'damons'} />
                   <i className={'column-header-data-text'}>40%</i>
                 </span>
-                <ButtonBase className={'column-header-more'}>More</ButtonBase>
+                <ButtonBase className={'column-header-more'} onClick={() => showModal(<InfoModal />)}>
+                  More
+                </ButtonBase>
               </span>
             </Box>
             <Box id={'column-box-body'}>
@@ -386,12 +395,9 @@ export const Staking = () => {
                   </Grid>
                 </Grid>
                 <Box marginTop={'47px'}>
-                  <ActionButton
-                    width={`280px`}
-                    height={`48px`}
-                    actionText={'Claim'}
-                    onAction={function() {}}
-                  ></ActionButton>
+                  <Button width={`280px`} height={`48px`} onClick={() => showModal(<ClaimModal />)}>
+                    Claim
+                  </Button>
                 </Box>
               </div>
             </div>
@@ -402,6 +408,19 @@ export const Staking = () => {
               <GridItem title={'Total staked NFT value'} value={'54.4 ETH'}></GridItem>
               <GridItem title={'Cumulative rewards'} value={'2,153,846.15 AGLD'}></GridItem>
               <GridItem title={'Halving date'} value={'2023-03-18'}></GridItem>
+              <Box display={'flex'} flexDirection="row-reverse" mt={'40px'}>
+                <ExternalLink href="">
+                  <Box display={'flex'} gap="10px">
+                    <Typography>View Contract</Typography>
+                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path
+                        d="M3.07692 0C1.38462 0 0 1.38462 0 3.07692V16.1538C0 17.8462 1.38462 19.2308 3.07692 19.2308H11.5385C11.8462 19.2308 12.0769 19.1585 12.3077 19.1585C11.2308 18.9277 10.3123 18.3846 9.54308 17.6923H3.07692C2.23077 17.6923 1.53846 17 1.53846 16.1538V3.07692C1.53846 2.23077 2.23077 1.53846 3.07692 1.53846H7.93308C8.47154 1.69231 8.46154 2.38462 8.46154 3.07692V5.38462C8.46154 5.84615 8.76923 6.15385 9.23077 6.15385H11.5385C12.3077 6.15385 13.0769 6.15385 13.0769 6.92308V7.69231H13.4615C13.8462 7.69231 14.2308 7.76 14.6154 7.83692V6.15385C14.6154 5.30769 13.8554 4.52923 12.5477 3.22077C12.3169 3.06692 12.1538 2.84615 11.9231 2.69231C11.7692 2.46154 11.5477 2.29769 11.3938 2.06692C10.0869 0.76 9.30769 0 8.46154 0H3.07692ZM13.4615 9.23077C11.1538 9.23077 9.23077 11.1538 9.23077 13.4615C9.23077 15.7692 11.1538 17.6923 13.4615 17.6923C14.4408 17.6923 15.3346 17.33 16.0577 16.7546L16.2985 16.9954C16.2022 17.1381 16.1591 17.31 16.1766 17.4813C16.1942 17.6525 16.2714 17.8122 16.3946 17.9323L18.3177 19.8554C18.6254 20.1631 19.0677 20.1631 19.3754 19.8554L19.76 19.4708C20.0677 19.1631 20.0677 18.6969 19.76 18.3892L17.8369 16.4662C17.7242 16.3481 17.5747 16.272 17.413 16.2502C17.2512 16.2284 17.0869 16.2622 16.9469 16.3462L16.7308 16.1054C17.3254 15.3762 17.6923 14.4592 17.6923 13.4615C17.6923 11.1538 15.7692 9.23077 13.4615 9.23077ZM13.4615 10.3846C15.1538 10.3846 16.5385 11.7692 16.5385 13.4615C16.5385 15.1538 15.1538 16.5385 13.4615 16.5385C11.7692 16.5385 10.3846 15.1538 10.3846 13.4615C10.3846 11.7692 11.7692 10.3846 13.4615 10.3846Z"
+                        fill="#A5FFBE"
+                      />
+                    </svg>
+                  </Box>
+                </ExternalLink>
+              </Box>
             </div>
           </Box>
         </Box>

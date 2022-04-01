@@ -23,15 +23,15 @@ export default function MessageBox({ type, children, width = '480px', header, ac
 
   const icon =
     type === 'success' ? (
-      <SuccessIcon height={40} width={40} />
+      <SuccessIcon height={60} width={60} />
     ) : type === 'failure' ? (
-      <FailureIcon />
+      <FailureIcon height={60} width={60} />
     ) : type === 'support' ? (
-      <SupportIcon />
+      <SupportIcon height={60} width={60} />
     ) : type === 'warning' ? (
-      <Warning />
+      <Warning height={60} width={60} />
     ) : (
-      <Error />
+      <Error height={60} width={60} />
     )
 
   return (
