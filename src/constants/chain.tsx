@@ -43,7 +43,7 @@ export const ChainList = [
     name: 'Rinkeby Testnet',
     id: ChainId.RINKEBY,
     hex: '0x4'
-  },
+  }
   // {
   //   icon: <ETH />,
   //   logo: EthUrl,
@@ -114,17 +114,17 @@ export const SUPPORTED_NETWORKS: {
     },
     rpcUrls: ['https://rinkeby.infura.io/v3/'],
     blockExplorerUrls: ['https://rinkeby.etherscan.io/']
-  // },
-  // [ChainId.KOVAN]: {
-  //   chainId: '0x2a',
-  //   chainName: 'Kovan',
-  //   nativeCurrency: {
-  //     name: 'Kovan',
-  //     symbol: 'ETH',
-  //     decimals: 18
-  //   },
-  //   rpcUrls: ['https://kovan.infura.io/v3/'],
-  //   blockExplorerUrls: ['https://kovan.etherscan.io/']
+    // },
+    // [ChainId.KOVAN]: {
+    //   chainId: '0x2a',
+    //   chainName: 'Kovan',
+    //   nativeCurrency: {
+    //     name: 'Kovan',
+    //     symbol: 'ETH',
+    //     decimals: 18
+    //   },
+    //   rpcUrls: ['https://kovan.infura.io/v3/'],
+    //   blockExplorerUrls: ['https://kovan.etherscan.io/']
   }
   // [ChainId.BSC]: {
   //   chainId: '0x38',

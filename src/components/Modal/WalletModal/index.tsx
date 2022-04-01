@@ -197,9 +197,7 @@ export default function WalletModal({
           <Box padding={isUpToMD ? '16px' : '2rem 6rem 52px'}>
             {error instanceof UnsupportedChainIdError
               ? `Please connect to the    ${
-                  SUPPORTED_NETWORKS[NETWORK_CHAIN_ID]
-                    ? SUPPORTED_NETWORKS[NETWORK_CHAIN_ID]?.chainName
-                    : 'Ethereum'
+                  SUPPORTED_NETWORKS[NETWORK_CHAIN_ID] ? SUPPORTED_NETWORKS[NETWORK_CHAIN_ID]?.chainName : 'Ethereum'
                 }.`
               : 'Error connecting. Try refreshing the page.'}
           </Box>
@@ -213,7 +211,7 @@ export default function WalletModal({
                 const params = SUPPORTED_NETWORKS[id as ChainId]
                 console.log(JSON.stringify(SUPPORTED_NETWORKS))
                 console.log(NETWORK_CHAIN_ID)
-                
+
                 params?.nativeCurrency.symbol === 'ETH'
                   ? window.ethereum?.request?.({
                       method: 'wallet_switchEthereumChain',

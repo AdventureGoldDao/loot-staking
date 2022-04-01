@@ -71,7 +71,7 @@ export const SUPPORTED_WALLETS: { [key: string]: WalletInfo } = {
     href: null,
     color: '#4196FC',
     mobile: true
-  },
+  }
   // WALLET_LINK: {
   //   connector: walletlink,
   //   name: 'Coinbase Wallet',
@@ -137,7 +137,24 @@ export const BLOCKED_ADDRESSES: string[] = [
 // Rinkeby Staking
 // 0x0482e3E1B59800a2edd587F2F310566168aFBB93
 
-//
+export const LOOT_ADDRESS: { [chainId in ChainId]: string } = {
+  [ChainId.MAINNET]: '',
+  [ChainId.ROPSTEN]: '',
+  [ChainId.RINKEBY]: '0x84e3547f63ad6e5a1c4fe82594977525c764f0e8',
+  [ChainId.KOVAN]: '',
+  [ChainId.GÖRLI]: '',
+  [ChainId.BSC]: ''
+}
+
+export const LOOT_M_ADDRESS: { [chainId in ChainId]: string } = {
+  [ChainId.MAINNET]: '',
+  [ChainId.ROPSTEN]: '',
+  [ChainId.RINKEBY]: '0x84e3547f63ad6e5a1c4fe82594977525c764f0e8',
+  [ChainId.KOVAN]: '',
+  [ChainId.GÖRLI]: '',
+  [ChainId.BSC]: ''
+}
+
 export const STAKING_ADDRESS: { [chainId in ChainId]: string } = {
   [ChainId.MAINNET]: '',
   [ChainId.ROPSTEN]: '',
