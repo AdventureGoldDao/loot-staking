@@ -8,7 +8,6 @@ import { useMyNFTs } from '../../hooks/useNFT'
 // import { useAccountLootIds } from 'hooks/useBlockVision'
 // import { useLootNFTDetail } from 'hooks/useNFTInfo'
 import { Box, ButtonBase, Grid, styled, Typography } from '@mui/material'
-import { useAccountLootIds } from 'hooks/useBlockVision'
 import LootCard from './components/LootCard'
 import Spinner from 'components/Spinner'
 import NoData from 'components/NoData'
@@ -151,8 +150,8 @@ function GridItem(props: { title?: string; value: string }) {
 }
 
 export const Staking = () => {
-  const myLoot = useMyNFTs()
-  const myLootM = useAccountLootIds('lootm')
+  const myLoot = useMyNFTs('loot')
+  const myLootM = useMyNFTs('mloot')
   const { account, chainId } = useActiveWeb3React()
   const toggleWalletModal = useWalletModalToggle()
 
@@ -264,8 +263,6 @@ export const Staking = () => {
     )
   }, [account, selectedLootMoreNFT.length, stakeLootMoreCallback, toggleWalletModal])
 
-  useMyNFTs()
-
   return (
     <StakingWrapper>
       <div className={'staking-ntf-box'}>
@@ -339,13 +336,13 @@ export const Staking = () => {
                 <Spinner size={40} />
               </Box>
             )}
-            {!myLootM.loading && (!myLootM.result || !myLootM.result.ids.length) && <NoData />}
+            {!myLootM.loading && (!myLootM.nfts || !myLootM.nfts.length) && <NoData />}
             {!myLootM.loading && (
               <ShowNFTList
                 selectedList={selectedLootMoreNFT}
                 toggleSelect={toggleSelectLootMore}
-                ids={myLootM.result?.ids || []}
-                type="lootm"
+                ids={myLootM.nfts || []}
+                type="mloot"
               />
             )}
           </Box>

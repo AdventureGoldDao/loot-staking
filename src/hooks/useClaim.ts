@@ -10,13 +10,13 @@ export function useClaim() {
   const contract = useStakingContract()
   const { account } = useActiveWeb3React()
 
-  const signalLootStake = useCallback(
-    async (tokenID: number) => {
+  const onClaimLoot = useCallback(
+    async (tokenIDs: string[]) => {
       if (!account) throw new Error('none account')
       if (!contract) throw new Error('none contract')
-      const args = [tokenID]
+      const args = tokenIDs
       console.log('🚀 ~ file: useCreateOrderCallback.ts ~ line 18 ~ useCreateOrderCallback ~ args', args)
-      console.log('tokenid', tokenID)
+      console.log('tokenid', tokenIDs)
       return contract.estimateGas.claimLootRewards(args, { from: account }).then(estimatedGasLimit => {
         return contract
           .claimLootRewards(args, {
@@ -36,6 +36,6 @@ export function useClaim() {
   )
 
   return {
-    signalLootStake
+    onClaimLoot
   }
 }

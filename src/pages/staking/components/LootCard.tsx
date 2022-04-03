@@ -5,17 +5,17 @@ import Progress from 'components/Progress'
 import { LootType, useLootNFTDetail } from 'hooks/useNFTInfo'
 import { useNFTInfo } from '../../../hooks/useNFT'
 
-const LootCardStyle = styled('div')(({ selected }: { selected?: boolean }) => ({
+const LootCardStyle = styled('div')(({ selected, disabled }: { selected?: boolean; disabled: boolean }) => ({
   flex: 1,
-  cursor: 'pointer',
-  border: selected ? `1px solid rgba(165, 255, 190, 1)` : `1px solid transparent`,
+  cursor: disabled ? '' : 'pointer',
+  border: !disabled && selected ? `1px solid rgba(165, 255, 190, 1)` : `1px solid transparent`,
   borderRadius: 20,
   transition: 'border .3s',
   '&: hover': {
     borderColor: selected ? 'rgba(165, 255, 190, 1)' : 'rgba(165, 255, 190, .3)'
   },
   '.loot-card-box': {
-    background: 'rgba(55, 65, 47, 0.5)',
+    background: disabled ? 'rgba(145, 145, 145, 0.5)' : 'rgba(55, 65, 47, 0.5)',
     borderRadius: 20,
     padding: '25px  25px 40px 25px'
   },
@@ -62,11 +62,17 @@ export default function LootCard({
   toggleSelect: (id: string) => void
 }) {
   const { data } = useLootNFTDetail(type, tokenId)
-  useNFTInfo(tokenId, false)
+  const { isStake } = useNFTInfo(tokenId, false)
   const isSelected = useMemo(() => selectedList.includes(tokenId), [selectedList, tokenId])
 
   return (
-    <LootCardStyle onClick={() => toggleSelect(tokenId)} selected={isSelected}>
+    <LootCardStyle
+      disabled={isStake}
+      onClick={() => {
+        !isStake && toggleSelect(tokenId)
+      }}
+      selected={isSelected}
+    >
       <div className={'loot-card-box'}>
         <div className={'loot-card-img-box'}>
           <img src={data?.image} />

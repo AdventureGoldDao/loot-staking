@@ -3,10 +3,12 @@ import { useSingleCallResult, useSingleContractMultipleData } from '../state/mul
 import { useActiveWeb3React } from './index'
 import { useMemo } from 'react'
 import { EPOCH_DURATION } from '../constants'
+import { LootType } from './useNFTInfo'
 
 interface NFTInfo {
   isStake: boolean
   stakedTime: number
+  epochs: number
 }
 
 export function useNFTInfo(tokenId: string, isLoot: boolean): NFTInfo {
@@ -26,16 +28,16 @@ export function useNFTInfo(tokenId: string, isLoot: boolean): NFTInfo {
   const stakedTime = stakedEpochs.length * EPOCH_DURATION
   console.log('time--->', stakedTime)
 
-  const arg = tokenId && currentEpoch?.[0] ? [parseInt(currentEpoch[0].toString()) + 1, tokenId] : [undefined]
-  const isStaked = useSingleCallResult(contract, 'stakedLootIdsByEpoch', arg).result
-  const rewards = useSingleCallResult(contract, 'getRewardsForLootBag', [tokenId]).result
-  console.log('rewards', rewards?.toString(), tokenId, isStaked, currentEpoch?.toString(), currentEpoch?.[0].toString())
-  return { isStake: isStaked ? isStaked[0] : false, stakedTime }
+  // const arg = tokenId && currentEpoch?.[0] ? [parseInt(currentEpoch[0].toString()) + 1, tokenId] : [undefined]
+  // const isStaked = useSingleCallResult(contract, 'stakedLootIdsByEpoch', arg).result
+  // const rewards = useSingleCallResult(contract, 'getRewardsForLootBag', [tokenId])
+  // console.log('rewards', rewards, currentEpoch)
+  return { isStake: false, stakedTime: 0, epochs: 0 }
 }
 
-export function useMyNFTs() {
+export function useMyNFTs(type: LootType) {
   const { account } = useActiveWeb3React()
-  const contract = useLoot721Contract('loot')
+  const contract = useLoot721Contract(type)
   const count = useSingleCallResult(contract, 'balanceOf', [account ?? undefined])
   const ids = count && account && count.result ? Array.from(new Array(parseInt(count.result?.[0])).keys()).slice(0) : []
   const args = account

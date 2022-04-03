@@ -9,7 +9,7 @@ export interface NFTInfo {
   description: string
 }
 
-export type LootType = 'loot' | 'lootm'
+export type LootType = 'loot' | 'mloot'
 
 export function useLootNFTDetail(type: LootType, id: string | undefined): { loading: boolean; data: NFTInfo | null } {
   const contract = useLoot721Contract(type)

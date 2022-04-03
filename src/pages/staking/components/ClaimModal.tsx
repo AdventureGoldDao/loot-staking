@@ -7,6 +7,12 @@ import { LootType } from 'hooks/useNFTInfo'
 import Checkbox from 'components/Checkbox'
 import NoData from 'components/NoData'
 import OutlineButton from 'components/Button/OutlineButton'
+import { useMyNFTs } from '../../../hooks/useNFT'
+import { useClaim } from '../../../hooks/useClaim'
+import TransactionPendingModal from '../../../components/Modal/TransactionModals/TransactionPendingModal'
+import TransactionSubmittedModal from '../../../components/Modal/TransactionModals/TransactiontionSubmittedModal'
+import MessageBox from '../../../components/Modal/TransactionModals/MessageBox'
+import useModal from '../../../hooks/useModal'
 
 const FlexBetween = styled(Box)({
   display: 'flex',
@@ -14,14 +20,17 @@ const FlexBetween = styled(Box)({
   justifyContent: 'space-between'
 })
 
-const list = [
-  { name: 'Bag #1', id: '1', days: 'Staked 7 days' },
-  { name: 'Bag #2', id: '2', days: 'Staked 5 days' },
-  { name: 'Bag #3', id: '3', days: 'Staked 6 days' }
-]
+// const list = [
+//   { name: 'Bag #1', id: '1', days: 'Staked 7 days' },
+//   { name: 'Bag #2', id: '2', days: 'Staked 5 days' },
+//   { name: 'Bag #3', id: '3', days: 'Staked 6 days' }
+// ]
 export default function ClaimModal() {
   const [type, setType] = useState<LootType>('loot')
   const [selectList, setSelectList] = useState<string[]>([])
+  const { showModal, hideModal } = useModal()
+
+  const myLoot = useMyNFTs('loot')
 
   useEffect(() => {
     setSelectList([])
@@ -39,12 +48,32 @@ export default function ClaimModal() {
     [selectList]
   )
 
-  const claimLoot = useCallback((list: string[]) => {
-    list
-  }, [])
-  const claimLootMore = useCallback((list: string[]) => {
-    list
-  }, [])
+  // const claimLoot = useCallback((list: string[]) => {
+  //   list
+  // }, [])
+  // const claimLootMore = useCallback((list: string[]) => {
+  //   list
+  // }, [])
+
+  const { onClaimLoot } = useClaim()
+
+  const claimLootCallback = useCallback(async () => {
+    console.log('tag--->', selectList)
+    if (!selectList.length) return
+    showModal(<TransactionPendingModal />)
+    onClaimLoot(selectList)
+      .then(() => {
+        hideModal()
+        showModal(<TransactionSubmittedModal />)
+      })
+      .catch((err: any) => {
+        hideModal()
+        showModal(
+          <MessageBox type="error">{err.error && err.error.message ? err.error.message : err?.message}</MessageBox>
+        )
+        console.error(err)
+      })
+  }, [hideModal, onClaimLoot, selectList, showModal])
 
   const btn = useMemo(() => {
     if (!selectList.length) {
@@ -55,18 +84,11 @@ export default function ClaimModal() {
       )
     }
     return (
-      <OutlineButton
-        onClick={() => {
-          type === 'loot' ? claimLoot(selectList) : claimLootMore(selectList)
-        }}
-        height="48px"
-        width="88px"
-        primary
-      >
+      <OutlineButton onClick={claimLootCallback} height="48px" width="88px" primary>
         Claim
       </OutlineButton>
     )
-  }, [claimLoot, claimLootMore, selectList, type])
+  }, [claimLootCallback, selectList.length])
 
   return (
     <Modal closeIcon maxWidth="512px">
@@ -89,21 +111,21 @@ export default function ClaimModal() {
             <MenuItem value={'loot'} onClick={() => setType('loot')}>
               Loot
             </MenuItem>
-            <MenuItem value={'lootm'} onClick={() => setType('lootm')}>
+            <MenuItem value={'lootm'} onClick={() => setType('mloot')}>
               Loot More
             </MenuItem>
           </Select>
         </FlexBetween>
         <Box sx={{ borderBottom: '1px solid #5D8866' }} mt={16} mb={25} />
 
-        {!list.length && <NoData />}
+        {!myLoot.nfts.length && <NoData />}
         <Box display={'grid'} gap="20px">
-          {list.map(item => (
-            <FlexBetween key={item.id}>
+          {myLoot.nfts.map(item => (
+            <FlexBetween key={item}>
               <Checkbox
-                checked={selectList.includes(item.id)}
-                label={item.name}
-                onChange={() => toggleSelectList(item.id)}
+                checked={selectList.includes(item)}
+                label={`Bag #${item}`}
+                onChange={() => toggleSelectList(item)}
               />
               <Typography fontSize={18}>{item.days}</Typography>
             </FlexBetween>
