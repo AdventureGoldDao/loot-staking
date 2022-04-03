@@ -39,8 +39,16 @@ export function useNFTInfo(tokenId: string, lootType: LootType): NFTInfo {
 
   //const stakedTime = stakedEpochs.length * EPOCH_DURATION
   const arg = tokenId && currentEpoch?.[0] ? [parseInt(currentEpoch[0].toString()) + 1, tokenId] : [undefined]
-  const isStaked = useSingleCallResult(contract, 'stakedLootIdsByEpoch', arg).result
-  const reward = useSingleCallResult(contract, 'getClaimableRewardsForLootBag', [tokenId])
+  const isStaked = useSingleCallResult(
+    contract,
+    lootType === 'loot' ? 'stakedLootIdsByEpoch' : 'stakedMLootIdsByEpoch',
+    arg
+  ).result
+  const reward = useSingleCallResult(
+    contract,
+    lootType === 'loot' ? 'getClaimableRewardsForLootBag' : 'getClaimableRewardsForMLootBag',
+    [tokenId]
+  )
   const isStake = !!isStaked?.[0]
   const rewardAmount = reward && reward.result?.[0] ? CurrencyAmount.ether(reward.result?.[0].toString()) : undefined
   return { isStake, reward: rewardAmount, stakedEpochs: 0 }
