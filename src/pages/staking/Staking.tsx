@@ -156,6 +156,7 @@ export const Staking = () => {
 
   const myLoot = useMyNFTs('loot')
   const myLootM = useMyNFTs('mloot')
+
   const { rewardPerEpoch, nextTime, totalReward } = useStakingInfo()
 
   const { account, chainId } = useActiveWeb3React()
@@ -400,7 +401,7 @@ export const Staking = () => {
                   <Timer timer={Number(nextTime.toString()) * 1000} />
                 </Grid>
               </Grid>
-              <GridItem title={'My NFT staked'} value={'5'} />
+              <GridItem title={'My NFT staked'} value={''} />
               <GridItem title={'Staked value'} value={'-- ETH'} />
               <GridItem
                 title={'Expected to earn (staked 7 days)'}
@@ -411,7 +412,7 @@ export const Staking = () => {
                 <Grid className={'grid-item-box earned-item-box'} container>
                   <Grid className={'grid-item-title'} item xs={4}></Grid>
                   <Grid className={'grid-item-value earned-item-value'} item xs={8}>
-                    ≈$130
+                    ≈$ --
                   </Grid>
                 </Grid>
                 <Box marginTop={'47px'}>

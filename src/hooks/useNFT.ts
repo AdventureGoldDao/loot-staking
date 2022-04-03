@@ -79,7 +79,7 @@ export function useMyNFTs(type: LootType): { loading: boolean; nfts: NFT[] } {
     type === 'loot' ? 'getClaimableRewardsForLootBag' : 'getClaimableRewardsForMLootBag',
     idArgs
   )
-  console.log('rewards', rewards, type)
+
   return useMemo(() => {
     return {
       loading: count.loading,
