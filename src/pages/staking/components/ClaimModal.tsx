@@ -20,21 +20,21 @@ const FlexBetween = styled(Box)({
   justifyContent: 'space-between'
 })
 
-// const list = [
-//   { name: 'Bag #1', id: '1', days: 'Staked 7 days' },
-//   { name: 'Bag #2', id: '2', days: 'Staked 5 days' },
-//   { name: 'Bag #3', id: '3', days: 'Staked 6 days' }
-// ]
 export default function ClaimModal() {
   const [type, setType] = useState<LootType>('loot')
   const [selectList, setSelectList] = useState<string[]>([])
   const { showModal, hideModal } = useModal()
 
   const myLoot = useMyNFTs('loot')
+  const myMLoot = useMyNFTs('mloot')
 
   useEffect(() => {
     setSelectList([])
   }, [type])
+
+  const currentNFTList = useMemo(() => {
+    return type === 'loot' ? myLoot : myMLoot
+  }, [myLoot, myMLoot, type])
 
   const toggleSelectList = useCallback(
     (id: string) => {
@@ -58,7 +58,6 @@ export default function ClaimModal() {
   const { onClaimLoot } = useClaim()
 
   const claimLootCallback = useCallback(async () => {
-    console.log('tag--->', selectList)
     if (!selectList.length) return
     showModal(<TransactionPendingModal />)
     onClaimLoot(selectList)
@@ -118,16 +117,16 @@ export default function ClaimModal() {
         </FlexBetween>
         <Box sx={{ borderBottom: '1px solid #5D8866' }} mt={16} mb={25} />
 
-        {!myLoot.nfts.length && <NoData />}
+        {!currentNFTList.nfts.length && <NoData />}
         <Box display={'grid'} gap="20px">
-          {myLoot.nfts.map(item => (
-            <FlexBetween key={item}>
+          {currentNFTList.nfts.map(({ tokenId, reward }) => (
+            <FlexBetween key={tokenId}>
               <Checkbox
-                checked={selectList.includes(item)}
-                label={`Bag #${item}`}
-                onChange={() => toggleSelectList(item)}
+                checked={selectList.includes(tokenId)}
+                label={`Bag #${tokenId}`}
+                onChange={() => toggleSelectList(tokenId)}
               />
-              <Typography fontSize={18}>{item.days}</Typography>
+              <Typography fontSize={18}>{reward?.toSignificant()}</Typography>
             </FlexBetween>
           ))}
         </Box>
@@ -136,7 +135,7 @@ export default function ClaimModal() {
 
         <Box display={'grid'} gap="15px" justifyItems={'center'}>
           <Typography textAlign={'center'} fontSize={16}>
-            AGLD earned :100 AGLD
+            AGLD earned :
           </Typography>
           {btn}
           <Typography color="#FF5530" sx={{ opacity: selectList.length ? 0 : 1 }} textAlign={'center'}>

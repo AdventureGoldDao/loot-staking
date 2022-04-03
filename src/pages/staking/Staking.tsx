@@ -1,10 +1,10 @@
 import stakingntftitle from './assets/staking-ntf-title.svg'
 import iconmaster from './assets/icon-master.svg'
-import boredtitle from './assets/bored-title.svg'
+//import boredtitle from './assets/bored-title.svg'
 import icondamons from './assets/icon-damons.svg'
 import Button, { BlackButton } from 'components/Button/Button'
-import ActionButton from 'components/Button/ActionButton'
-import { useMyNFTs } from '../../hooks/useNFT'
+//import ActionButton from 'components/Button/ActionButton'
+import { NFT, useMyNFTs } from '../../hooks/useNFT'
 // import { useAccountLootIds } from 'hooks/useBlockVision'
 // import { useLootNFTDetail } from 'hooks/useNFTInfo'
 import { Box, ButtonBase, Grid, styled, Typography } from '@mui/material'
@@ -304,7 +304,7 @@ export const Staking = () => {
               <ShowNFTList
                 selectedList={selectedLootNFT}
                 toggleSelect={toggleSelectLoot}
-                ids={myLoot.nfts || []}
+                nfts={myLoot.nfts || []}
                 type="loot"
               />
             )}
@@ -341,39 +341,11 @@ export const Staking = () => {
               <ShowNFTList
                 selectedList={selectedLootMoreNFT}
                 toggleSelect={toggleSelectLootMore}
-                ids={myLootM.nfts || []}
+                nfts={myLootM.nfts || []}
                 type="mloot"
               />
             )}
           </Box>
-
-          <div className={'column-box bored-box'}>
-            <Box id={'column-box-header'} display="flex" justifyContent={'space-between'}>
-              <img src={boredtitle} alt={'Bored Ape Yacht Club'} />
-              <span className={'column-header-right'}>
-                <span className={'column-header-data'}>
-                  <img className={`column-header-data-icon`} src={icondamons} alt={'damons'} />
-                  <i className={'column-header-data-text'}>40%</i>
-                </span>
-                <ButtonBase className={'column-header-more'} onClick={() => showModal(<InfoModal />)}>
-                  More
-                </ButtonBase>
-              </span>
-            </Box>
-            <Box id={'column-box-body'}>
-              <div className={'no-bored-box'}>
-                <p className={'no-bored-box-desc'}>No “Bored Ape Yacht Club” found in your wallet</p>
-                <ActionButton
-                  width={`205px`}
-                  height={`30px`}
-                  actionText={'Buy'}
-                  onAction={function() {
-                    window.open('https://opensea.io/collection/lootproject')
-                  }}
-                ></ActionButton>
-              </div>
-            </Box>
-          </div>
         </div>
 
         <Box className={'column-content'}>
@@ -427,20 +399,26 @@ export const Staking = () => {
 }
 
 function ShowNFTList({
-  ids,
+  nfts,
   type,
   selectedList,
   toggleSelect
 }: {
-  ids: string[]
+  nfts: NFT[]
   type: LootType
   selectedList: string[]
   toggleSelect: (id: string) => void
 }) {
   return (
     <Box id={'column-box-body'} display="grid" gridTemplateColumns={'1fr 1fr'} columnGap={50}>
-      {ids.map(id => (
-        <LootCard key={id} tokenId={id} type={type} selectedList={selectedList} toggleSelect={toggleSelect}></LootCard>
+      {nfts.map(({ tokenId }) => (
+        <LootCard
+          key={tokenId}
+          tokenId={tokenId}
+          type={type}
+          selectedList={selectedList}
+          toggleSelect={toggleSelect}
+        ></LootCard>
       ))}
     </Box>
   )

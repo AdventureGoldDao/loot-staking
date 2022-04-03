@@ -62,7 +62,7 @@ export default function LootCard({
   toggleSelect: (id: string) => void
 }) {
   const { data } = useLootNFTDetail(type, tokenId)
-  const { isStake } = useNFTInfo(tokenId, false)
+  const { isStake } = useNFTInfo(tokenId, type)
   const isSelected = useMemo(() => selectedList.includes(tokenId), [selectedList, tokenId])
 
   return (
