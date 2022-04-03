@@ -23,11 +23,14 @@ import { useWalletModalToggle } from 'state/application/hooks'
 import { ExternalLink } from 'theme/components'
 import ClaimModal from './components/ClaimModal'
 import InfoModal from './components/InfoModal'
+import useBreakpoint from 'hooks/useBreakpoint'
 
 const StakingWrapper = styled('div')(({ theme }) => ({
   display: 'flex',
   flexDirection: 'column',
-  width: '1120px',
+  // width: '1120px',
+  maxWidth: '1120px',
+  width: '100%',
   margin: '0 auto',
   minHeight: `calc(100vh - ${theme.height.header} - ${theme.height.footer})`,
   padding: '60px 0 80px',
@@ -36,9 +39,7 @@ const StakingWrapper = styled('div')(({ theme }) => ({
   overflowX: 'hidden',
   position: 'relative',
   '.staking-ntf-box': {
-    position: 'resolve',
-    paddingBottom: 50,
-    borderBottom: `3px solid #253A27`
+    position: 'resolve'
   },
   '.staking-ntf-box-title': {
     width: 486,
@@ -93,11 +94,11 @@ const StakingWrapper = styled('div')(({ theme }) => ({
     marginBottom: 34
   },
   '.column-content': {
-    flex: 1,
-    marginLeft: 48
+    // flex: 1,
+    // marginLeft: 48
   },
   '.column-item-box': {
-    padding: '50px 40px',
+    // padding: '50px 40px',
     backgroundColor: `#37412F`,
     background: 'rgba(55, 65, 47, 0.5)',
     backdropFilter: 'blur(64px)',
@@ -150,6 +151,8 @@ function GridItem(props: { title?: string; value: string }) {
 }
 
 export const Staking = () => {
+  const matches = useBreakpoint('md')
+
   const myLoot = useMyNFTs('loot')
   const myLootM = useMyNFTs('mloot')
   const { account, chainId } = useActiveWeb3React()
@@ -226,56 +229,91 @@ export const Staking = () => {
   const stakeLootBtn = useMemo(() => {
     if (!account)
       return (
-        <Button onClick={toggleWalletModal} width="205px" borderRadius="10px" height="30px">
+        <Button onClick={toggleWalletModal} width={matches ? '60px' : '252px'} borderRadius="10px" height="30px">
           Connect Wallet
         </Button>
       )
     if (!selectedLootNFT.length)
       return (
-        <Button disabled width="205px" borderRadius="10px" height="30px">
+        <Button disabled width={matches ? '60px' : '252px'} borderRadius="10px" height="30px">
           Stake
         </Button>
       )
     return (
-      <Button onClick={stakeLootCallback} width="205px" borderRadius="10px" height="30px">
+      <Button onClick={stakeLootCallback} width={matches ? '60px' : '252px'} borderRadius="10px" height="30px">
         Stake
       </Button>
     )
-  }, [account, selectedLootNFT.length, stakeLootCallback, toggleWalletModal])
+  }, [account, selectedLootNFT.length, stakeLootCallback, toggleWalletModal, matches])
 
   const stakeLootMoreBtn = useMemo(() => {
     if (!account)
       return (
-        <Button onClick={toggleWalletModal} width="205px" borderRadius="10px" height="30px">
+        <Button onClick={toggleWalletModal} width={matches ? '60px' : '252px'} borderRadius="10px" height="30px">
           Connect Wallet
         </Button>
       )
     if (!selectedLootMoreNFT.length)
       return (
-        <Button disabled width="205px" borderRadius="10px" height="30px">
+        <Button disabled width={matches ? '60px' : '252px'} borderRadius="10px" height="30px">
           Stake
         </Button>
       )
     return (
-      <Button onClick={stakeLootMoreCallback} width="205px" borderRadius="10px" height="30px">
+      <Button onClick={stakeLootMoreCallback} width={matches ? '60px' : '252px'} borderRadius="10px" height="30px">
         Stake
       </Button>
     )
-  }, [account, selectedLootMoreNFT.length, stakeLootMoreCallback, toggleWalletModal])
+  }, [account, selectedLootMoreNFT.length, stakeLootMoreCallback, toggleWalletModal, matches])
 
   return (
     <StakingWrapper>
-      <div className={'staking-ntf-box'}>
-        <img className={'staking-ntf-box-title'} src={stakingntftitle} alt={'Staking NFT to get rewards'} />
+      <Box
+        className={'staking-ntf-box'}
+        sx={{
+          padding: { xs: '28px 41px 0 40px', md: '0 0 50px 0' },
+          borderBottom: { xs: 'none', md: '3px solid #253A27' }
+        }}
+      >
+        <Box
+          component="img"
+          src={stakingntftitle}
+          sx={{
+            width: { xs: '280px', md: '486px' },
+            height: { xs: '29px', md: '50px' }
+          }}
+          alt={'Staking NFT to get rewards'}
+        />
+        {/* <img className={'staking-ntf-box-title'} src={stakingntftitle} alt={'Staking NFT to get rewards'} /> */}
         <p className={'staking-ntf-box-desc'}>Receive earning by signing in every week</p>
         <BlackButton>Learn More</BlackButton>
-        <img className={'staking-ntf-box-icon'} src={iconmaster} alt={''} />
-      </div>
-      <Box id={'main-box'} display="flex">
+        <Box
+          component="img"
+          src={iconmaster}
+          className={'staking-ntf-box-icon'}
+          sx={{
+            display: { xs: 'none', md: 'inline' }
+          }}
+          alt={'Staking NFT to get rewards'}
+        />
+        {/* <img className={'staking-ntf-box-icon'} src={iconmaster} alt={''} /> */}
+      </Box>
+      <Box
+        id={'main-box'}
+        sx={{
+          display: 'flex',
+          flexWrap: 'wrap-reverse',
+          columnGap: '48px',
+          justifyContent: 'center',
+          rowGap: '62px',
+          paddingLeft: { xs: '40px', lg: '0' },
+          paddingRight: { xs: '41px', lg: '0' }
+        }}
+      >
         <div className={'column-main-box'}>
           <div className={'column-box'}>
             <Box id={'column-box-header'} display="flex" justifyContent={'space-between'}>
-              <Typography fontWeight={600} fontSize={24} color="#fff">
+              <Typography fontWeight={600} color="#fff" sx={{ fontSize: { xs: 16, md: 24 } }}>
                 Loot (for Adventures)
               </Typography>
               <span className={'column-header-right'}>
@@ -312,7 +350,7 @@ export const Staking = () => {
 
           <Box className={'column-box'} mt="70px">
             <Box id={'column-box-header'} display="flex" justifyContent={'space-between'}>
-              <Typography fontWeight={600} fontSize={24} color="#fff">
+              <Typography fontWeight={600} color="#fff" sx={{ fontSize: { xs: 16, md: 24 } }}>
                 LootM (for Adventures)
               </Typography>
               <span className={'column-header-right'}>
@@ -348,9 +386,9 @@ export const Staking = () => {
           </Box>
         </div>
 
-        <Box className={'column-content'}>
+        <Box /* className={'column-content'} */ sx={{ width: '100%', maxWidth: '508px' }}>
           <Box display="grid" gap="20px">
-            <div className={'column-item-box'}>
+            <Box className={'column-item-box'} sx={{ padding: { xs: '50px 21px 44px 20px', md: '50px 40px' } }}>
               <GridItem title={'Time to reward'} value={'01d 23h 22m 12s'}></GridItem>
               <GridItem title={'My NFT staked'} value={'5'}></GridItem>
               <GridItem title={'Staked value'} value={'13.3 ETH'}></GridItem>
@@ -364,14 +402,18 @@ export const Staking = () => {
                   </Grid>
                 </Grid>
                 <Box marginTop={'47px'}>
-                  <Button width={`280px`} height={`48px`} onClick={() => showModal(<ClaimModal />)}>
+                  <Button
+                    width={matches ? '253px' : `280px`}
+                    height={matches ? '32px' : `48px`}
+                    onClick={() => showModal(<ClaimModal />)}
+                  >
                     Claim
                   </Button>
                 </Box>
               </div>
-            </div>
+            </Box>
 
-            <div className={'column-item-box'}>
+            <Box className={'column-item-box'} sx={{ padding: { xs: '50px 21px 44px 20px', md: '50px 40px' } }}>
               <GridItem title={'Reward settlement time'} value={'2022-03-18 00:00:00 (UTC)'}></GridItem>
               <GridItem title={'Current rewards'} value={'153,846.15 AGLD'}></GridItem>
               <GridItem title={'Total staked NFT value'} value={'54.4 ETH'}></GridItem>
@@ -390,7 +432,7 @@ export const Staking = () => {
                   </Box>
                 </ExternalLink>
               </Box>
-            </div>
+            </Box>
           </Box>
         </Box>
       </Box>
@@ -410,7 +452,18 @@ function ShowNFTList({
   toggleSelect: (id: string) => void
 }) {
   return (
-    <Box id={'column-box-body'} display="grid" gridTemplateColumns={'1fr 1fr'} columnGap={50}>
+    <Box
+      id={'column-box-body'}
+      sx={{
+        columnGap: { xs: 27, md: 50 },
+        rowGap: { xs: 20, md: 45 },
+        gridTemplateColumns: { xs: 'repeat(2, 133px)', md: 'repeat(2, 255px)' },
+        justifyContent: 'center'
+      }}
+      display="grid"
+      gridTemplateColumns={'1fr 1fr'}
+      columnGap={50}
+    >
       {nfts.map(({ tokenId }) => (
         <LootCard
           key={tokenId}

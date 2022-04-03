@@ -4,6 +4,7 @@ import { useCallback } from 'react'
 import { useTransactionAdder } from '../state/transactions/hooks'
 import { useActiveWeb3React } from '.'
 import { useStakingContract } from './useContract'
+import { useSingleCallResult } from '../state/multicall/hooks'
 
 export function useStaking() {
   const addTransaction = useTransactionAdder()
@@ -63,5 +64,27 @@ export function useStaking() {
   return {
     signalLootStake,
     signalLootMoreStake
+  }
+}
+
+export function useStakingInfo() {
+  const contract = useStakingContract()
+  const currentEpoch = useSingleCallResult(contract, 'getCurrentEpoch').result
+  const numEpochs = useSingleCallResult(contract, 'numEpochs').result
+  const numLootStaked = useSingleCallResult(
+    contract,
+    'numLootStakedByEpoch',
+    [currentEpoch?.[0].toString()] ?? undefined
+  ).result
+  const numMLootStaked = useSingleCallResult(
+    contract,
+    'numMLootStakedByEpoch',
+    [currentEpoch?.[0].toString()] ?? undefined
+  ).result
+  console.log('numLootStaked', numLootStaked?.toString(), numMLootStaked?.toString())
+  return {
+    numEpochs,
+    numLootStaked: numLootStaked?.[0].toString() ?? '0',
+    numMLootStaked: numMLootStaked?.[0].toString() ?? '0'
   }
 }

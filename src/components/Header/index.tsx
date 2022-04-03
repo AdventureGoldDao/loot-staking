@@ -58,7 +58,8 @@ const StyledAppBar = styled(AppBar)(({ theme }) => ({
   //   justifyContent: 'center'
   // },
   '#header-main': {
-    width: 1120,
+    maxWidth: 1120,
+    width: '100%',
     margin: '0 auto'
   },
   '& .link': {
@@ -107,9 +108,10 @@ const MainLogo = styled(NavLink)(({ theme }) => ({
   '&:hover': {
     cursor: 'pointer'
   },
-  [theme.breakpoints.down('sm')]: {
-    '& img': { width: 100, height: 'auto' },
-    marginBottom: -10
+  [theme.breakpoints.down('md')]: {
+    width: 'fit-content',
+    '& img': { height: '11px', width: 'fit-content' }
+    // marginBottom: -10
   }
 }))
 
@@ -220,10 +222,12 @@ export default function Header() {
               )}
             </LinksWrapper>
           </HideOnMobile>
+
           <Box display={'flex'} gap="20px">
             <NetworkSelect />
             <Web3Status />
           </Box>
+
           <ShowOnMobile breakpoint="md">
             <IconButton
               sx={{
@@ -239,7 +243,7 @@ export default function Header() {
                 setMobileMenuOpen(open => !open)
               }}
             >
-              <svg width="14" height="8" viewBox="0 0 14 8" fill="none" stroke="#252525">
+              <svg width="14" height="8" viewBox="0 0 14 8" fill="none" stroke="#fff">
                 <path d="M1 1H13" strokeWidth="1.4" strokeLinecap="round" />
                 <path d="M1 7H13" strokeWidth="1.4" strokeLinecap="round" />
               </svg>

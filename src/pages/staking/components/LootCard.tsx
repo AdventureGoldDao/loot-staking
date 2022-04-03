@@ -4,8 +4,9 @@ import Progress from 'components/Progress'
 //import { useNFTInfo } from '../../../hooks/useNFT'
 import { LootType, useLootNFTDetail } from 'hooks/useNFTInfo'
 import { useNFTInfo } from '../../../hooks/useNFT'
+import { useStakingInfo } from '../../../hooks/useStaking'
 
-const LootCardStyle = styled('div')(({ selected, disabled }: { selected?: boolean; disabled: boolean }) => ({
+const LootCardStyle = styled('div')<{ selected?: boolean; disabled: boolean }>(({ theme, selected, disabled }) => ({
   flex: 1,
   cursor: disabled ? '' : 'pointer',
   border: !disabled && selected ? `1px solid rgba(165, 255, 190, 1)` : `1px solid transparent`,
@@ -17,12 +18,18 @@ const LootCardStyle = styled('div')(({ selected, disabled }: { selected?: boolea
   '.loot-card-box': {
     background: disabled ? 'rgba(145, 145, 145, 0.5)' : 'rgba(55, 65, 47, 0.5)',
     borderRadius: 20,
-    padding: '25px  25px 40px 25px'
+    padding: '25px 25px 40px 25px',
+    [theme.breakpoints.down('md')]: { width: '133px', height: '199px', padding: '13px' }
+    // padding: '25px  25px 40px 25px'
   },
   '.loot-card-img-box': {
     width: 205,
     height: 205,
-    margin: '0 auto'
+    margin: '0 auto',
+    [theme.breakpoints.down('md')]: {
+      width: 107,
+      height: 107
+    }
   },
   '.loot-card-img-box img': {
     width: '100%',
@@ -31,7 +38,8 @@ const LootCardStyle = styled('div')(({ selected, disabled }: { selected?: boolea
   '.loot-card-title': {
     marginTop: 10,
     marginBottom: 16,
-    color: '#fff'
+    color: '#fff',
+    [theme.breakpoints.down('md')]: { fontSize: '12px' }
   }
 }))
 
@@ -62,7 +70,9 @@ export default function LootCard({
   toggleSelect: (id: string) => void
 }) {
   const { data } = useLootNFTDetail(type, tokenId)
-  const { isStake } = useNFTInfo(tokenId, type)
+  const { isStake, stakedEpochs } = useNFTInfo(tokenId, type)
+  const { numLootStaked, numMLootStaked } = useStakingInfo()
+
   const isSelected = useMemo(() => selectedList.includes(tokenId), [selectedList, tokenId])
 
   return (
@@ -75,10 +85,10 @@ export default function LootCard({
     >
       <div className={'loot-card-box'}>
         <div className={'loot-card-img-box'}>
-          <img src={data?.image} />
+          <img alt={''} src={data?.image} />
         </div>
         <p className={'loot-card-title'}>{data?.name}</p>
-        <Progress val={0} total={7}></Progress>
+        <Progress val={stakedEpochs} total={type === 'loot' ? parseInt(numLootStaked) : parseInt(numMLootStaked)} />
       </div>
     </LootCardStyle>
   )
