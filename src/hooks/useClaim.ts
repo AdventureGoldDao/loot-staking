@@ -26,7 +26,7 @@ export function useClaim() {
           })
           .then((response: TransactionResponse) => {
             addTransaction(response, {
-              summary: 'Staking'
+              summary: 'Claim AGLD'
             })
             return response.hash
           })

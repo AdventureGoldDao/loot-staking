@@ -18,12 +18,13 @@ import MessageBox from 'components/Modal/TransactionModals/MessageBox'
 import TransactionPendingModal from 'components/Modal/TransactionModals/TransactionPendingModal'
 import TransactionSubmittedModal from 'components/Modal/TransactionModals/TransactiontionSubmittedModal'
 import useModal from 'hooks/useModal'
-import { useStaking } from 'hooks/useStaking'
+import { useStaking, useStakingInfo } from 'hooks/useStaking'
 import { useWalletModalToggle } from 'state/application/hooks'
 import { ExternalLink } from 'theme/components'
 import ClaimModal from './components/ClaimModal'
 import InfoModal from './components/InfoModal'
 import useBreakpoint from 'hooks/useBreakpoint'
+import { Timer } from '../../components/Timer'
 
 const StakingWrapper = styled('div')(({ theme }) => ({
   display: 'flex',
@@ -155,6 +156,8 @@ export const Staking = () => {
 
   const myLoot = useMyNFTs('loot')
   const myLootM = useMyNFTs('mloot')
+  const { rewardPerEpoch, nextTime, totalReward } = useStakingInfo()
+
   const { account, chainId } = useActiveWeb3React()
   const toggleWalletModal = useWalletModalToggle()
 
@@ -321,7 +324,7 @@ export const Staking = () => {
                   <img className={`column-header-data-icon`} src={icondamons} alt={'damons'} />
                   <i className={'column-header-data-text'}>60%</i>
                 </span>
-                <ButtonBase className={'column-header-more'} onClick={() => showModal(<InfoModal />)}>
+                <ButtonBase className={'column-header-more'} onClick={() => showModal(<InfoModal shared={'99.75'} />)}>
                   More
                 </ButtonBase>
               </span>
@@ -358,7 +361,7 @@ export const Staking = () => {
                   <img className={`column-header-data-icon`} src={icondamons} alt={'damons'} />
                   <i className={'column-header-data-text'}>60%</i>
                 </span>
-                <ButtonBase className={'column-header-more'} onClick={() => showModal(<InfoModal />)}>
+                <ButtonBase className={'column-header-more'} onClick={() => showModal(<InfoModal shared="0.025" />)}>
                   More
                 </ButtonBase>
               </span>
@@ -389,12 +392,22 @@ export const Staking = () => {
         <Box /* className={'column-content'} */ sx={{ width: '100%', maxWidth: '508px' }}>
           <Box display="grid" gap="20px">
             <Box className={'column-item-box'} sx={{ padding: { xs: '50px 21px 44px 20px', md: '50px 40px' } }}>
-              <GridItem title={'Time to reward'} value={'01d 23h 22m 12s'}></GridItem>
-              <GridItem title={'My NFT staked'} value={'5'}></GridItem>
-              <GridItem title={'Staked value'} value={'13.3 ETH'}></GridItem>
-              <GridItem title={'Expected to earn (staked 7 days)'} value={'20.33 AGLD'}></GridItem>
+              <Grid className={'grid-item-box'} container>
+                <Grid className={'grid-item-title'} item xs={4}>
+                  Time to reward
+                </Grid>
+                <Grid className={'grid-item-value'} item xs={8}>
+                  <Timer timer={Number(nextTime.toString()) * 1000} />
+                </Grid>
+              </Grid>
+              <GridItem title={'My NFT staked'} value={'5'} />
+              <GridItem title={'Staked value'} value={'-- ETH'} />
+              <GridItem
+                title={'Expected to earn (staked 7 days)'}
+                value={`${rewardPerEpoch ? rewardPerEpoch.toSignificant(6, { groupSeparator: ',' }) : '--'} AGLD`}
+              />
               <div className="column-item-footer">
-                <GridItem title={'AGLD earned'} value={'100.33 AGLD'}></GridItem>
+                <GridItem title={'AGLD earned'} value={'-- AGLD'}></GridItem>
                 <Grid className={'grid-item-box earned-item-box'} container>
                   <Grid className={'grid-item-title'} item xs={4}></Grid>
                   <Grid className={'grid-item-value earned-item-value'} item xs={8}>
@@ -414,11 +427,17 @@ export const Staking = () => {
             </Box>
 
             <Box className={'column-item-box'} sx={{ padding: { xs: '50px 21px 44px 20px', md: '50px 40px' } }}>
-              <GridItem title={'Reward settlement time'} value={'2022-03-18 00:00:00 (UTC)'}></GridItem>
-              <GridItem title={'Current rewards'} value={'153,846.15 AGLD'}></GridItem>
-              <GridItem title={'Total staked NFT value'} value={'54.4 ETH'}></GridItem>
-              <GridItem title={'Cumulative rewards'} value={'2,153,846.15 AGLD'}></GridItem>
-              <GridItem title={'Halving date'} value={'2023-03-18'}></GridItem>
+              {/*<GridItem title={'Reward settlement time'} value={'2022-03-18 00:00:00 (UTC)'}></GridItem>*/}
+              <GridItem
+                title={'Current rewards'}
+                value={`${rewardPerEpoch ? rewardPerEpoch.toSignificant() : '--'} AGLD`}
+              />
+              <GridItem title={'Total staked NFT value'} value={'-- ETH'} />
+              <GridItem
+                title={'Cumulative rewards'}
+                value={`${totalReward.toSignificant(6, { groupSeparator: ',' }) ?? '--'} AGLD`}
+              />
+              <GridItem title={'Halving date'} value={'2023-03-18'} />
               <Box display={'flex'} flexDirection="row-reverse" mt={'40px'}>
                 <ExternalLink href="">
                   <Box display={'flex'} gap="10px">

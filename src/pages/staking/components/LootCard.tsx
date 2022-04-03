@@ -71,7 +71,7 @@ export default function LootCard({
 }) {
   const { data } = useLootNFTDetail(type, tokenId)
   const { isStake, stakedEpochs } = useNFTInfo(tokenId, type)
-  const { numLootStaked, numMLootStaked } = useStakingInfo()
+  const { numEpochs } = useStakingInfo()
 
   const isSelected = useMemo(() => selectedList.includes(tokenId), [selectedList, tokenId])
 
@@ -88,7 +88,7 @@ export default function LootCard({
           <img alt={''} src={data?.image} />
         </div>
         <p className={'loot-card-title'}>{data?.name}</p>
-        <Progress val={stakedEpochs} total={type === 'loot' ? parseInt(numLootStaked) : parseInt(numMLootStaked)} />
+        <Progress val={stakedEpochs} total={parseInt(numEpochs)} />
       </div>
     </LootCardStyle>
   )

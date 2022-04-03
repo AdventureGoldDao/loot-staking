@@ -25,7 +25,7 @@ export const toDeltaTimer = (delta: number) => {
 
 export const Timer = ({ timer, onZero }: { timer: number; onZero?: () => void }) => {
   const [time, setTime] = useState(getDeltaTime(timer))
-
+  console.error('timer', timer)
   useEffect(() => {
     const tm = setInterval(() => setTime(getDeltaTime(timer)), 1000)
     return () => clearInterval(tm)

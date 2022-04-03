@@ -13,6 +13,7 @@ import TransactionPendingModal from '../../../components/Modal/TransactionModals
 import TransactionSubmittedModal from '../../../components/Modal/TransactionModals/TransactiontionSubmittedModal'
 import MessageBox from '../../../components/Modal/TransactionModals/MessageBox'
 import useModal from '../../../hooks/useModal'
+import JSBI from 'jsbi'
 
 const FlexBetween = styled(Box)({
   display: 'flex',
@@ -89,6 +90,29 @@ export default function ClaimModal() {
     )
   }, [claimLootCallback, selectList.length])
 
+  const totalRewards = useMemo(() => {
+    const NFTList = type === 'loot' ? myLoot : myMLoot
+    const selectNFTs = NFTList.nfts.filter(({ tokenId }) => {
+      return selectList.indexOf(tokenId.toString()) !== -1
+    })
+
+    const rewards = selectNFTs.map(({ reward }) => {
+      return reward
+    })
+    return rewards.length !== 0
+      ? rewards.reduce((previousValue, currentValue) => {
+          return previousValue && currentValue ? previousValue.add(currentValue) : undefined
+        })
+      : undefined
+    // return selectNFTs.reduce((previousValue, currentValue) => {
+    //   return {
+    //     tokenId: '0',
+    //     reward:
+    //       previousValue?.reward && currentValue?.reward ? previousValue?.reward.add(currentValue?.reward) : undefined
+    //   }
+    // })
+  }, [myLoot, myMLoot, selectList, type])
+  console.log('totalRewards', totalRewards?.toSignificant())
   return (
     <Modal closeIcon maxWidth="512px">
       <Box sx={{ padding: 40, color: '#fff' }}>
@@ -122,6 +146,7 @@ export default function ClaimModal() {
           {currentNFTList.nfts.map(({ tokenId, reward }) => (
             <FlexBetween key={tokenId}>
               <Checkbox
+                disabled={reward?.equalTo(JSBI.BigInt(0))}
                 checked={selectList.includes(tokenId)}
                 label={`Bag #${tokenId}`}
                 onChange={() => toggleSelectList(tokenId)}
@@ -135,7 +160,7 @@ export default function ClaimModal() {
 
         <Box display={'grid'} gap="15px" justifyItems={'center'}>
           <Typography textAlign={'center'} fontSize={16}>
-            AGLD earned :
+            AGLD earned : {totalRewards ? totalRewards.toSignificant() : '--'}
           </Typography>
           {btn}
           <Typography color="#FF5530" sx={{ opacity: selectList.length ? 0 : 1 }} textAlign={'center'}>

@@ -13,7 +13,7 @@ const Text = styled(Typography)({
   fontSize: '20px'
 })
 
-export default function InfoModal() {
+export default function InfoModal({ shared }: { shared: string }) {
   return (
     <Modal closeIcon maxWidth="512px">
       <Box sx={{ padding: 40, color: '#fff' }}>
@@ -32,7 +32,7 @@ export default function InfoModal() {
           </FlexBetween>
           <FlexBetween>
             <Text>Reward share</Text>
-            <Text>60%</Text>
+            <Text>{shared}%</Text>
           </FlexBetween>
           <FlexBetween>
             <Text>Total staked</Text>
