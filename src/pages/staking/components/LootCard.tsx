@@ -5,7 +5,7 @@ import Progress from 'components/Progress'
 import { LootType, useLootNFTDetail } from 'hooks/useNFTInfo'
 import { useNFTInfo } from '../../../hooks/useNFT'
 
-const LootCardStyle = styled('div')(({ selected, disabled }: { selected?: boolean; disabled: boolean }) => ({
+const LootCardStyle = styled('div')<{ selected?: boolean; disabled: boolean }>(({ theme, selected, disabled }) => ({
   flex: 1,
   cursor: disabled ? '' : 'pointer',
   border: !disabled && selected ? `1px solid rgba(165, 255, 190, 1)` : `1px solid transparent`,
@@ -17,12 +17,18 @@ const LootCardStyle = styled('div')(({ selected, disabled }: { selected?: boolea
   '.loot-card-box': {
     background: disabled ? 'rgba(145, 145, 145, 0.5)' : 'rgba(55, 65, 47, 0.5)',
     borderRadius: 20,
-    padding: '25px  25px 40px 25px'
+    padding: '25px 25px 40px 25px',
+    [theme.breakpoints.down('md')]: { width: '133px', height: '199px', padding: '13px' }
+    // padding: '25px  25px 40px 25px'
   },
   '.loot-card-img-box': {
     width: 205,
     height: 205,
-    margin: '0 auto'
+    margin: '0 auto',
+    [theme.breakpoints.down('md')]: {
+      width: 107,
+      height: 107
+    }
   },
   '.loot-card-img-box img': {
     width: '100%',
@@ -31,7 +37,8 @@ const LootCardStyle = styled('div')(({ selected, disabled }: { selected?: boolea
   '.loot-card-title': {
     marginTop: 10,
     marginBottom: 16,
-    color: '#fff'
+    color: '#fff',
+    [theme.breakpoints.down('md')]: { fontSize: '12px' }
   }
 }))
 

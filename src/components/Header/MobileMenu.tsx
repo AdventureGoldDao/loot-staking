@@ -11,13 +11,14 @@ const StyledNavLink = styled(NavLink)({})
 const navLinkSx = {
   cursor: 'pointer',
   textDecoration: 'none',
-  fontSize: 24,
-  color: (theme: Theme) => theme.palette.text.secondary,
+  fontSize: 16,
+  // color: (theme: Theme) => theme.palette.text.secondary,
+  color: 'rgba(49, 176, 71, 0.6)',
   padding: '13px 24px',
   width: '100%',
-  textAlign: 'left',
-  display: 'flex',
-  justifyContent: 'flex-start',
+  textAlign: 'center',
+  // display: 'flex',
+  // justifyContent: 'flex-start',
   '&.active': {
     color: (theme: Theme) => theme.palette.primary.main
   },
@@ -44,7 +45,7 @@ export default function MobileMenu({ isOpen, onDismiss }: { isOpen: boolean; onD
         top: theme => ({ xs: theme.height.mobileHeader, sm: theme.height.header })
       }}
     >
-      <Box display="grid" gap="15px">
+      <Box display="grid" gap="15px" sx={{ padding: '24px 148px 19px 147px' }}>
         {Tabs.map(({ title, route, link, titleContent, subTab }) => {
           const content = titleContent ?? title
           return subTab ? (

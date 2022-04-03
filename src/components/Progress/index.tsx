@@ -1,7 +1,7 @@
 import { Box, Typography, LinearProgress, linearProgressClasses, styled } from '@mui/material'
 
 const StyledLinearProgress = styled(LinearProgress)(({ theme }) => ({
-  height: 10,
+  // height: 10,
   borderRadius: 5,
   [`&.${linearProgressClasses.colorPrimary}`]: {
     backgroundColor: '#474747'
@@ -15,8 +15,8 @@ const StyledLinearProgress = styled(LinearProgress)(({ theme }) => ({
 export default function Progress({ val, total }: { val: number; total: number }) {
   const value = (val / total) * 100
   return (
-    <Box sx={{ width: 'max-content' }}>
-      <StyledLinearProgress variant="determinate" value={value} sx={{ width: 205 }} />
+    <Box sx={{ width: '100%' }}>
+      <StyledLinearProgress variant="determinate" value={value} sx={{ width: '100%', height: { xs: 4, md: 10 } }} />
       <Box color={'#B7B7B7'} marginTop={5} fontSize={14} display={'flex'} justifyContent={'space-between'}>
         <Typography fontSize={12}>{`Hold day`}</Typography>
         <Typography fontSize={12} sx={{ textAlign: 'right' }}>{`${val}/${total}`}</Typography>
