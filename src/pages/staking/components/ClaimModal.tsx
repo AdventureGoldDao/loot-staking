@@ -126,7 +126,7 @@ export default function ClaimModal() {
             <MenuItem value={'loot'} onClick={() => setType('loot')}>
               Loot
             </MenuItem>
-            <MenuItem value={'lootm'} onClick={() => setType('mloot')}>
+            <MenuItem value={'mloot'} onClick={() => setType('mloot')}>
               Loot More
             </MenuItem>
           </Select>

@@ -28,7 +28,6 @@ import useBreakpoint from 'hooks/useBreakpoint'
 import { Timer } from '../../components/Timer'
 import { NFTSkeleton } from '../../components/skeleton/NFTSkeleton'
 import { useProjectInfo } from '../../hooks/useOpensea'
-import JSBI from 'jsbi'
 import { CurrencyAmount } from '../../constants/token'
 
 const StakingWrapper = styled('div')(({ theme }) => ({
@@ -164,10 +163,20 @@ export const Staking = () => {
   const myLoot = useMyNFTs('loot')
   const myLootM = useMyNFTs('mloot')
 
-  const { rewardPerEpoch, nextTime, totalReward, myLooStakedCount, myMLooStakedCount } = useStakingInfo()
+  const { rewardPerEpoch, nextTime, totalReward } = useStakingInfo()
 
   const { account, chainId } = useActiveWeb3React()
   const toggleWalletModal = useWalletModalToggle()
+
+  const myStakedNFTCount = useMemo(() => {
+    const lootCount = myLoot.nfts.filter(({ isStaked }) => {
+      return isStaked
+    })
+    const mlootCount = myLootM.nfts.filter(({ isStaked }) => {
+      return isStaked
+    })
+    return lootCount.length + mlootCount.length
+  }, [myLoot.nfts, myLootM.nfts])
 
   const unClaimRewards = useMemo(() => {
     const lootReward = myLoot.nfts.map(({ reward }) => {
@@ -462,14 +471,7 @@ export const Staking = () => {
                   <Timer timer={Number(nextTime.toString()) * 1000} />
                 </Grid>
               </Grid>
-              <GridItem
-                title={'My NFT staked'}
-                value={
-                  myMLooStakedCount && myLooStakedCount
-                    ? JSBI.ADD(JSBI.BigInt(myLooStakedCount), JSBI.BigInt(myMLooStakedCount)).toString()
-                    : '--'
-                }
-              />
+              <GridItem title={'My NFT staked'} value={myStakedNFTCount.toString()} />
               <GridItem title={'Staked value'} value={'-- ETH'} />
               <GridItem
                 title={'Expected to earn (staked 7 days)'}
@@ -513,7 +515,7 @@ export const Staking = () => {
               />
               <GridItem title={'Halving date'} value={'2023-03-18'} />
               <Box display={'flex'} flexDirection="row-reverse" mt={'40px'}>
-                <ExternalLink href="">
+                <ExternalLink href="https://rinkeby.etherscan.io/address/0x4FE3040969B8B56D4Ca9dEcdEb4BDCeb352c5027">
                   <Box display={'flex'} gap="10px">
                     <Typography>View Contract</Typography>
                     <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">

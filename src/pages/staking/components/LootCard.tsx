@@ -3,7 +3,7 @@ import { useMemo } from 'react'
 import Progress from 'components/Progress'
 //import { useNFTInfo } from '../../../hooks/useNFT'
 import { LootType } from 'hooks/useNFTInfo'
-import { NFT, useNFTInfo } from '../../../hooks/useNFT'
+import { NFT } from '../../../hooks/useNFT'
 import { useStakingInfo } from '../../../hooks/useStaking'
 
 export const LootCardStyle = styled('div')<{ selected?: boolean; disabled: boolean }>(
@@ -71,19 +71,19 @@ export default function LootCard({
   selectedList: string[]
   toggleSelect: (id: string) => void
 }) {
-  const { tokenId, metaData } = nft
+  const { tokenId, metaData, isStaked, stakedEpochs } = nft
   const image = metaData?.image
   const name = metaData?.name
-  const { isStake, stakedEpochs } = useNFTInfo(nft.tokenId, type)
+  //const { stakedEpochs } = useNFTInfo(nft.tokenId, type)
   const { numEpochs } = useStakingInfo()
 
   const isSelected = useMemo(() => selectedList.includes(tokenId), [selectedList, tokenId])
 
   return (
     <LootCardStyle
-      disabled={isStake}
+      disabled={isStaked}
       onClick={() => {
-        !isStake && toggleSelect(tokenId)
+        !isStaked && toggleSelect(tokenId)
       }}
       selected={isSelected}
     >
@@ -92,7 +92,7 @@ export default function LootCard({
           <img alt={''} src={image} />
         </div>
         <p className={'loot-card-title'}>{name}</p>
-        <Progress val={stakedEpochs} total={parseInt(numEpochs)} />
+        <Progress val={parseInt(stakedEpochs ?? '0')} total={parseInt(numEpochs)} />
       </div>
     </LootCardStyle>
   )
