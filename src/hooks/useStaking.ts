@@ -71,11 +71,16 @@ export function useStaking() {
 }
 
 export function useStakingInfo() {
+  const { account } = useActiveWeb3React()
   const contract = useStakingContract()
   const currentEpoch = useSingleCallResult(contract, 'getCurrentEpoch').result
   const numEpochs = useSingleCallResult(contract, 'numEpochs').result
   const rewardPerEpoch = useSingleCallResult(contract, 'getTotalRewardPerEpoch').result
   const startTime = useSingleCallResult(contract, 'stakingStartTime').result
+  const myLooStakedCount = useSingleCallResult(contract, 'numLootStakedByAccount', [account ?? undefined]).result
+  const myMLooStakedCount = useSingleCallResult(contract, 'numMLootStakedByAccount', [account ?? undefined]).result
+  const claimedAGLD = useSingleCallResult(contract, 'claimByAccount', [account ?? undefined]).result
+
   const nextTime =
     currentEpoch?.[0] && startTime?.[0]
       ? JSBI.ADD(JSBI.BigInt(currentEpoch[0] * EPOCH_DURATION), JSBI.BigInt(startTime[0].toString()))
@@ -94,6 +99,9 @@ export function useStakingInfo() {
     numEpochs: numEpochs?.[0].toString() ?? '0',
     numLootStaked: numLootStaked?.[0].toString() ?? '0',
     numMLootStaked: numMLootStaked?.[0].toString() ?? '0',
+    myLooStakedCount: myLooStakedCount?.[0].toString() ?? '0',
+    myMLooStakedCount: myMLooStakedCount?.[0].toString() ?? '0',
+    claimedAGLD: claimedAGLD?.[0].toString() ?? '0',
     rewardPerEpoch: rewardPerEpoch ? CurrencyAmount.ether(rewardPerEpoch[0].toString()) : undefined,
     nextTime,
     totalReward:

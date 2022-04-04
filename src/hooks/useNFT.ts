@@ -21,6 +21,9 @@ export interface NFT {
 export function useNFTInfo(tokenId: string, lootType: LootType): NFTInfo {
   const contract = useStakingContract()
   const currentEpoch = useSingleCallResult(contract, 'getCurrentEpoch').result
+  const stakedEpoch = useSingleCallResult(contract, lootType === 'loot' ? 'numLootStakedById' : 'numMLootStakedById', [
+    tokenId
+  ]).result
   // const epochs = currentEpoch ? Array.from(new Array(parseInt(currentEpoch?.[0].toString()) + 2).keys()).slice(1) : []
   // console.log('currentEpoch', currentEpoch?.[0].toString(), epochs)
   // const args = tokenId
@@ -53,7 +56,7 @@ export function useNFTInfo(tokenId: string, lootType: LootType): NFTInfo {
   )
   const isStake = !!isStaked?.[0]
   const rewardAmount = reward && reward.result?.[0] ? CurrencyAmount.ether(reward.result?.[0].toString()) : undefined
-  return { isStake, reward: rewardAmount, stakedEpochs: 0 }
+  return { isStake, reward: rewardAmount, stakedEpochs: stakedEpoch?.[0] }
 }
 
 export function useMyNFTs(type: LootType): { loading: boolean; nfts: NFT[] } {

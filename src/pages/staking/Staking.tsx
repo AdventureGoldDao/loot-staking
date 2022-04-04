@@ -28,6 +28,7 @@ import useBreakpoint from 'hooks/useBreakpoint'
 import { Timer } from '../../components/Timer'
 import { NFTSkeleton } from '../../components/skeleton/NFTSkeleton'
 import { useProjectInfo } from '../../hooks/useOpensea'
+import JSBI from 'jsbi'
 
 const StakingWrapper = styled('div')(({ theme }) => ({
   display: 'flex',
@@ -162,7 +163,7 @@ export const Staking = () => {
   const myLoot = useMyNFTs('loot')
   const myLootM = useMyNFTs('mloot')
 
-  const { rewardPerEpoch, nextTime, totalReward } = useStakingInfo()
+  const { rewardPerEpoch, nextTime, totalReward, myLooStakedCount, myMLooStakedCount } = useStakingInfo()
 
   const { account, chainId } = useActiveWeb3React()
   const toggleWalletModal = useWalletModalToggle()
@@ -432,7 +433,14 @@ export const Staking = () => {
                   <Timer timer={Number(nextTime.toString()) * 1000} />
                 </Grid>
               </Grid>
-              <GridItem title={'My NFT staked'} value={''} />
+              <GridItem
+                title={'My NFT staked'}
+                value={
+                  myMLooStakedCount && myLooStakedCount
+                    ? JSBI.ADD(JSBI.BigInt(myLooStakedCount), JSBI.BigInt(myMLooStakedCount)).toString()
+                    : '--'
+                }
+              />
               <GridItem title={'Staked value'} value={'-- ETH'} />
               <GridItem
                 title={'Expected to earn (staked 7 days)'}
