@@ -15,10 +15,10 @@ export function useStaking() {
   const { account } = useActiveWeb3React()
 
   const signalLootStake = useCallback(
-    async (tokenID: string[]) => {
+    async (tokenIDs: string[]) => {
       if (!account) throw new Error('none account')
       if (!contract) throw new Error('none contract')
-      const args = tokenID
+      const args = tokenIDs
       console.log('🚀 ~ file: useStaking.ts ~ line 18 ~ args', args)
 
       return contract.estimateGas.signalLootStake(args, { from: account }).then(estimatedGasLimit => {
@@ -30,7 +30,7 @@ export function useStaking() {
           })
           .then((response: TransactionResponse) => {
             addTransaction(response, {
-              summary: 'Stake Loot'
+              summary: `Stake ${tokenIDs.length} Loot`
             })
             return response.hash
           })
@@ -40,10 +40,10 @@ export function useStaking() {
   )
 
   const signalLootMoreStake = useCallback(
-    async (tokenID: string[]) => {
+    async (tokenIDs: string[]) => {
       if (!account) throw new Error('none account')
       if (!contract) throw new Error('none contract')
-      const args = tokenID
+      const args = tokenIDs
       console.log('🚀 ~ file: useStaking.ts ~ line 43 ~ args', args)
 
       return contract.estimateGas.signalMLootStake(args, { from: account }).then(estimatedGasLimit => {
@@ -55,7 +55,7 @@ export function useStaking() {
           })
           .then((response: TransactionResponse) => {
             addTransaction(response, {
-              summary: 'Stake Loot more'
+              summary: `Stake ${tokenIDs.length} mLoot`
             })
             return response.hash
           })
@@ -85,6 +85,7 @@ export function useStakingInfo() {
     currentEpoch?.[0] && startTime?.[0]
       ? JSBI.ADD(JSBI.BigInt(currentEpoch[0] * EPOCH_DURATION), JSBI.BigInt(startTime[0].toString()))
       : JSBI.BigInt(0)
+
   const numLootStaked = useSingleCallResult(
     contract,
     'numLootStakedByEpoch',

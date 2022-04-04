@@ -61,7 +61,7 @@ export default function ClaimModal() {
   const claimLootCallback = useCallback(async () => {
     if (!selectList.length) return
     showModal(<TransactionPendingModal />)
-    onClaimLoot(selectList)
+    onClaimLoot(type, selectList)
       .then(() => {
         hideModal()
         showModal(<TransactionSubmittedModal />)
@@ -73,7 +73,7 @@ export default function ClaimModal() {
         )
         console.error(err)
       })
-  }, [hideModal, onClaimLoot, selectList, showModal])
+  }, [hideModal, onClaimLoot, selectList, showModal, type])
 
   const btn = useMemo(() => {
     if (!selectList.length) {
