@@ -7,6 +7,7 @@ import Button, { BlackButton } from 'components/Button/Button'
 import { NFT, useMyNFTs } from '../../hooks/useNFT'
 // import { useAccountLootIds } from 'hooks/useBlockVision'
 // import { useLootNFTDetail } from 'hooks/useNFTInfo'
+
 import { Box, ButtonBase, Grid, styled, Typography } from '@mui/material'
 import LootCard from './components/LootCard'
 import Spinner from 'components/Spinner'
@@ -26,6 +27,7 @@ import InfoModal from './components/InfoModal'
 import useBreakpoint from 'hooks/useBreakpoint'
 import { Timer } from '../../components/Timer'
 import { NFTSkeleton } from '../../components/skeleton/NFTSkeleton'
+import { useProjectInfo } from '../../hooks/useOpensea'
 
 const StakingWrapper = styled('div')(({ theme }) => ({
   display: 'flex',
@@ -154,6 +156,8 @@ function GridItem(props: { title?: string; value: string }) {
 
 export const Staking = () => {
   const matches = useBreakpoint('md')
+  const lootData = useProjectInfo('lootproject')
+  const mlootData = useProjectInfo('mloot-1')
 
   const myLoot = useMyNFTs('loot')
   const myLootM = useMyNFTs('mloot')
@@ -326,7 +330,18 @@ export const Staking = () => {
                   <img className={`column-header-data-icon`} src={icondamons} alt={'damons'} />
                   <i className={'column-header-data-text'}>60%</i>
                 </span>
-                <ButtonBase className={'column-header-more'} onClick={() => showModal(<InfoModal shared={'99.75'} />)}>
+                <ButtonBase
+                  className={'column-header-more'}
+                  onClick={() =>
+                    showModal(
+                      <InfoModal
+                        cap={lootData?.result?.totalSupply}
+                        price={lootData?.result?.floorPrice}
+                        shared={'99.75'}
+                      />
+                    )
+                  }
+                >
                   More
                 </ButtonBase>
               </span>
@@ -363,7 +378,18 @@ export const Staking = () => {
                   <img className={`column-header-data-icon`} src={icondamons} alt={'damons'} />
                   <i className={'column-header-data-text'}>60%</i>
                 </span>
-                <ButtonBase className={'column-header-more'} onClick={() => showModal(<InfoModal shared="0.025" />)}>
+                <ButtonBase
+                  className={'column-header-more'}
+                  onClick={() =>
+                    showModal(
+                      <InfoModal
+                        cap={mlootData?.result?.totalSupply}
+                        price={mlootData?.result?.floorPrice}
+                        shared="0.025"
+                      />
+                    )
+                  }
+                >
                   More
                 </ButtonBase>
               </span>

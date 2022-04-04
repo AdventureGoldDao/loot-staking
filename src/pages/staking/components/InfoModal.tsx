@@ -13,7 +13,15 @@ const Text = styled(Typography)({
   fontSize: '20px'
 })
 
-export default function InfoModal({ shared }: { shared: string }) {
+export default function InfoModal({
+  shared,
+  price,
+  cap
+}: {
+  shared: string
+  price: string | undefined
+  cap: string | undefined
+}) {
   return (
     <Modal closeIcon maxWidth="512px">
       <Box sx={{ padding: 40, color: '#fff' }}>
@@ -24,11 +32,11 @@ export default function InfoModal({ shared }: { shared: string }) {
         <Box display={'grid'} gap="24px">
           <FlexBetween>
             <Text>Floor price</Text>
-            <Text>1.6 ETH</Text>
+            <Text>{price} ETH</Text>
           </FlexBetween>
           <FlexBetween>
             <Text>Floor market cap</Text>
-            <Text>12,446.4 ETH</Text>
+            <Text>{(Number(price) * Number(cap)).toString()} ETH</Text>
           </FlexBetween>
           <FlexBetween>
             <Text>Reward share</Text>
@@ -36,11 +44,11 @@ export default function InfoModal({ shared }: { shared: string }) {
           </FlexBetween>
           <FlexBetween>
             <Text>Total staked</Text>
-            <Text>1.6 ETH</Text>
+            <Text>--</Text>
           </FlexBetween>
           <FlexBetween>
             <Text>Stake value</Text>
-            <Text>1.6 ETH</Text>
+            <Text>-- ETH</Text>
           </FlexBetween>
         </Box>
         <Box mt={48} display="flex" justifyContent={'space-around'}>
