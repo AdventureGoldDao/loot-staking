@@ -32,7 +32,7 @@ export function useProjectInfo(project: string | undefined) {
           console.error('useAccountERC721Ids~ error', err)
         })
     })()
-  }, [])
+  }, [project])
 
   return { loading, result }
 }
