@@ -77,7 +77,7 @@ const StyledAppBar = styled(AppBar)(({ theme }) => ({
     }
   },
   [theme.breakpoints.down('lg')]: {
-    padding: '0 24px 0 0!important'
+    padding: '0 24px 0 24px!important'
   },
   [theme.breakpoints.down('md')]: {
     position: 'fixed'
@@ -108,7 +108,7 @@ const MainLogo = styled(NavLink)(({ theme }) => ({
   '&:hover': {
     cursor: 'pointer'
   },
-  [theme.breakpoints.down('md')]: {
+  [theme.breakpoints.down('sm')]: {
     width: 'fit-content',
     '& img': { height: '11px', width: 'fit-content' }
     // marginBottom: -10
@@ -243,9 +243,13 @@ export default function Header() {
                 setMobileMenuOpen(open => !open)
               }}
             >
-              <svg width="14" height="8" viewBox="0 0 14 8" fill="none" stroke="#fff">
-                <path d="M1 1H13" strokeWidth="1.4" strokeLinecap="round" />
-                <path d="M1 7H13" strokeWidth="1.4" strokeLinecap="round" />
+              <svg width="19" height="12" viewBox="0 0 19 12" fill="none">
+                <path
+                  fillRule="evenodd"
+                  clipRule="evenodd"
+                  d="M1 0C0.447715 0 0 0.447715 0 1C0 1.55228 0.447715 2 1 2H18C18.5523 2 19 1.55228 19 1C19 0.447715 18.5523 0 18 0H1ZM1 10C0.447715 10 0 10.4477 0 11C0 11.5523 0.447715 12 1 12H18C18.5523 12 19 11.5523 19 11C19 10.4477 18.5523 10 18 10H1Z"
+                  fill="white"
+                />
               </svg>
             </IconButton>
           </ShowOnMobile>

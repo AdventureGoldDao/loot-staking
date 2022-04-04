@@ -70,9 +70,6 @@ export function BlackButton({ style, ...props }: Props) {
         backgroundColor: 'rgba(0,0,0,0)',
         border: `2px solid ${theme.palette.text.primary}`,
         color: theme.palette.text.primary,
-        padding: '12px 24px',
-        width: 'auto',
-        height: 'auto',
         '&:hover': {
           background: theme.palette.text.primary,
           color: theme.palette.background.paper
