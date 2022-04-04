@@ -20,7 +20,7 @@ const ContentWrapper = styled('div')({
   alignItems: 'center'
 })
 
-const BodyWrapper = styled('div')(({ theme }) => ({
+export const BodyWrapper = styled('div')(({ theme }) => ({
   display: 'flex',
   flexDirection: 'column',
   width: '100%',
@@ -34,6 +34,22 @@ const BodyWrapper = styled('div')(({ theme }) => ({
   position: 'relative',
   [theme.breakpoints.down('md')]: {
     minHeight: `calc(100vh - ${theme.height.header} - ${theme.height.mobileHeader})`,
+    paddingTop: 20
+  }
+}))
+
+export const NFTWrapper = styled('div')(({ theme }) => ({
+  display: 'flex',
+  flexDirection: 'column',
+  width: '100%',
+  padding: '10px 0 10px',
+  justifyContent: 'center',
+  alignItems: 'center',
+  flex: 1,
+  overflowY: 'auto',
+  overflowX: 'hidden',
+  position: 'relative',
+  [theme.breakpoints.down('md')]: {
     paddingTop: 20
   }
 }))

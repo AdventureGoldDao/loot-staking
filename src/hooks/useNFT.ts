@@ -15,6 +15,7 @@ interface NFTInfo {
 export interface NFT {
   tokenId: string
   reward: CurrencyAmount | undefined
+  metaData: { name: string; description: string; image: string } | undefined
 }
 
 export function useNFTInfo(tokenId: string, lootType: LootType): NFTInfo {
@@ -38,6 +39,7 @@ export function useNFTInfo(tokenId: string, lootType: LootType): NFTInfo {
   // })
 
   //const stakedTime = stakedEpochs.length * EPOCH_DURATION
+
   const arg = tokenId && currentEpoch?.[0] ? [parseInt(currentEpoch[0].toString()) + 1, tokenId] : [undefined]
   const isStaked = useSingleCallResult(
     contract,
@@ -74,6 +76,8 @@ export function useMyNFTs(type: LootType): { loading: boolean; nfts: NFT[] } {
       return [result?.[0].toString()]
     })
 
+  const urls = useSingleContractMultipleData(contract, 'tokenURI', idArgs)
+
   const rewards = useSingleContractMultipleData(
     stakingContract,
     type === 'loot' ? 'getClaimableRewardsForLootBag' : 'getClaimableRewardsForMLootBag',
@@ -84,11 +88,16 @@ export function useMyNFTs(type: LootType): { loading: boolean; nfts: NFT[] } {
     return {
       loading: count.loading,
       nfts: nftIds.map(({ result }, index) => {
+        const reward = rewards[index]?.result
+        const url = urls[index]?.result
         return {
           tokenId: result?.[0].toString(),
-          reward: rewards[index]?.result ? CurrencyAmount.ether(rewards[index]?.result?.[0].toString()) : undefined
+          reward: reward ? CurrencyAmount.ether(reward?.[0].toString()) : undefined,
+          metaData: url
+            ? JSON.parse(window.atob(url?.[0].toString().replace(/^data:application\/json;base64,/, '')))
+            : undefined
         }
       })
     }
-  }, [count.loading, nftIds, rewards])
+  }, [count.loading, nftIds, rewards, urls])
 }

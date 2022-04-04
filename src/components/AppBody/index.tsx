@@ -1,6 +1,7 @@
 import React from 'react'
 import { styled } from '@mui/material/styles'
 import { CloseIcon } from 'theme/components'
+import { NFTWrapper } from '../../pages/Layout'
 
 const Root = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -39,4 +40,17 @@ export default function AppBody(props: Props) {
       {children}
     </Root>
   )
+}
+
+export function SubAppBody({
+  children,
+  style
+}: {
+  children: React.ReactNode
+  style?: any
+  maxWidth?: string
+  gradient1?: boolean
+  isCard?: boolean
+}) {
+  return <NFTWrapper style={style}>{children}</NFTWrapper>
 }

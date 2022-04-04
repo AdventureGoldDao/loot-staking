@@ -25,6 +25,7 @@ import ClaimModal from './components/ClaimModal'
 import InfoModal from './components/InfoModal'
 import useBreakpoint from 'hooks/useBreakpoint'
 import { Timer } from '../../components/Timer'
+import { NFTSkeleton } from '../../components/skeleton/NFTSkeleton'
 
 const StakingWrapper = styled('div')(({ theme }) => ({
   display: 'flex',
@@ -484,15 +485,13 @@ function ShowNFTList({
       gridTemplateColumns={'1fr 1fr'}
       columnGap={50}
     >
-      {nfts.map(({ tokenId }) => (
-        <LootCard
-          key={tokenId}
-          tokenId={tokenId}
-          type={type}
-          selectedList={selectedList}
-          toggleSelect={toggleSelect}
-        ></LootCard>
-      ))}
+      {nfts.map(nft => {
+        return nft.metaData ? (
+          <LootCard key={nft.tokenId} nft={nft} type={type} selectedList={selectedList} toggleSelect={toggleSelect} />
+        ) : (
+          <NFTSkeleton />
+        )
+      })}
     </Box>
   )
 }
