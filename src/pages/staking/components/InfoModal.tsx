@@ -18,13 +18,15 @@ export default function InfoModal({
   price,
   cap,
   openseaUrl,
-  address
+  address,
+  totalStaked
 }: {
   shared: string
   price: string | undefined
   cap: string | undefined
   openseaUrl: string
   address: string
+  totalStaked: string | undefined
 }) {
   return (
     <Modal closeIcon maxWidth="512px">
@@ -48,11 +50,11 @@ export default function InfoModal({
           </FlexBetween>
           <FlexBetween>
             <Text>Total staked</Text>
-            <Text>--</Text>
+            <Text>{totalStaked ?? '--'}</Text>
           </FlexBetween>
           <FlexBetween>
             <Text>Stake value</Text>
-            <Text>-- ETH</Text>
+            <Text>{totalStaked && price ? Number(totalStaked) * Number(price) : '--'} ETH</Text>
           </FlexBetween>
         </Box>
         <Box mt={48} display="flex" justifyContent={'space-around'}>
