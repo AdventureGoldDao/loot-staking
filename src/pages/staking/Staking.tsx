@@ -335,6 +335,8 @@ export const Staking = () => {
                   onClick={() =>
                     showModal(
                       <InfoModal
+                        openseaUrl={'https://opensea.io/collection/lootproject'}
+                        address={'https://rinkeby.etherscan.io/address/0x84e3547f63ad6e5a1c4fe82594977525c764f0e8'}
                         cap={lootData?.result?.totalSupply}
                         price={lootData?.result?.floorPrice}
                         shared={'99.75'}
@@ -383,6 +385,8 @@ export const Staking = () => {
                   onClick={() =>
                     showModal(
                       <InfoModal
+                        openseaUrl={'https://opensea.io/collection/mloot-1'}
+                        address={'https://rinkeby.etherscan.io/address/0xd991eafe6b2d36f786365e0ceb3b6dbe61097c90 '}
                         cap={mlootData?.result?.totalSupply}
                         price={mlootData?.result?.floorPrice}
                         shared="0.025"

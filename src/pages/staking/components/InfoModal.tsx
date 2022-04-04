@@ -16,11 +16,15 @@ const Text = styled(Typography)({
 export default function InfoModal({
   shared,
   price,
-  cap
+  cap,
+  openseaUrl,
+  address
 }: {
   shared: string
   price: string | undefined
   cap: string | undefined
+  openseaUrl: string
+  address: string
 }) {
   return (
     <Modal closeIcon maxWidth="512px">
@@ -52,10 +56,10 @@ export default function InfoModal({
           </FlexBetween>
         </Box>
         <Box mt={48} display="flex" justifyContent={'space-around'}>
-          <OutlineButton width={'152px'} height="48px" primary onClick={() => window.open('/')}>
+          <OutlineButton width={'152px'} height="48px" primary onClick={() => window.open(openseaUrl)}>
             View at Opensea
           </OutlineButton>
-          <OutlineButton width={'152px'} height="48px" primary onClick={() => window.open('/')}>
+          <OutlineButton width={'152px'} height="48px" primary onClick={() => window.open(address)}>
             View Contract
           </OutlineButton>
         </Box>
