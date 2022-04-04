@@ -8,7 +8,7 @@ const StyledLinearProgress = styled(LinearProgress)(({ theme }) => ({
   },
   [`& .${linearProgressClasses.bar}`]: {
     borderRadius: 5,
-    backgroundColor: theme.palette.primary.main
+    backgroundColor: theme.palette.text.primary
   }
 }))
 
@@ -16,7 +16,7 @@ export default function Progress({ val, total }: { val: number; total: number })
   const value = (val / total) * 100
   return (
     <Box sx={{ width: '100%' }}>
-      <StyledLinearProgress variant="determinate" value={value} sx={{ width: '100%', height: { xs: 4, md: 10 } }} />
+      <StyledLinearProgress variant="determinate" value={value} sx={{ width: '100%', height: { xs: 4, md: 7 } }} />
       <Box color={'#B7B7B7'} marginTop={5} fontSize={14} display={'flex'} justifyContent={'space-between'}>
         <Typography fontSize={12}>{`Staked epoch`}</Typography>
         <Typography fontSize={12} sx={{ textAlign: 'right' }}>{`${val}/${total}`}</Typography>

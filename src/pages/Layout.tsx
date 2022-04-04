@@ -25,7 +25,6 @@ const BodyWrapper = styled('div')(({ theme }) => ({
   flexDirection: 'column',
   width: '100%',
   minHeight: `calc(100vh - ${theme.height.header} - ${theme.height.footer})`,
-  padding: '50px 0 80px',
   justifyContent: 'center',
   alignItems: 'center',
   flex: 1,

@@ -84,7 +84,7 @@ const StyledAppBar = styled(AppBar)(({ theme }) => ({
   },
   [theme.breakpoints.down('sm')]: {
     height: theme.height.mobileHeader,
-    padding: '0 20px!important'
+    padding: '0 30px!important'
   }
 }))
 

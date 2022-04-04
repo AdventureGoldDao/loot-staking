@@ -39,9 +39,6 @@ const StakingWrapper = styled('div')(({ theme }) => ({
   overflowY: 'auto',
   overflowX: 'hidden',
   position: 'relative',
-  '.staking-ntf-box': {
-    position: 'resolve'
-  },
   '.staking-ntf-box-title': {
     width: 486,
     height: 50
@@ -49,11 +46,6 @@ const StakingWrapper = styled('div')(({ theme }) => ({
   '.staking-ntf-box-desc': {
     color: '#B7B7B7',
     marginTop: 0
-  },
-  '.staking-ntf-box-icon': {
-    top: 40,
-    position: 'absolute',
-    right: '0'
   },
   '#main-box': {
     marginTop: 70
@@ -231,7 +223,7 @@ export const Staking = () => {
   const stakeLootBtn = useMemo(() => {
     if (!account)
       return (
-        <Button onClick={toggleWalletModal} width={matches ? '60px' : '205px'} borderRadius="10px" height="30px">
+        <Button onClick={toggleWalletModal} width={matches ? '150px' : '205px'} borderRadius="10px" height="30px">
           Connect Wallet
         </Button>
       )
@@ -251,7 +243,7 @@ export const Staking = () => {
   const stakeLootMoreBtn = useMemo(() => {
     if (!account)
       return (
-        <Button onClick={toggleWalletModal} width={matches ? '60px' : '205px'} borderRadius="10px" height="30px">
+        <Button onClick={toggleWalletModal} width={matches ? '150px' : '205px'} borderRadius="10px" height="30px">
           Connect Wallet
         </Button>
       )
@@ -275,33 +267,39 @@ export const Staking = () => {
         sx={{
           padding: { xs: '28px 0px 40px 0px', md: '0 0 40px 0' },
           margin: { xs: '0 41px 0 40px', md: '0' },
-          borderBottom: '3px solid #253A27'
+          borderBottom: '3px solid #253A27',
+          display: 'flex',
+          justifyContent: 'space-between'
         }}
       >
-        <Box
-          component="img"
-          src={stakingntftitle}
-          sx={{
-            width: { xs: '280px', md: '486px' },
-            height: { xs: '29px', md: '50px' }
-          }}
-          alt={'Staking NFT to get rewards'}
-        />
-        <p className={'staking-ntf-box-desc'}>Receive earning by signing in every week</p>
-        <BlackButton
-          borderRadius={matches ? '16px' : '10px'}
-          width={matches ? '111px' : '134px'}
-          height={matches ? '32px' : '47px'}
-          fontSize={matches ? '12px' : '16px'}
-        >
-          Learn More
-        </BlackButton>
+        <Box>
+          <Box
+            component="img"
+            src={stakingntftitle}
+            sx={{
+              width: { xs: '280px', md: '486px' },
+              height: { xs: '29px', md: '50px' }
+            }}
+            alt={'Staking NFT to get rewards'}
+          />
+          <p className={'staking-ntf-box-desc'}>Receive earning by signing in every week</p>
+          <BlackButton
+            borderRadius={matches ? '16px' : '10px'}
+            width={matches ? '111px' : '134px'}
+            height={matches ? '32px' : '47px'}
+            fontSize={matches ? '12px' : '16px'}
+          >
+            Learn More
+          </BlackButton>
+        </Box>
+
         <Box
           component="img"
           src={iconmaster}
           className={'staking-ntf-box-icon'}
           sx={{
-            display: { xs: 'none', md: 'inline' }
+            display: { xs: 'none', md: 'inline' },
+            marginRight: { xs: '0', md: '173px' }
           }}
           alt={'Staking NFT to get rewards'}
         />
@@ -331,7 +329,7 @@ export const Staking = () => {
                   <i className={'column-header-data-text'}>60%</i>
                 </span>
                 <ButtonBase className={'column-header-more'} onClick={() => showModal(<InfoModal />)}>
-                  More
+                  Info
                 </ButtonBase>
               </span>
             </Box>
@@ -368,7 +366,7 @@ export const Staking = () => {
                   <i className={'column-header-data-text'}>60%</i>
                 </span>
                 <ButtonBase className={'column-header-more'} onClick={() => showModal(<InfoModal />)}>
-                  More
+                  Info
                 </ButtonBase>
               </span>
             </Box>

@@ -110,10 +110,12 @@ function Web3StatusInner() {
   } else {
     return (
       <ActionButton
-        width={isDownSm ? '128px' : '140px'}
-        height={isDownSm ? '28px' : '36px'}
+        width={isDownSm ? '128px' : '160px'}
+        height={isDownSm ? '28px' : '56px'}
+        borderRadius={'16px'}
         fontSize={isDownSm ? '12px' : '14px'}
         onClick={toggleWalletModal}
+        style={{ border: '3px solid #000' }}
       >
         Connect Wallet
       </ActionButton>
