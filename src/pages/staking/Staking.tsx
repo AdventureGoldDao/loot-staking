@@ -29,6 +29,7 @@ import { Timer } from '../../components/Timer'
 import { NFTSkeleton } from '../../components/skeleton/NFTSkeleton'
 import { useProjectInfo } from '../../hooks/useOpensea'
 import JSBI from 'jsbi'
+import { CurrencyAmount } from '../../constants/token'
 
 const StakingWrapper = styled('div')(({ theme }) => ({
   display: 'flex',
@@ -159,7 +160,7 @@ export const Staking = () => {
   const matches = useBreakpoint('md')
   const lootData = useProjectInfo('lootproject')
   const mlootData = useProjectInfo('mloot-1')
-
+  const { claimedAGLD } = useStakingInfo()
   const myLoot = useMyNFTs('loot')
   const myLootM = useMyNFTs('mloot')
 
@@ -167,6 +168,32 @@ export const Staking = () => {
 
   const { account, chainId } = useActiveWeb3React()
   const toggleWalletModal = useWalletModalToggle()
+
+  const unClaimRewards = useMemo(() => {
+    const lootReward = myLoot.nfts.map(({ reward }) => {
+      return reward
+    })
+    const mlootReward = myLootM.nfts.map(({ reward }) => {
+      return reward
+    })
+
+    const lootRewardsCurrency =
+      lootReward.length !== 0
+        ? lootReward.reduce((previousValue, currentValue) => {
+            return previousValue && currentValue ? previousValue.add(currentValue) : undefined
+          })
+        : CurrencyAmount.ether('0')
+    const mlootRewardsCurrency =
+      mlootReward.length !== 0
+        ? mlootReward.reduce((previousValue, currentValue) => {
+            return previousValue && currentValue ? previousValue.add(currentValue) : undefined
+          })
+        : CurrencyAmount.ether('0')
+
+    return lootRewardsCurrency && mlootRewardsCurrency
+      ? lootRewardsCurrency.add(mlootRewardsCurrency)
+      : CurrencyAmount.ether('0')
+  }, [myLoot.nfts, myLootM.nfts])
 
   const [selectedLootNFT, setSelectedLootNFT] = useState<string[]>([])
   const toggleSelectLoot = useCallback(
@@ -447,9 +474,14 @@ export const Staking = () => {
                 value={`${rewardPerEpoch ? rewardPerEpoch.toSignificant(6, { groupSeparator: ',' }) : '--'} AGLD`}
               />
               <div className="column-item-footer">
-                <GridItem title={'AGLD earned'} value={'-- AGLD'}></GridItem>
+                <GridItem
+                  title={'AGLD earned'}
+                  value={`${unClaimRewards
+                    .add(CurrencyAmount.ether(claimedAGLD.toString()))
+                    .toSignificant(6, { groupSeparator: ',' })} AGLD}`}
+                />
                 <Grid className={'grid-item-box earned-item-box'} container>
-                  <Grid className={'grid-item-title'} item xs={4}></Grid>
+                  <Grid className={'grid-item-title'} item xs={4} />
                   <Grid className={'grid-item-value earned-item-value'} item xs={8}>
                     ≈$ --
                   </Grid>
@@ -527,7 +559,7 @@ function ShowNFTList({
         return nft.metaData ? (
           <LootCard key={nft.tokenId} nft={nft} type={type} selectedList={selectedList} toggleSelect={toggleSelect} />
         ) : (
-          <NFTSkeleton />
+          <NFTSkeleton key={nft.tokenId} />
         )
       })}
     </Box>

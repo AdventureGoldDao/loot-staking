@@ -16,7 +16,6 @@ export function useClaim() {
       if (!contract) throw new Error('none contract')
       const args = tokenIDs
       console.log('🚀 ~ file: useCreateOrderCallback.ts ~ line 18 ~ useCreateOrderCallback ~ args', args)
-      console.log('tokenid', tokenIDs)
       return contract.estimateGas.claimLootRewards(args, { from: account }).then(estimatedGasLimit => {
         return contract
           .claimLootRewards(args, {

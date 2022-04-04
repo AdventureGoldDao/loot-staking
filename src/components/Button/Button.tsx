@@ -62,7 +62,6 @@ export default function Button(props: Props) {
 
 export function BlackButton({ style, ...props }: Props) {
   const theme = useTheme()
-  console.log(style)
   return (
     <Button
       {...props}

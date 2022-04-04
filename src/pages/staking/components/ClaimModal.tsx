@@ -104,15 +104,7 @@ export default function ClaimModal() {
           return previousValue && currentValue ? previousValue.add(currentValue) : undefined
         })
       : undefined
-    // return selectNFTs.reduce((previousValue, currentValue) => {
-    //   return {
-    //     tokenId: '0',
-    //     reward:
-    //       previousValue?.reward && currentValue?.reward ? previousValue?.reward.add(currentValue?.reward) : undefined
-    //   }
-    // })
   }, [myLoot, myMLoot, selectList, type])
-  console.log('totalRewards', totalRewards?.toSignificant())
   return (
     <Modal closeIcon maxWidth="512px">
       <Box sx={{ padding: 40, color: '#fff' }}>
@@ -160,7 +152,7 @@ export default function ClaimModal() {
 
         <Box display={'grid'} gap="15px" justifyItems={'center'}>
           <Typography textAlign={'center'} fontSize={16}>
-            AGLD earned : {totalRewards ? totalRewards.toSignificant() : '--'}
+            AGLD Claim : {totalRewards ? totalRewards.toSignificant() : '--'}
           </Typography>
           {btn}
           <Typography color="#FF5530" sx={{ opacity: selectList.length ? 0 : 1 }} textAlign={'center'}>
