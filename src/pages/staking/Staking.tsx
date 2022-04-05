@@ -494,7 +494,7 @@ export const Staking = () => {
                   <Button
                     width={matches ? '253px' : `280px`}
                     height={matches ? '32px' : `48px`}
-                    onClick={() => showModal(<ClaimModal />)}
+                    onClick={() => showModal(<ClaimModal lootList={myLoot.nfts} mlootList={myLootM.nfts} />)}
                   >
                     Claim
                   </Button>
@@ -559,11 +559,11 @@ function ShowNFTList({
       gridTemplateColumns={'1fr 1fr'}
       columnGap={50}
     >
-      {nfts.map(nft => {
+      {nfts.map((nft, index) => {
         return nft.metaData ? (
           <LootCard key={nft.tokenId} nft={nft} type={type} selectedList={selectedList} toggleSelect={toggleSelect} />
         ) : (
-          <NFTSkeleton key={nft.tokenId} />
+          <NFTSkeleton key={index} />
         )
       })}
     </Box>
