@@ -100,12 +100,15 @@
     "@emotion/styled": "^11.3.0",
     "@mui/icons-material": "^5.0.5",
     "@mui/material": "^5.0.6",
+    "@types/rebass": "^4.0.10",
     "@types/styled-components": "^5.1.24",
+    "api": "^4.2.1",
     "axios": "^0.24.0",
     "big.js": "^6.1.1",
     "dayjs": "^1.10.8",
     "decimal.js-light": "^2.5.1",
     "jsbi": "^4.0.0",
+    "rebass": "^4.0.7",
     "styled-components": "^5.3.5",
     "toformat": "^2.0.0"
   }

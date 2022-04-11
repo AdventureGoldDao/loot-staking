@@ -4,6 +4,7 @@ import { useCallback } from 'react'
 import { useTransactionAdder } from '../state/transactions/hooks'
 import { useActiveWeb3React } from '.'
 import { useStakingContract } from './useContract'
+import { LootType } from './useNFTInfo'
 
 export function useClaim() {
   const addTransaction = useTransactionAdder()
@@ -11,13 +12,13 @@ export function useClaim() {
   const { account } = useActiveWeb3React()
 
   const onClaimLoot = useCallback(
-    async (tokenIDs: string[]) => {
+    async (lootType: LootType, tokenIDs: string[]) => {
       if (!account) throw new Error('none account')
       if (!contract) throw new Error('none contract')
       const args = tokenIDs
+      const func = lootType === 'loot' ? 'claimLootRewards' : 'claimMLootRewards'
       console.log('🚀 ~ file: useCreateOrderCallback.ts ~ line 18 ~ useCreateOrderCallback ~ args', args)
-      console.log('tokenid', tokenIDs)
-      return contract.estimateGas.claimLootRewards(args, { from: account }).then(estimatedGasLimit => {
+      return contract.estimateGas[func](args, { from: account }).then(estimatedGasLimit => {
         return contract
           .claimLootRewards(args, {
             gasLimit: calculateGasMargin(estimatedGasLimit),
@@ -26,7 +27,7 @@ export function useClaim() {
           })
           .then((response: TransactionResponse) => {
             addTransaction(response, {
-              summary: 'Staking'
+              summary: 'Claim AGLD'
             })
             return response.hash
           })

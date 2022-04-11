@@ -18,13 +18,17 @@ import MessageBox from 'components/Modal/TransactionModals/MessageBox'
 import TransactionPendingModal from 'components/Modal/TransactionModals/TransactionPendingModal'
 import TransactionSubmittedModal from 'components/Modal/TransactionModals/TransactiontionSubmittedModal'
 import useModal from 'hooks/useModal'
-import { useStaking } from 'hooks/useStaking'
+import { useStaking, useStakingInfo } from 'hooks/useStaking'
 import { useWalletModalToggle } from 'state/application/hooks'
 import { ExternalLink } from 'theme/components'
 import ClaimModal from './components/ClaimModal'
 import InfoModal from './components/InfoModal'
 import useBreakpoint from 'hooks/useBreakpoint'
 import { HideOnMobile, ShowOnMobile } from 'theme'
+import { Timer } from '../../components/Timer'
+import { NFTSkeleton } from '../../components/skeleton/NFTSkeleton'
+import { useProjectInfo } from '../../hooks/useOpensea'
+import { CurrencyAmount } from '../../constants/token'
 
 const StakingWrapper = styled('div')(({ theme }) => ({
   display: 'flex',
@@ -147,10 +151,52 @@ export const Staking = () => {
   const matches = useBreakpoint('md')
   const [isExtraVisible, setIsExtraVisible] = useState<boolean>(false)
 
+  const lootData = useProjectInfo('lootproject')
+  const mlootData = useProjectInfo('mloot-1')
+  const { claimedAGLD, numLootStaked, numMLootStaked, totalReward } = useStakingInfo()
   const myLoot = useMyNFTs('loot')
   const myLootM = useMyNFTs('mloot')
+
+  const { rewardPerEpoch, nextTime } = useStakingInfo()
+
   const { account, chainId } = useActiveWeb3React()
   const toggleWalletModal = useWalletModalToggle()
+
+  const myStakedNFTCount = useMemo(() => {
+    const lootCount = myLoot.nfts.filter(({ isStaked }) => {
+      return isStaked
+    })
+    const mlootCount = myLootM.nfts.filter(({ isStaked }) => {
+      return isStaked
+    })
+    return lootCount.length + mlootCount.length
+  }, [myLoot.nfts, myLootM.nfts])
+
+  const unClaimRewards = useMemo(() => {
+    const lootReward = myLoot.nfts.map(({ reward }) => {
+      return reward
+    })
+    const mlootReward = myLootM.nfts.map(({ reward }) => {
+      return reward
+    })
+
+    const lootRewardsCurrency =
+      lootReward.length !== 0
+        ? lootReward.reduce((previousValue, currentValue) => {
+            return previousValue && currentValue ? previousValue.add(currentValue) : undefined
+          })
+        : CurrencyAmount.ether('0')
+    const mlootRewardsCurrency =
+      mlootReward.length !== 0
+        ? mlootReward.reduce((previousValue, currentValue) => {
+            return previousValue && currentValue ? previousValue.add(currentValue) : undefined
+          })
+        : CurrencyAmount.ether('0')
+
+    return lootRewardsCurrency && mlootRewardsCurrency
+      ? lootRewardsCurrency.add(mlootRewardsCurrency)
+      : CurrencyAmount.ether('0')
+  }, [myLoot.nfts, myLootM.nfts])
 
   const [selectedLootNFT, setSelectedLootNFT] = useState<string[]>([])
   const toggleSelectLoot = useCallback(
@@ -328,7 +374,21 @@ export const Staking = () => {
                   <img className={`column-header-data-icon`} src={icondamons} alt={'damons'} />
                   <i className={'column-header-data-text'}>60%</i>
                 </span>
-                <ButtonBase className={'column-header-more'} onClick={() => showModal(<InfoModal />)}>
+                <ButtonBase
+                  className={'column-header-more'}
+                  onClick={() =>
+                    showModal(
+                      <InfoModal
+                        totalStaked={numLootStaked}
+                        openseaUrl={'https://opensea.io/collection/lootproject'}
+                        address={'https://rinkeby.etherscan.io/address/0x84e3547f63ad6e5a1c4fe82594977525c764f0e8'}
+                        cap={lootData?.result?.totalSupply}
+                        price={lootData?.result?.floorPrice}
+                        shared={'99.75'}
+                      />
+                    )
+                  }
+                >
                   Info
                 </ButtonBase>
               </span>
@@ -365,7 +425,21 @@ export const Staking = () => {
                   <img className={`column-header-data-icon`} src={icondamons} alt={'damons'} />
                   <i className={'column-header-data-text'}>60%</i>
                 </span>
-                <ButtonBase className={'column-header-more'} onClick={() => showModal(<InfoModal />)}>
+                <ButtonBase
+                  className={'column-header-more'}
+                  onClick={() =>
+                    showModal(
+                      <InfoModal
+                        totalStaked={numMLootStaked}
+                        openseaUrl={'https://opensea.io/collection/mloot-1'}
+                        address={'https://rinkeby.etherscan.io/address/0xd991eafe6b2d36f786365e0ceb3b6dbe61097c90 '}
+                        cap={mlootData?.result?.totalSupply}
+                        price={mlootData?.result?.floorPrice}
+                        shared="0.025"
+                      />
+                    )
+                  }
+                >
                   Info
                 </ButtonBase>
               </span>
@@ -396,16 +470,31 @@ export const Staking = () => {
         <Box /* className={'column-content'} */ sx={{ width: '100%', maxWidth: '508px' }}>
           <Box display="grid" gap="20px">
             <Box className={'column-item-box'} sx={{ padding: { xs: '50px 21px 44px 20px', md: '50px 40px' } }}>
-              <GridItem title={'Time to reward'} value={'01d 23h 22m 12s'}></GridItem>
-              <GridItem title={'My NFT staked'} value={'5'}></GridItem>
-              <GridItem title={'Staked value'} value={'13.3 ETH'}></GridItem>
-              <GridItem title={'Expected to earn (staked 7 days)'} value={'20.33 AGLD'}></GridItem>
+              <Grid className={'grid-item-box'} container>
+                <Grid className={'grid-item-title'} item xs={4}>
+                  Time to reward
+                </Grid>
+                <Grid className={'grid-item-value'} item xs={8}>
+                  <Timer timer={Number(nextTime.toString()) * 1000} />
+                </Grid>
+              </Grid>
+              <GridItem title={'My NFT staked'} value={myStakedNFTCount.toString()} />
+              <GridItem title={'Staked value'} value={'-- ETH'} />
+              <GridItem
+                title={'Expected to earn (staked 7 days)'}
+                value={`${rewardPerEpoch ? rewardPerEpoch.toSignificant(6, { groupSeparator: ',' }) : '--'} AGLD`}
+              />
               <div className="column-item-footer">
-                <GridItem title={'AGLD earned'} value={'100.33 AGLD'}></GridItem>
+                <GridItem
+                  title={'AGLD earned'}
+                  value={`${unClaimRewards
+                    .add(CurrencyAmount.ether(claimedAGLD.toString()))
+                    .toSignificant(6, { groupSeparator: ',' })} AGLD}`}
+                />
                 <Grid className={'grid-item-box earned-item-box'} container>
-                  <Grid className={'grid-item-title'} item xs={4}></Grid>
+                  <Grid className={'grid-item-title'} item xs={4} />
                   <Grid className={'grid-item-value earned-item-value'} item xs={8}>
-                    ≈$130
+                    ≈$ --
                   </Grid>
                 </Grid>
 
@@ -416,7 +505,7 @@ export const Staking = () => {
                     style={{
                       fontSize: matches ? '12px' : '16px'
                     }}
-                    onClick={() => showModal(<ClaimModal />)}
+                    onClick={() => showModal(<ClaimModal lootList={myLoot.nfts} mlootList={myLootM.nfts} />)}
                   >
                     Claim
                   </Button>
@@ -426,11 +515,20 @@ export const Staking = () => {
               <ShowOnMobile>
                 <Collapse in={isExtraVisible}>
                   <Box sx={{ marginTop: '56px', marginBottom: '30px' }}>
-                    <GridItem title={'Reward settlement time'} value={'2022-03-18 00:00:00 (UTC)'}></GridItem>
-                    <GridItem title={'Current rewards'} value={'153,846.15 AGLD'}></GridItem>
-                    <GridItem title={'Total staked NFT value'} value={'54.4 ETH'}></GridItem>
-                    <GridItem title={'Cumulative rewards'} value={'2,153,846.15 AGLD'}></GridItem>
-                    <GridItem title={'Halving date'} value={'2023-03-18'}></GridItem>
+                    <GridItem title={'Reward settlement time'} value={'2022-03-18 00:00:00 (UTC)'} />
+                    <GridItem
+                      title={'Current rewards'}
+                      value={`${rewardPerEpoch ? rewardPerEpoch.toSignificant() : '--'} AGLD`}
+                    />
+                    <GridItem
+                      title={'Total staked NFT value'}
+                      value={`${totalReward.toSignificant(6, { groupSeparator: ',' }) ?? '--'} AGLD`}
+                    />
+                    <GridItem
+                      title={'Cumulative rewards'}
+                      value={`${totalReward.toSignificant(6, { groupSeparator: ',' }) ?? '--'} AGLD`}
+                    />
+                    <GridItem title={'Halving date'} value={'2023-03-18'} />
                     <Box display={'flex'} flexDirection="row-reverse" mt={'40px'}>
                       <ExternalLink href="">
                         <Box display={'flex'} gap="10px">
@@ -526,15 +624,13 @@ function ShowNFTList({
       gridTemplateColumns={'1fr 1fr'}
       columnGap={50}
     >
-      {nfts.map(({ tokenId }) => (
-        <LootCard
-          key={tokenId}
-          tokenId={tokenId}
-          type={type}
-          selectedList={selectedList}
-          toggleSelect={toggleSelect}
-        ></LootCard>
-      ))}
+      {nfts.map((nft, index) => {
+        return nft.metaData ? (
+          <LootCard key={nft.tokenId} nft={nft} type={type} selectedList={selectedList} toggleSelect={toggleSelect} />
+        ) : (
+          <NFTSkeleton key={index} />
+        )
+      })}
     </Box>
   )
 }

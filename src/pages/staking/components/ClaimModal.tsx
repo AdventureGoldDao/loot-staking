@@ -7,12 +7,13 @@ import { LootType } from 'hooks/useNFTInfo'
 import Checkbox from 'components/Checkbox'
 import NoData from 'components/NoData'
 import OutlineButton from 'components/Button/OutlineButton'
-import { useMyNFTs } from '../../../hooks/useNFT'
+import { NFT } from '../../../hooks/useNFT'
 import { useClaim } from '../../../hooks/useClaim'
 import TransactionPendingModal from '../../../components/Modal/TransactionModals/TransactionPendingModal'
 import TransactionSubmittedModal from '../../../components/Modal/TransactionModals/TransactiontionSubmittedModal'
 import MessageBox from '../../../components/Modal/TransactionModals/MessageBox'
 import useModal from '../../../hooks/useModal'
+import JSBI from 'jsbi'
 
 const FlexBetween = styled(Box)({
   display: 'flex',
@@ -20,21 +21,18 @@ const FlexBetween = styled(Box)({
   justifyContent: 'space-between'
 })
 
-export default function ClaimModal() {
+export default function ClaimModal({ lootList, mlootList }: { lootList: NFT[]; mlootList: NFT[] }) {
   const [type, setType] = useState<LootType>('loot')
   const [selectList, setSelectList] = useState<string[]>([])
   const { showModal, hideModal } = useModal()
-
-  const myLoot = useMyNFTs('loot')
-  const myMLoot = useMyNFTs('mloot')
 
   useEffect(() => {
     setSelectList([])
   }, [type])
 
   const currentNFTList = useMemo(() => {
-    return type === 'loot' ? myLoot : myMLoot
-  }, [myLoot, myMLoot, type])
+    return type === 'loot' ? lootList : mlootList
+  }, [lootList, mlootList, type])
 
   const toggleSelectList = useCallback(
     (id: string) => {
@@ -48,19 +46,12 @@ export default function ClaimModal() {
     [selectList]
   )
 
-  // const claimLoot = useCallback((list: string[]) => {
-  //   list
-  // }, [])
-  // const claimLootMore = useCallback((list: string[]) => {
-  //   list
-  // }, [])
-
   const { onClaimLoot } = useClaim()
 
   const claimLootCallback = useCallback(async () => {
     if (!selectList.length) return
     showModal(<TransactionPendingModal />)
-    onClaimLoot(selectList)
+    onClaimLoot(type, selectList)
       .then(() => {
         hideModal()
         showModal(<TransactionSubmittedModal />)
@@ -72,7 +63,7 @@ export default function ClaimModal() {
         )
         console.error(err)
       })
-  }, [hideModal, onClaimLoot, selectList, showModal])
+  }, [hideModal, onClaimLoot, selectList, showModal, type])
 
   const btn = useMemo(() => {
     if (!selectList.length) {
@@ -89,6 +80,23 @@ export default function ClaimModal() {
     )
   }, [claimLootCallback, selectList.length])
 
+  const totalRewards = useMemo(() => {
+    const NFTList = type === 'loot' ? lootList : mlootList
+    const selectNFTs = NFTList
+      ? NFTList.filter(({ tokenId }) => {
+          return selectList.indexOf(tokenId.toString()) !== -1
+        })
+      : []
+
+    const rewards = selectNFTs.map(({ reward }) => {
+      return reward
+    })
+    return rewards.length !== 0
+      ? rewards.reduce((previousValue, currentValue) => {
+          return previousValue && currentValue ? previousValue.add(currentValue) : undefined
+        })
+      : undefined
+  }, [lootList, mlootList, selectList, type])
   return (
     <Modal closeIcon maxWidth="512px">
       <Box sx={{ padding: 40, color: '#fff' }}>
@@ -110,23 +118,29 @@ export default function ClaimModal() {
             <MenuItem value={'loot'} onClick={() => setType('loot')}>
               Loot
             </MenuItem>
-            <MenuItem value={'lootm'} onClick={() => setType('mloot')}>
+            <MenuItem value={'mloot'} onClick={() => setType('mloot')}>
               Loot More
             </MenuItem>
           </Select>
         </FlexBetween>
         <Box sx={{ borderBottom: '1px solid #5D8866' }} mt={16} mb={25} />
 
-        {!currentNFTList.nfts.length && <NoData />}
+        {!currentNFTList.length && <NoData />}
         <Box display={'grid'} gap="20px">
-          {currentNFTList.nfts.map(({ tokenId, reward }) => (
+          {currentNFTList.map(({ tokenId, reward, stakedEpochs }) => (
             <FlexBetween key={tokenId}>
               <Checkbox
+                disabled={reward?.equalTo(JSBI.BigInt(0))}
                 checked={selectList.includes(tokenId)}
                 label={`Bag #${tokenId}`}
                 onChange={() => toggleSelectList(tokenId)}
               />
-              <Typography fontSize={18}>{reward?.toSignificant()}</Typography>
+              <FlexBetween>
+                <Typography fontSize={18}>{reward?.toSignificant().toString()}</Typography>/
+                <Typography marginTop={'5px'} color={''} fontSize={12}>
+                  {stakedEpochs}
+                </Typography>
+              </FlexBetween>
             </FlexBetween>
           ))}
         </Box>
@@ -135,7 +149,7 @@ export default function ClaimModal() {
 
         <Box display={'grid'} gap="15px" justifyItems={'center'}>
           <Typography textAlign={'center'} fontSize={16}>
-            AGLD earned :
+            AGLD Claim : {totalRewards ? totalRewards.toSignificant() : '--'}
           </Typography>
           {btn}
           <Typography color="#FF5530" sx={{ opacity: selectList.length ? 0 : 1 }} textAlign={'center'}>

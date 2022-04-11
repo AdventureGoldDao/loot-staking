@@ -13,7 +13,21 @@ const Text = styled(Typography)({
   fontSize: '20px'
 })
 
-export default function InfoModal() {
+export default function InfoModal({
+  shared,
+  price,
+  cap,
+  openseaUrl,
+  address,
+  totalStaked
+}: {
+  shared: string
+  price: string | undefined
+  cap: string | undefined
+  openseaUrl: string
+  address: string
+  totalStaked: string | undefined
+}) {
   return (
     <Modal closeIcon maxWidth="512px">
       <Box sx={{ padding: 40, color: '#fff' }}>
@@ -24,30 +38,30 @@ export default function InfoModal() {
         <Box display={'grid'} gap="24px">
           <FlexBetween>
             <Text>Floor price</Text>
-            <Text>1.6 ETH</Text>
+            <Text>{price} ETH</Text>
           </FlexBetween>
           <FlexBetween>
             <Text>Floor market cap</Text>
-            <Text>12,446.4 ETH</Text>
+            <Text>{(Number(price) * Number(cap)).toString()} ETH</Text>
           </FlexBetween>
           <FlexBetween>
             <Text>Reward share</Text>
-            <Text>60%</Text>
+            <Text>{shared}%</Text>
           </FlexBetween>
           <FlexBetween>
             <Text>Total staked</Text>
-            <Text>1.6 ETH</Text>
+            <Text>{totalStaked ?? '--'}</Text>
           </FlexBetween>
           <FlexBetween>
             <Text>Stake value</Text>
-            <Text>1.6 ETH</Text>
+            <Text>{totalStaked && price ? Number(totalStaked) * Number(price) : '--'} ETH</Text>
           </FlexBetween>
         </Box>
         <Box mt={48} display="flex" justifyContent={'space-around'}>
-          <OutlineButton width={'152px'} height="48px" primary onClick={() => window.open('/')}>
+          <OutlineButton width={'152px'} height="48px" primary onClick={() => window.open(openseaUrl)}>
             View at Opensea
           </OutlineButton>
-          <OutlineButton width={'152px'} height="48px" primary onClick={() => window.open('/')}>
+          <OutlineButton width={'152px'} height="48px" primary onClick={() => window.open(address)}>
             View Contract
           </OutlineButton>
         </Box>
