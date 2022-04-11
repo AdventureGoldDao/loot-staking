@@ -166,6 +166,8 @@ export const STAKING_ADDRESS: { [chainId in ChainId]: string } = {
 
 export const EPOCH_DURATION = 600
 
+export const STAKE_DURATION = EPOCH_DURATION * 288
+
 type GraphEndPointType = {
   [key in ChainId]: string
 }

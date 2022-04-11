@@ -6,7 +6,7 @@ import { useActiveWeb3React } from '.'
 import { useStakingContract } from './useContract'
 import { useSingleCallResult } from '../state/multicall/hooks'
 import { CurrencyAmount } from '../constants/token'
-import { EPOCH_DURATION } from '../constants'
+import { EPOCH_DURATION, STAKE_DURATION } from '../constants'
 import JSBI from 'jsbi'
 
 export function useStaking() {
@@ -80,6 +80,9 @@ export function useStakingInfo() {
   //const myLooStakedCount = useSingleCallResult(contract, 'numLootStakedByAccount', [account ?? undefined]).result
   //const myMLooStakedCount = useSingleCallResult(contract, 'numMLootStakedByAccount', [account ?? undefined]).result
   //const claimedAGLD = useSingleCallResult(contract, 'claimByAccount', [account ?? undefined]).result
+  const now = Date.parse(new Date().toString()) / 1000
+  const endTime = now + STAKE_DURATION
+  const isActive = !!(now && startTime?.[0] && now > startTime[0] && now < endTime)
 
   const nextTime =
     currentEpoch?.[0] && startTime?.[0]
@@ -97,6 +100,7 @@ export function useStakingInfo() {
     [currentEpoch?.[0].toString()] ?? undefined
   ).result
   return {
+    isActive,
     numEpochs: numEpochs?.[0].toString() ?? '0',
     numLootStaked: numLootStaked?.[0].toString() ?? '0',
     numMLootStaked: numMLootStaked?.[0].toString() ?? '0',

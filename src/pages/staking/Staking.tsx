@@ -159,7 +159,7 @@ export const Staking = () => {
   const myLootM = useMyNFTs('mloot')
   const { account, chainId } = useActiveWeb3React()
 
-  const { rewardPerEpoch, nextTime } = useStakingInfo()
+  const { rewardPerEpoch, nextTime, isActive } = useStakingInfo()
 
   const toggleWalletModal = useWalletModalToggle()
 
@@ -283,11 +283,17 @@ export const Staking = () => {
         </Button>
       )
     return (
-      <Button onClick={stakeLootCallback} width={matches ? '60px' : '205px'} borderRadius="10px" height="30px">
+      <Button
+        disabled={!isActive}
+        onClick={stakeLootCallback}
+        width={matches ? '60px' : '205px'}
+        borderRadius="10px"
+        height="30px"
+      >
         Stake
       </Button>
     )
-  }, [account, selectedLootNFT.length, stakeLootCallback, toggleWalletModal, matches])
+  }, [account, toggleWalletModal, matches, selectedLootNFT.length, isActive, stakeLootCallback])
 
   const stakeLootMoreBtn = useMemo(() => {
     if (!account)
@@ -303,11 +309,17 @@ export const Staking = () => {
         </Button>
       )
     return (
-      <Button onClick={stakeLootMoreCallback} width={matches ? '60px' : '205px'} borderRadius="10px" height="30px">
+      <Button
+        disabled={!isActive}
+        onClick={stakeLootMoreCallback}
+        width={matches ? '60px' : '205px'}
+        borderRadius="10px"
+        height="30px"
+      >
         Stake
       </Button>
     )
-  }, [account, selectedLootMoreNFT.length, stakeLootMoreCallback, toggleWalletModal, matches])
+  }, [account, toggleWalletModal, matches, selectedLootMoreNFT.length, isActive, stakeLootMoreCallback])
 
   return (
     <StakingWrapper>
@@ -626,7 +638,6 @@ function ShowNFTList({
     [],
     [nfts]
   )
-  console.log('stakedCounts', stakedCounts)
   return (
     <Box
       id={'column-box-body'}
