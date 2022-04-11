@@ -7,7 +7,7 @@ import { LootType } from 'hooks/useNFTInfo'
 import Checkbox from 'components/Checkbox'
 import NoData from 'components/NoData'
 import OutlineButton from 'components/Button/OutlineButton'
-import { NFT } from '../../../hooks/useNFT'
+import { useMyNFTs } from '../../../hooks/useNFT'
 import { useClaim } from '../../../hooks/useClaim'
 import TransactionPendingModal from '../../../components/Modal/TransactionModals/TransactionPendingModal'
 import TransactionSubmittedModal from '../../../components/Modal/TransactionModals/TransactiontionSubmittedModal'
@@ -21,10 +21,13 @@ const FlexBetween = styled(Box)({
   justifyContent: 'space-between'
 })
 
-export default function ClaimModal({ lootList, mlootList }: { lootList: NFT[]; mlootList: NFT[] }) {
+export default function ClaimModal() {
   const [type, setType] = useState<LootType>('loot')
   const [selectList, setSelectList] = useState<string[]>([])
   const { showModal, hideModal } = useModal()
+
+  const lootList = useMyNFTs('loot').nfts
+  const mlootList = useMyNFTs('mloot').nfts
 
   useEffect(() => {
     setSelectList([])

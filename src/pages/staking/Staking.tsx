@@ -7,11 +7,10 @@ import Button, { BlackButton } from 'components/Button/Button'
 import { NFT, useMyNFTs } from '../../hooks/useNFT'
 // import { useAccountLootIds } from 'hooks/useBlockVision'
 // import { useLootNFTDetail } from 'hooks/useNFTInfo'
-import { Box, ButtonBase, Grid, styled, Typography, Collapse } from '@mui/material'
+import { Box, ButtonBase, Collapse, Grid, styled, Typography } from '@mui/material'
 import LootCard from './components/LootCard'
 import Spinner from 'components/Spinner'
 import NoData from 'components/NoData'
-import { LootType } from 'hooks/useNFTInfo'
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import { useActiveWeb3React } from 'hooks'
 import MessageBox from 'components/Modal/TransactionModals/MessageBox'
@@ -29,6 +28,8 @@ import { Timer } from '../../components/Timer'
 import { NFTSkeleton } from '../../components/skeleton/NFTSkeleton'
 import { useProjectInfo } from '../../hooks/useOpensea'
 import { CurrencyAmount } from '../../constants/token'
+import { getStakeCount, NFTType, StakeCount } from '../../utils/graph'
+import useAsyncMemo from '../../hooks/useAsyncMemo'
 
 const StakingWrapper = styled('div')(({ theme }) => ({
   display: 'flex',
@@ -156,10 +157,10 @@ export const Staking = () => {
   const { claimedAGLD, numLootStaked, numMLootStaked, totalReward } = useStakingInfo()
   const myLoot = useMyNFTs('loot')
   const myLootM = useMyNFTs('mloot')
+  const { account, chainId } = useActiveWeb3React()
 
   const { rewardPerEpoch, nextTime } = useStakingInfo()
 
-  const { account, chainId } = useActiveWeb3React()
   const toggleWalletModal = useWalletModalToggle()
 
   const myStakedNFTCount = useMemo(() => {
@@ -238,6 +239,7 @@ export const Staking = () => {
     signalLootStake(selectedLootNFT)
       .then(() => {
         hideModal()
+        setSelectedLootNFT([])
         showModal(<TransactionSubmittedModal />)
       })
       .catch((err: any) => {
@@ -255,6 +257,7 @@ export const Staking = () => {
     signalLootMoreStake(selectedLootMoreNFT)
       .then(() => {
         hideModal()
+        setSelectedLootMoreNFT([])
         showModal(<TransactionSubmittedModal />)
       })
       .catch((err: any) => {
@@ -372,7 +375,7 @@ export const Staking = () => {
               <span className={'column-header-right'}>
                 <span className={'column-header-data'}>
                   <img className={`column-header-data-icon`} src={icondamons} alt={'damons'} />
-                  <i className={'column-header-data-text'}>60%</i>
+                  <i className={'column-header-data-text'}>99.75%</i>
                 </span>
                 <ButtonBase
                   className={'column-header-more'}
@@ -410,7 +413,7 @@ export const Staking = () => {
                 selectedList={selectedLootNFT}
                 toggleSelect={toggleSelectLoot}
                 nfts={myLoot.nfts || []}
-                type="loot"
+                type={NFTType.LOOT}
               />
             )}
           </div>
@@ -423,7 +426,7 @@ export const Staking = () => {
               <span className={'column-header-right'}>
                 <span className={'column-header-data'}>
                   <img className={`column-header-data-icon`} src={icondamons} alt={'damons'} />
-                  <i className={'column-header-data-text'}>60%</i>
+                  <i className={'column-header-data-text'}>0.025%</i>
                 </span>
                 <ButtonBase
                   className={'column-header-more'}
@@ -461,7 +464,7 @@ export const Staking = () => {
                 selectedList={selectedLootMoreNFT}
                 toggleSelect={toggleSelectLootMore}
                 nfts={myLootM.nfts || []}
-                type="mloot"
+                type={NFTType.MLOOT}
               />
             )}
           </Box>
@@ -505,7 +508,7 @@ export const Staking = () => {
                     style={{
                       fontSize: matches ? '12px' : '16px'
                     }}
-                    onClick={() => showModal(<ClaimModal lootList={myLoot.nfts} mlootList={myLootM.nfts} />)}
+                    onClick={() => showModal(<ClaimModal />)}
                   >
                     Claim
                   </Button>
@@ -521,16 +524,12 @@ export const Staking = () => {
                       value={`${rewardPerEpoch ? rewardPerEpoch.toSignificant() : '--'} AGLD`}
                     />
                     <GridItem
-                      title={'Total staked NFT value'}
-                      value={`${totalReward.toSignificant(6, { groupSeparator: ',' }) ?? '--'} AGLD`}
-                    />
-                    <GridItem
                       title={'Cumulative rewards'}
                       value={`${totalReward.toSignificant(6, { groupSeparator: ',' }) ?? '--'} AGLD`}
                     />
                     <GridItem title={'Halving date'} value={'2023-03-18'} />
                     <Box display={'flex'} flexDirection="row-reverse" mt={'40px'}>
-                      <ExternalLink href="">
+                      <ExternalLink href="https://rinkeby.etherscan.io/address/0x0284173465f4d4f871189ce856153f6269eba4bf">
                         <Box display={'flex'} gap="10px">
                           <Typography>View Contract</Typography>
                           <svg
@@ -575,7 +574,6 @@ export const Staking = () => {
               <Box className={'column-item-box'} sx={{ padding: { xs: '50px 21px 44px 20px', md: '50px 40px' } }}>
                 <GridItem title={'Reward settlement time'} value={'2022-03-18 00:00:00 (UTC)'}></GridItem>
                 <GridItem title={'Current rewards'} value={'153,846.15 AGLD'}></GridItem>
-                <GridItem title={'Total staked NFT value'} value={'54.4 ETH'}></GridItem>
                 <GridItem title={'Cumulative rewards'} value={'2,153,846.15 AGLD'}></GridItem>
                 <GridItem title={'Halving date'} value={'2023-03-18'}></GridItem>
                 <Box display={'flex'} flexDirection="row-reverse" mt={'40px'}>
@@ -607,10 +605,28 @@ function ShowNFTList({
   toggleSelect
 }: {
   nfts: NFT[]
-  type: LootType
+  type: NFTType
   selectedList: string[]
   toggleSelect: (id: string) => void
 }) {
+  const { chainId } = useActiveWeb3React()
+  const stakedCounts: StakeCount[] = useAsyncMemo(
+    async () => {
+      if (nfts.length === 0) return []
+      const data = await getStakeCount(
+        chainId ?? 1,
+        nfts.map(({ tokenId }) => tokenId),
+        type
+      )
+      if (data === null) {
+        return []
+      }
+      return data
+    },
+    [],
+    [nfts]
+  )
+  console.log('stakedCounts', stakedCounts)
   return (
     <Box
       id={'column-box-body'}
@@ -625,8 +641,20 @@ function ShowNFTList({
       columnGap={50}
     >
       {nfts.map((nft, index) => {
+        const countData = stakedCounts
+          ? stakedCounts.find(({ id }) => {
+              return id.toString() === nft.tokenId.toString()
+            })
+          : undefined
         return nft.metaData ? (
-          <LootCard key={nft.tokenId} nft={nft} type={type} selectedList={selectedList} toggleSelect={toggleSelect} />
+          <LootCard
+            stakedCount={countData ? countData.count : '0'}
+            key={nft.tokenId}
+            nft={nft}
+            type={type}
+            selectedList={selectedList}
+            toggleSelect={toggleSelect}
+          />
         ) : (
           <NFTSkeleton key={index} />
         )

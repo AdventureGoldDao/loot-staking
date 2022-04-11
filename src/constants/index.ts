@@ -158,10 +158,23 @@ export const LOOT_M_ADDRESS: { [chainId in ChainId]: string } = {
 export const STAKING_ADDRESS: { [chainId in ChainId]: string } = {
   [ChainId.MAINNET]: '',
   [ChainId.ROPSTEN]: '',
-  [ChainId.RINKEBY]: '0x6782E4641960b0B73564D73b96633FeAeD10E09b',
+  [ChainId.RINKEBY]: '0x0284173465f4D4F871189ce856153F6269eba4BF',
   [ChainId.KOVAN]: '',
   [ChainId.GÖRLI]: '',
   [ChainId.BSC]: ''
 }
 
 export const EPOCH_DURATION = 600
+
+type GraphEndPointType = {
+  [key in ChainId]: string
+}
+
+export const SUBGRAPH: GraphEndPointType = {
+  [ChainId.MAINNET]: '',
+  [ChainId.ROPSTEN]: '',
+  [ChainId.RINKEBY]: 'https://api.thegraph.com/subgraphs/name/max0222/loots-taking',
+  [ChainId.KOVAN]: '',
+  [ChainId.GÖRLI]: '',
+  [ChainId.BSC]: ''
+}

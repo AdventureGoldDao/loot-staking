@@ -62,21 +62,21 @@ export const LootCardStyle = styled('div')<{ selected?: boolean; disabled: boole
 
 export default function LootCard({
   nft,
-  type,
   selectedList,
-  toggleSelect
+  toggleSelect,
+  stakedCount
 }: {
   nft: NFT
   type: LootType
+  stakedCount: string
   selectedList: string[]
   toggleSelect: (id: string) => void
 }) {
-  const { tokenId, metaData, isStaked, stakedEpochs } = nft
+  const { tokenId, metaData, isStaked } = nft
   const image = metaData?.image
   const name = metaData?.name
   //const { stakedEpochs } = useNFTInfo(nft.tokenId, type)
   const { numEpochs } = useStakingInfo()
-
   const isSelected = useMemo(() => selectedList.includes(tokenId), [selectedList, tokenId])
 
   return (
@@ -92,7 +92,7 @@ export default function LootCard({
           <img alt={''} src={image} />
         </div>
         <p className={'loot-card-title'}>{name}</p>
-        <Progress val={parseInt(stakedEpochs ?? '0')} total={parseInt(numEpochs)} />
+        <Progress val={parseInt(stakedCount ?? '0')} total={parseInt(numEpochs)} />
       </div>
     </LootCardStyle>
   )

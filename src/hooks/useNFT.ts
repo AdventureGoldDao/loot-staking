@@ -105,7 +105,6 @@ export function useMyNFTs(type: LootType): { loading: boolean; nfts: NFT[] } {
     type === 'loot' ? 'getClaimableEpochsForLootBag' : 'getClaimableEpochsForMLootBag',
     idArgs
   )
-  console.log('stakedEpochsList', stakedEpochsList)
   const urls = useSingleContractMultipleData(contract, 'tokenURI', idArgs)
 
   const rewards = useSingleContractMultipleData(
@@ -132,5 +131,5 @@ export function useMyNFTs(type: LootType): { loading: boolean; nfts: NFT[] } {
         }
       })
     }
-  }, [count.loading, isStakeList, nftIds, rewards, urls])
+  }, [count.loading, isStakeList, nftIds, rewards, stakedEpochsList, urls])
 }
