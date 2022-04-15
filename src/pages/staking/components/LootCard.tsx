@@ -5,10 +5,13 @@ import Progress from 'components/Progress'
 import { LootType } from 'hooks/useNFTInfo'
 import { NFT } from '../../../hooks/useNFT'
 import { useStakingInfo } from '../../../hooks/useStaking'
+import { useNFTHasSubmittedStake } from '../../../state/transactions/hooks'
+import OutlineButton from '../../../components/Button/OutlineButton'
 
 export const LootCardStyle = styled('div')<{ selected?: boolean; disabled: boolean }>(
   ({ theme, selected, disabled }) => ({
     flex: 1,
+    position: 'relative',
     cursor: disabled ? '' : 'pointer',
     border: !disabled && selected ? `1px solid rgba(165, 255, 190, 1)` : `1px solid transparent`,
     borderRadius: 20,
@@ -75,18 +78,29 @@ export default function LootCard({
   const { tokenId, metaData, isStaked } = nft
   const image = metaData?.image
   const name = metaData?.name
-  //const { stakedEpochs } = useNFTInfo(nft.tokenId, type)
   const { numEpochs } = useStakingInfo()
   const isSelected = useMemo(() => selectedList.includes(tokenId), [selectedList, tokenId])
-
+  const { stakeSubmitted } = useNFTHasSubmittedStake(tokenId.toString())
   return (
     <LootCardStyle
-      disabled={isStaked}
+      disabled={isStaked || stakeSubmitted}
       onClick={() => {
         !isStaked && toggleSelect(tokenId)
       }}
       selected={isSelected}
     >
+      {(stakeSubmitted || isStaked) && (
+        <OutlineButton
+          width={67}
+          height={24}
+          fontSize={12}
+          primary
+          style={{ position: 'absolute', right: 32, top: 36 }}
+        >
+          {stakeSubmitted ? 'staking' : 'staked'}
+        </OutlineButton>
+      )}
+
       <div className={'loot-card-box'}>
         <div className={'loot-card-img-box'}>
           <img alt={''} src={image} />

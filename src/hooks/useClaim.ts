@@ -19,18 +19,17 @@ export function useClaim() {
       const func = lootType === 'loot' ? 'claimLootRewards' : 'claimMLootRewards'
       console.log('🚀 ~ file: useCreateOrderCallback.ts ~ line 18 ~ useCreateOrderCallback ~ args', args)
       return contract.estimateGas[func](args, { from: account }).then(estimatedGasLimit => {
-        return contract
-          .claimLootRewards(args, {
-            gasLimit: calculateGasMargin(estimatedGasLimit),
-            // gasLimit: '3500000',
-            from: account
+        return contract[func](args, {
+          gasLimit: calculateGasMargin(estimatedGasLimit),
+          // gasLimit: '3500000',
+          from: account
+        }).then((response: TransactionResponse) => {
+          addTransaction(response, {
+            summary: 'Claim AGLD',
+            claim: tokenIDs
           })
-          .then((response: TransactionResponse) => {
-            addTransaction(response, {
-              summary: 'Claim AGLD'
-            })
-            return response.hash
-          })
+          return response.hash
+        })
       })
     },
     [account, addTransaction, contract]

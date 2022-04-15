@@ -30,7 +30,8 @@ export function useStaking() {
           })
           .then((response: TransactionResponse) => {
             addTransaction(response, {
-              summary: `Stake ${tokenIDs.length} Loot`
+              summary: `Stake ${tokenIDs.length} Loot`,
+              stake: tokenIDs
             })
             return response.hash
           })
@@ -55,7 +56,8 @@ export function useStaking() {
           })
           .then((response: TransactionResponse) => {
             addTransaction(response, {
-              summary: `Stake ${tokenIDs.length} mLoot`
+              summary: `Stake ${tokenIDs.length} mLoot`,
+              stake: tokenIDs
             })
             return response.hash
           })

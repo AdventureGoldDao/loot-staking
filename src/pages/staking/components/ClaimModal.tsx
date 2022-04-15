@@ -17,6 +17,7 @@ import { getStakeCount, NFTType, StakeCount } from '../../../utils/graph'
 import useAsyncMemo from '../../../hooks/useAsyncMemo'
 import { useActiveWeb3React } from '../../../hooks'
 import { useBlockNumber } from 'state/application/hooks'
+import { useNFTHasSubmittedClaim } from '../../../state/transactions/hooks'
 
 const FlexBetween = styled(Box)({
   display: 'flex',
@@ -162,20 +163,15 @@ export default function ClaimModal() {
                 })
               : undefined
             return (
-              <FlexBetween key={tokenId}>
-                <Checkbox
-                  disabled={!reward || reward?.equalTo(JSBI.BigInt(0))}
-                  checked={selectList.includes(tokenId)}
-                  label={`Bag #${tokenId}`}
-                  onChange={() => toggleSelectList(tokenId)}
-                />
-                <FlexBetween>
-                  <Typography fontSize={18}>{reward?.toSignificant().toString()}</Typography>/
-                  <Typography marginTop={'5px'} color={''} fontSize={12}>
-                    {claimCountData?.unClaimEpoch.split(',').length ?? ''}
-                  </Typography>
-                </FlexBetween>
-              </FlexBetween>
+              <ClaimItem
+                key={tokenId}
+                tokenId={tokenId}
+                onChange={() => toggleSelectList(tokenId)}
+                checked={selectList.includes(tokenId)}
+                disabled={!reward || reward?.equalTo(JSBI.BigInt(0))}
+                reward={reward?.toSignificant().toString() ?? ''}
+                unClaimEpochs={claimCountData?.unClaimEpoch.split(',').length.toString() ?? ''}
+              />
             )
           })}
         </Box>
@@ -193,5 +189,34 @@ export default function ClaimModal() {
         </Box>
       </Box>
     </Modal>
+  )
+}
+
+function ClaimItem({
+  tokenId,
+  checked,
+  disabled,
+  reward,
+  unClaimEpochs,
+  onChange
+}: {
+  tokenId: string
+  checked: boolean
+  disabled: boolean
+  reward: string
+  unClaimEpochs: string
+  onChange: () => void
+}) {
+  const { claimSubmitted } = useNFTHasSubmittedClaim(tokenId)
+  return (
+    <FlexBetween key={tokenId}>
+      <Checkbox disabled={disabled || claimSubmitted} checked={checked} label={`Bag #${tokenId}`} onChange={onChange} />
+      <FlexBetween>
+        <Typography fontSize={18}>{reward}</Typography>/
+        <Typography marginTop={'5px'} color={''} fontSize={12}>
+          {unClaimEpochs}
+        </Typography>
+      </FlexBetween>
+    </FlexBetween>
   )
 }
