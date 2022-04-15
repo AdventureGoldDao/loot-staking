@@ -37,6 +37,7 @@ export async function getStakeCount(
   tokenIdArray: string[],
   nftType: NFTType
 ): Promise<StakeCount[]> {
+  if (!tokenIdArray.length) return []
   const query = `{${QUERY_FUNCTION[nftType]}(
             where: {id_in: [${tokenIdArray.toString()}]},subgraphError:deny
         ) {

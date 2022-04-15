@@ -18,7 +18,7 @@ import TransactionPendingModal from 'components/Modal/TransactionModals/Transact
 import TransactionSubmittedModal from 'components/Modal/TransactionModals/TransactiontionSubmittedModal'
 import useModal from 'hooks/useModal'
 import { useStaking, useStakingInfo } from 'hooks/useStaking'
-import { useWalletModalToggle } from 'state/application/hooks'
+import { useBlockNumber, useWalletModalToggle } from 'state/application/hooks'
 import { ExternalLink } from 'theme/components'
 import ClaimModal from './components/ClaimModal'
 import InfoModal from './components/InfoModal'
@@ -622,21 +622,25 @@ function ShowNFTList({
   toggleSelect: (id: string) => void
 }) {
   const { chainId } = useActiveWeb3React()
+  const [nftIds, setNftIds] = useState<string[]>([])
+  const blockNumber = useBlockNumber()
+
+  useEffect(() => {
+    const ids = nfts.map(({ tokenId }) => tokenId).filter(i => i) as string[]
+    if (ids.toString() !== nftIds.toString()) setNftIds(ids)
+  }, [nftIds, nfts])
+
   const stakedCounts: StakeCount[] = useAsyncMemo(
     async () => {
-      if (nfts.length === 0) return []
-      const data = await getStakeCount(
-        chainId ?? 1,
-        nfts.map(({ tokenId }) => tokenId),
-        type
-      )
+      if (nftIds.length === 0 || !chainId) return []
+      const data = await getStakeCount(chainId, nftIds, type)
       if (data === null) {
         return []
       }
       return data
     },
     [],
-    [nfts]
+    [nftIds, blockNumber]
   )
   return (
     <Box
