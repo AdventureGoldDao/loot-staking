@@ -16,6 +16,7 @@ import JSBI from 'jsbi'
 import { getStakeCount, NFTType, StakeCount } from '../../../utils/graph'
 import useAsyncMemo from '../../../hooks/useAsyncMemo'
 import { useActiveWeb3React } from '../../../hooks'
+import { useBlockNumber } from 'state/application/hooks'
 
 const FlexBetween = styled(Box)({
   display: 'flex',
@@ -32,21 +33,25 @@ export default function ClaimModal() {
   const mlootList = useMyNFTs('mloot').nfts
   const { chainId } = useActiveWeb3React()
 
+  const [nftIds, setNftIds] = useState<string[]>([])
+  const blockNumber = useBlockNumber()
+
+  useEffect(() => {
+    const ids = (NFTType.LOOT === type ? lootList : mlootList).map(({ tokenId }) => tokenId).filter(i => i) as string[]
+    if (ids.toString() !== nftIds.toString()) setNftIds(ids)
+  }, [lootList, mlootList, nftIds, type])
+
   const stakedCounts: StakeCount[] = useAsyncMemo(
     async () => {
-      if (lootList.length === 0) return []
-      const data = await getStakeCount(
-        chainId ?? 1,
-        lootList.map(({ tokenId }) => tokenId),
-        type
-      )
+      if (nftIds.length === 0 || !chainId) return []
+      const data = await getStakeCount(chainId, nftIds, type)
       if (data === null) {
         return []
       }
       return data
     },
     [],
-    [lootList, type]
+    [lootList, type, blockNumber]
   )
 
   useEffect(() => {
