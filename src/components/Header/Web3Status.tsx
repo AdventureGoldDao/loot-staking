@@ -102,7 +102,6 @@ function Web3StatusInner() {
       <ActionButton
         width={isDownSm ? '128px' : '140px'}
         height={isDownSm ? '28px' : '36px'}
-        fontSize={isDownSm ? '12px' : '14px'}
         onClick={toggleWalletModal}
       >
         {error instanceof UnsupportedChainIdError ? 'Wrong Network' : 'Error'}
@@ -114,9 +113,7 @@ function Web3StatusInner() {
         width={isDownSm ? '128px' : '160px'}
         height={isDownSm ? '28px' : '56px'}
         borderRadius={'16px'}
-        fontSize={isDownSm ? '12px' : '14px'}
         onClick={toggleWalletModal}
-        style={{ border: '3px solid #000' }}
       >
         Connect Wallet
       </ActionButton>

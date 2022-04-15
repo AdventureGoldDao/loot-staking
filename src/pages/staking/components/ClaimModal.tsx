@@ -112,7 +112,7 @@ export default function ClaimModal() {
     const NFTList = type === 'loot' ? lootList : mlootList
     const selectNFTs = NFTList
       ? NFTList.filter(({ tokenId }) => {
-          return selectList.indexOf(tokenId.toString()) !== -1
+          return selectList.indexOf(tokenId?.toString()) !== -1
         })
       : []
 
@@ -164,7 +164,7 @@ export default function ClaimModal() {
             return (
               <FlexBetween key={tokenId}>
                 <Checkbox
-                  disabled={reward?.equalTo(JSBI.BigInt(0))}
+                  disabled={!reward || reward?.equalTo(JSBI.BigInt(0))}
                   checked={selectList.includes(tokenId)}
                   label={`Bag #${tokenId}`}
                   onChange={() => toggleSelectList(tokenId)}

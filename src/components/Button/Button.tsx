@@ -66,12 +66,10 @@ export function BlackButton({ style, ...props }: Props) {
     <Button
       {...props}
       style={{
-        backgroundColor: 'rgba(0,0,0,0)',
-        border: `2px solid ${theme.palette.text.primary}`,
-        color: theme.palette.text.primary,
+        backgroundColor: theme.palette.primary.main,
+        color: theme.palette.primary.contrastText,
         '&:hover': {
-          background: theme.palette.text.primary,
-          color: theme.palette.background.paper
+          background: theme.palette.primary.dark
         },
         '&:disabled': {
           backgroundColor: '#B9B9B9'
