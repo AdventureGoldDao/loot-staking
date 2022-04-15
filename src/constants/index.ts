@@ -158,7 +158,7 @@ export const LOOT_M_ADDRESS: { [chainId in ChainId]: string } = {
 export const STAKING_ADDRESS: { [chainId in ChainId]: string } = {
   [ChainId.MAINNET]: '',
   [ChainId.ROPSTEN]: '',
-  [ChainId.RINKEBY]: '0x0284173465f4D4F871189ce856153F6269eba4BF',
+  [ChainId.RINKEBY]: '0xB398626ADbEAF636d9A68acC201Cd0a8c5C0021b',
   [ChainId.KOVAN]: '',
   [ChainId.GÖRLI]: '',
   [ChainId.BSC]: ''

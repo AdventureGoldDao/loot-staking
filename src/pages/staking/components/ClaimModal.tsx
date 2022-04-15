@@ -3,7 +3,6 @@ import Modal from 'components/Modal'
 import { styled } from '@mui/system'
 import Select from 'components/Select/Select'
 import { useCallback, useEffect, useMemo, useState } from 'react'
-import { LootType } from 'hooks/useNFTInfo'
 import Checkbox from 'components/Checkbox'
 import NoData from 'components/NoData'
 import OutlineButton from 'components/Button/OutlineButton'
@@ -14,6 +13,9 @@ import TransactionSubmittedModal from '../../../components/Modal/TransactionModa
 import MessageBox from '../../../components/Modal/TransactionModals/MessageBox'
 import useModal from '../../../hooks/useModal'
 import JSBI from 'jsbi'
+import { getStakeCount, NFTType, StakeCount } from '../../../utils/graph'
+import useAsyncMemo from '../../../hooks/useAsyncMemo'
+import { useActiveWeb3React } from '../../../hooks'
 
 const FlexBetween = styled(Box)({
   display: 'flex',
@@ -22,12 +24,30 @@ const FlexBetween = styled(Box)({
 })
 
 export default function ClaimModal() {
-  const [type, setType] = useState<LootType>('loot')
+  const [type, setType] = useState<NFTType>(NFTType.LOOT)
   const [selectList, setSelectList] = useState<string[]>([])
   const { showModal, hideModal } = useModal()
 
   const lootList = useMyNFTs('loot').nfts
   const mlootList = useMyNFTs('mloot').nfts
+  const { chainId } = useActiveWeb3React()
+
+  const stakedCounts: StakeCount[] = useAsyncMemo(
+    async () => {
+      if (lootList.length === 0) return []
+      const data = await getStakeCount(
+        chainId ?? 1,
+        lootList.map(({ tokenId }) => tokenId),
+        type
+      )
+      if (data === null) {
+        return []
+      }
+      return data
+    },
+    [],
+    [lootList, type]
+  )
 
   useEffect(() => {
     setSelectList([])
@@ -118,10 +138,10 @@ export default function ClaimModal() {
               border: '1px solid #A5FFBE'
             }}
           >
-            <MenuItem value={'loot'} onClick={() => setType('loot')}>
+            <MenuItem value={'loot'} onClick={() => setType(NFTType.LOOT)}>
               Loot
             </MenuItem>
-            <MenuItem value={'mloot'} onClick={() => setType('mloot')}>
+            <MenuItem value={'mloot'} onClick={() => setType(NFTType.MLOOT)}>
               Loot More
             </MenuItem>
           </Select>
@@ -130,22 +150,29 @@ export default function ClaimModal() {
 
         {!currentNFTList.length && <NoData />}
         <Box display={'grid'} gap="20px">
-          {currentNFTList.map(({ tokenId, reward, stakedEpochs }) => (
-            <FlexBetween key={tokenId}>
-              <Checkbox
-                disabled={reward?.equalTo(JSBI.BigInt(0))}
-                checked={selectList.includes(tokenId)}
-                label={`Bag #${tokenId}`}
-                onChange={() => toggleSelectList(tokenId)}
-              />
-              <FlexBetween>
-                <Typography fontSize={18}>{reward?.toSignificant().toString()}</Typography>/
-                <Typography marginTop={'5px'} color={''} fontSize={12}>
-                  {stakedEpochs}
-                </Typography>
+          {currentNFTList.map(({ tokenId, reward }) => {
+            const claimCountData = stakedCounts
+              ? stakedCounts.find(({ id }) => {
+                  return id.toString() === tokenId.toString()
+                })
+              : undefined
+            return (
+              <FlexBetween key={tokenId}>
+                <Checkbox
+                  disabled={reward?.equalTo(JSBI.BigInt(0))}
+                  checked={selectList.includes(tokenId)}
+                  label={`Bag #${tokenId}`}
+                  onChange={() => toggleSelectList(tokenId)}
+                />
+                <FlexBetween>
+                  <Typography fontSize={18}>{reward?.toSignificant().toString()}</Typography>/
+                  <Typography marginTop={'5px'} color={''} fontSize={12}>
+                    {claimCountData?.unClaimEpoch.split(',').length ?? ''}
+                  </Typography>
+                </FlexBetween>
               </FlexBetween>
-            </FlexBetween>
-          ))}
+            )
+          })}
         </Box>
 
         <Box sx={{ borderBottom: '1px solid #5D8866' }} mt={32} mb={32} />

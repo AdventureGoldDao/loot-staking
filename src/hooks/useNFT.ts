@@ -100,11 +100,11 @@ export function useMyNFTs(type: LootType): { loading: boolean; nfts: NFT[] } {
     isStakeArgs
   )
 
-  const stakedEpochsList = useSingleContractMultipleData(
-    stakingContract,
-    type === 'loot' ? 'getClaimableEpochsForLootBag' : 'getClaimableEpochsForMLootBag',
-    idArgs
-  )
+  // const stakedEpochsList = useSingleContractMultipleData(
+  //   stakingContract,
+  //   type === 'loot' ? 'getClaimableEpochsForLootBag' : 'getClaimableEpochsForMLootBag',
+  //   idArgs
+  // )
   const urls = useSingleContractMultipleData(contract, 'tokenURI', idArgs)
 
   const rewards = useSingleContractMultipleData(
@@ -119,17 +119,17 @@ export function useMyNFTs(type: LootType): { loading: boolean; nfts: NFT[] } {
       nfts: nftIds.map(({ result }, index) => {
         const reward = rewards[index]?.result
         const url = urls[index]?.result
-        const stakedEpochs = stakedEpochsList[index]?.result
+        //const stakedEpochs = []
         return {
           tokenId: result?.[0].toString(),
           reward: reward ? CurrencyAmount.ether(reward?.[0].toString()) : undefined,
           isStaked: !!isStakeList[index]?.result?.[0],
-          stakedEpochs: stakedEpochs?.[0].length,
+          stakedEpochs: '0',
           metaData: url
             ? JSON.parse(window.atob(url?.[0].toString().replace(/^data:application\/json;base64,/, '')))
             : undefined
         }
       })
     }
-  }, [count.loading, isStakeList, nftIds, rewards, stakedEpochsList, urls])
+  }, [count.loading, isStakeList, nftIds, rewards, urls])
 }

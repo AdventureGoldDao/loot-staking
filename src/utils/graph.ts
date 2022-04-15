@@ -29,6 +29,7 @@ const postQuery = async (endpoint: string, query: string) => {
 export type StakeCount = {
   id: string
   count: string
+  unClaimEpoch: string
 }
 
 export async function getStakeCount(
@@ -36,12 +37,12 @@ export async function getStakeCount(
   tokenIdArray: string[],
   nftType: NFTType
 ): Promise<StakeCount[]> {
-  const query = `{
-    ${QUERY_FUNCTION[nftType]}(
+  const query = `{${QUERY_FUNCTION[nftType]}(
             where: {id_in: [${tokenIdArray.toString()}]},subgraphError:deny
         ) {
             id,
-            count
+            count,
+            unClaimEpoch
     }
   }`
 
