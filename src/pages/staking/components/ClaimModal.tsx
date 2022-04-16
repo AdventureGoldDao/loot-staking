@@ -39,7 +39,7 @@ export default function ClaimModal() {
 
   useEffect(() => {
     const ids = (NFTType.LOOT === type ? lootList : mlootList).map(({ tokenId }) => tokenId).filter(i => i) as string[]
-    if (ids.toString() !== nftIds.toString()) setNftIds(ids)
+    if (ids.length !== 0 && ids.toString() !== nftIds.toString()) setNftIds(ids)
   }, [lootList, mlootList, nftIds, type])
 
   const stakedCounts: StakeCount[] = useAsyncMemo(
@@ -52,7 +52,7 @@ export default function ClaimModal() {
       return data
     },
     [],
-    [type, blockNumber]
+    [type, blockNumber, nftIds]
   )
 
   useEffect(() => {
