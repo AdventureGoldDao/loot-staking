@@ -170,7 +170,11 @@ export default function ClaimModal() {
                 checked={selectList.includes(tokenId)}
                 disabled={!reward || reward?.equalTo(JSBI.BigInt(0))}
                 reward={reward?.toSignificant().toString() ?? ''}
-                unClaimEpochs={claimCountData?.unClaimEpoch.split(',').length.toString() ?? ''}
+                unClaimEpochs={
+                  claimCountData?.unClaimEpoch && claimCountData?.unClaimEpoch !== ''
+                    ? claimCountData?.unClaimEpoch.split(',').length.toString()
+                    : '0'
+                }
               />
             )
           })}
