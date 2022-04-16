@@ -52,7 +52,7 @@ export default function ClaimModal() {
       return data
     },
     [],
-    [lootList, type, blockNumber]
+    [type, blockNumber]
   )
 
   useEffect(() => {
