@@ -80,27 +80,27 @@ export function useStakingInfo() {
   const rewardPerEpoch = useSingleCallResult(contract, 'getTotalRewardPerEpoch').result
   const startTime = useSingleCallResult(contract, 'stakingStartTime').result
   const currentEpochReward = useSingleCallResult(contract, 'getRewardsForEpoch', [
-    currentEpoch?.[0].toString() ?? undefined
+    currentEpoch?.[0] ? (currentEpoch?.[0] + 1).toString() : undefined
   ]).result
   const looStakedCount = useSingleCallResult(contract, 'numLootStakedByEpoch', [
-    currentEpoch?.[0].toString() ?? undefined
+    currentEpoch?.[0] ? JSBI.ADD(JSBI.BigInt(currentEpoch?.[0]), JSBI.BigInt('1')).toString() : undefined
   ]).result
   const mLooStakedCount = useSingleCallResult(contract, 'numMLootStakedByEpoch', [
-    currentEpoch?.[0].toString() ?? undefined
+    currentEpoch?.[0] ? JSBI.ADD(JSBI.BigInt(currentEpoch?.[0]), JSBI.BigInt('1')).toString() : undefined
   ]).result
 
   const lootReward = currentEpochReward?.[0].toString()
   const mLootReward = currentEpochReward?.[1].toString()
   const perLootReward =
-    looStakedCount?.[0] && JSBI.greaterThan(JSBI.BigInt(looStakedCount?.[0].toString()), JSBI.BigInt('0'))
+    looStakedCount?.[0] && lootReward && JSBI.greaterThan(JSBI.BigInt(looStakedCount?.[0].toString()), JSBI.BigInt('0'))
       ? JSBI.divide(JSBI.BigInt(lootReward), JSBI.BigInt(looStakedCount?.[0].toString())).toString()
       : '0'
   const permLootReward =
-    mLooStakedCount?.[0] && JSBI.greaterThan(JSBI.BigInt(mLooStakedCount?.[0]), JSBI.BigInt('0'))
+    mLooStakedCount?.[0] && mLootReward && JSBI.greaterThan(JSBI.BigInt(mLooStakedCount?.[0]), JSBI.BigInt('0'))
       ? JSBI.divide(JSBI.BigInt(mLootReward), JSBI.BigInt(mLooStakedCount?.[0].toString())).toString()
       : '0'
 
-  console.log('tag--->1', looStakedCount?.[0] && looStakedCount?.[0].toString(), perLootReward.toString())
+  console.log('agg', lootReward?.toString(), looStakedCount?.[0].toString(), perLootReward.toString())
   const isActive =
     numEpochs?.[0] && currentEpoch?.[0] && JSBI.greaterThan(JSBI.BigInt(numEpochs?.[0]), JSBI.BigInt(currentEpoch?.[0]))
 
@@ -109,24 +109,21 @@ export function useStakingInfo() {
       ? JSBI.ADD(JSBI.BigInt(currentEpoch[0] * EPOCH_DURATION), JSBI.BigInt(startTime[0].toString()))
       : JSBI.BigInt(0)
 
-  const numLootStaked = useSingleCallResult(
-    contract,
-    'numLootStakedByEpoch',
-    [currentEpoch?.[0].toString()] ?? undefined
-  ).result
-  const numMLootStaked = useSingleCallResult(
-    contract,
-    'numMLootStakedByEpoch',
-    [currentEpoch?.[0].toString()] ?? undefined
-  ).result
+  // const numLootStaked = useSingleCallResult(
+  //   contract,
+  //   'numLootStakedByEpoch',
+  //   [currentEpoch?.[0].toString()] ?? undefined
+  // ).result
+  // const numMLootStaked = useSingleCallResult(
+  //   contract,
+  //   'numMLootStakedByEpoch',
+  //   [currentEpoch?.[0].toString()] ?? undefined
+  // ).result
   return {
     isActive,
     numEpochs: numEpochs?.[0].toString() ?? '0',
-    numLootStaked: numLootStaked?.[0].toString() ?? '0',
-    numMLootStaked: numMLootStaked?.[0].toString() ?? '0',
-    myLooStakedCount: 0,
-    myMLooStakedCount: 0,
-    claimedAGLD: 0,
+    numLootStaked: looStakedCount?.[0].toString() ?? '0',
+    numMLootStaked: mLooStakedCount?.[0].toString() ?? '0',
     rewardPerEpoch: rewardPerEpoch ? CurrencyAmount.ether(rewardPerEpoch[0].toString()) : undefined,
     nextTime,
     perLootReward,

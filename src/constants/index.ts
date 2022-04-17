@@ -164,7 +164,7 @@ export const STAKING_ADDRESS: { [chainId in ChainId]: string } = {
   [ChainId.BSC]: ''
 }
 
-export const EPOCH_DURATION = 600
+export const EPOCH_DURATION = 3600
 
 export const STAKE_DURATION = EPOCH_DURATION * 288
 

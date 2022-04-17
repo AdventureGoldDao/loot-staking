@@ -30,6 +30,7 @@ import { useProjectInfo } from '../../hooks/useOpensea'
 import { CurrencyAmount } from '../../constants/token'
 import { getStakeCount, NFTType, StakeCount } from '../../utils/graph'
 import useAsyncMemo from '../../hooks/useAsyncMemo'
+import JSBI from 'jsbi'
 
 const StakingWrapper = styled('div')(({ theme }) => ({
   display: 'flex',
@@ -154,11 +155,10 @@ export const Staking = () => {
 
   const lootData = useProjectInfo('lootproject')
   const mlootData = useProjectInfo('mloot-1')
-  const { claimedAGLD, numLootStaked, numMLootStaked, totalReward, perLootReward, permLootReward } = useStakingInfo()
+  const { numLootStaked, numMLootStaked, totalReward, perLootReward, permLootReward } = useStakingInfo()
   const myLoot = useMyNFTs('loot')
   const myLootM = useMyNFTs('mloot')
   const { account, chainId } = useActiveWeb3React()
-  console.log('tag-->', perLootReward, permLootReward)
   const { rewardPerEpoch, nextTime, isActive } = useStakingInfo()
 
   const toggleWalletModal = useWalletModalToggle()
@@ -173,7 +173,11 @@ export const Staking = () => {
     return [lootCount.length, mlootCount.length]
   }, [myLoot.nfts, myLootM.nfts])
 
-  //const myCurrentEpochRewards = useMemo(() => {}, [])
+  const myCurrentEpochRewards = useMemo(() => {
+    const totalLootRewards = JSBI.multiply(JSBI.BigInt(perLootReward), JSBI.BigInt(stakedLootCount.toString()))
+    const totalMLootRewards = JSBI.multiply(JSBI.BigInt(permLootReward), JSBI.BigInt(stakedMLootCount.toString()))
+    return CurrencyAmount.ether(JSBI.add(totalLootRewards, totalMLootRewards).toString())
+  }, [perLootReward, permLootReward, stakedLootCount, stakedMLootCount])
 
   // const myStakedNFTCount = useMemo(() => {
   //   const lootCount = myLoot.nfts.filter(({ isStaked }) => {
@@ -185,31 +189,31 @@ export const Staking = () => {
   //   return lootCount.length + mlootCount.length
   // }, [myLoot.nfts, myLootM.nfts])
 
-  const unClaimRewards = useMemo(() => {
-    const lootReward = myLoot.nfts.map(({ reward }) => {
-      return reward
-    })
-    const mlootReward = myLootM.nfts.map(({ reward }) => {
-      return reward
-    })
-
-    const lootRewardsCurrency =
-      lootReward.length !== 0
-        ? lootReward.reduce((previousValue, currentValue) => {
-            return previousValue && currentValue ? previousValue.add(currentValue) : undefined
-          })
-        : CurrencyAmount.ether('0')
-    const mlootRewardsCurrency =
-      mlootReward.length !== 0
-        ? mlootReward.reduce((previousValue, currentValue) => {
-            return previousValue && currentValue ? previousValue.add(currentValue) : undefined
-          })
-        : CurrencyAmount.ether('0')
-
-    return lootRewardsCurrency && mlootRewardsCurrency
-      ? lootRewardsCurrency.add(mlootRewardsCurrency)
-      : CurrencyAmount.ether('0')
-  }, [myLoot.nfts, myLootM.nfts])
+  // const unClaimRewards = useMemo(() => {
+  //   const lootReward = myLoot.nfts.map(({ reward }) => {
+  //     return reward
+  //   })
+  //   const mlootReward = myLootM.nfts.map(({ reward }) => {
+  //     return reward
+  //   })
+  //
+  //   const lootRewardsCurrency =
+  //     lootReward.length !== 0
+  //       ? lootReward.reduce((previousValue, currentValue) => {
+  //           return previousValue && currentValue ? previousValue.add(currentValue) : undefined
+  //         })
+  //       : CurrencyAmount.ether('0')
+  //   const mlootRewardsCurrency =
+  //     mlootReward.length !== 0
+  //       ? mlootReward.reduce((previousValue, currentValue) => {
+  //           return previousValue && currentValue ? previousValue.add(currentValue) : undefined
+  //         })
+  //       : CurrencyAmount.ether('0')
+  //
+  //   return lootRewardsCurrency && mlootRewardsCurrency
+  //     ? lootRewardsCurrency.add(mlootRewardsCurrency)
+  //     : CurrencyAmount.ether('0')
+  // }, [myLoot.nfts, myLootM.nfts])
 
   const [selectedLootNFT, setSelectedLootNFT] = useState<string[]>([])
   const toggleSelectLoot = useCallback(
@@ -463,7 +467,7 @@ export const Staking = () => {
           <Box className={'column-box'} mt="70px">
             <Box id={'column-box-header'} display="flex" justifyContent={'space-between'}>
               <Typography fontWeight={600} color="#fff" sx={{ fontSize: { xs: 16, md: 24 } }}>
-                LootM (for Adventures)
+                More Loot
               </Typography>
               <span className={'column-header-right'}>
                 <span className={'column-header-data'}>
@@ -531,10 +535,8 @@ export const Staking = () => {
               />
               <div className="column-item-footer">
                 <GridItem
-                  title={'AGLD earned'}
-                  value={`${unClaimRewards
-                    .add(CurrencyAmount.ether(claimedAGLD.toString()))
-                    .toSignificant(6, { groupSeparator: ',' })} AGLD}`}
+                  title={'Current epoch AGLD earned'}
+                  value={`${myCurrentEpochRewards.toSignificant(6, { groupSeparator: ',' })} AGLD`}
                 />
                 <Grid className={'grid-item-box earned-item-box'} container>
                   <Grid className={'grid-item-title'} item xs={4} />
@@ -562,7 +564,7 @@ export const Staking = () => {
                   <Box sx={{ marginTop: '56px', marginBottom: '30px' }}>
                     <GridItem title={'Reward settlement time'} value={'2022-03-18 00:00:00 (UTC)'} />
                     <GridItem
-                      title={'Current rewards'}
+                      title={'Total rewards for current epoch'}
                       value={`${rewardPerEpoch ? rewardPerEpoch.toSignificant() : '--'} AGLD`}
                     />
                     <GridItem
