@@ -276,6 +276,18 @@ export const Staking = () => {
           Connect Wallet
         </Button>
       )
+    if (!isActive)
+      return (
+        <Button
+          disabled
+          onClick={toggleWalletModal}
+          width={matches ? '150px' : '205px'}
+          borderRadius="10px"
+          height="30px"
+        >
+          end
+        </Button>
+      )
     if (!selectedLootNFT.length)
       return (
         <Button disabled width={matches ? '60px' : '205px'} borderRadius="10px" height="30px">
@@ -283,13 +295,7 @@ export const Staking = () => {
         </Button>
       )
     return (
-      <Button
-        disabled={!isActive}
-        onClick={stakeLootCallback}
-        width={matches ? '60px' : '205px'}
-        borderRadius="10px"
-        height="30px"
-      >
+      <Button onClick={stakeLootCallback} width={matches ? '60px' : '205px'} borderRadius="10px" height="30px">
         Stake
       </Button>
     )
@@ -300,6 +306,18 @@ export const Staking = () => {
       return (
         <Button onClick={toggleWalletModal} width={matches ? '150px' : '205px'} borderRadius="10px" height="30px">
           Connect Wallet
+        </Button>
+      )
+    if (!isActive)
+      return (
+        <Button
+          disabled
+          onClick={toggleWalletModal}
+          width={matches ? '150px' : '205px'}
+          borderRadius="10px"
+          height="30px"
+        >
+          end
         </Button>
       )
     if (!selectedLootMoreNFT.length)

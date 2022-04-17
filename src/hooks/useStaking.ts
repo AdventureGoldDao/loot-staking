@@ -6,7 +6,7 @@ import { useActiveWeb3React } from '.'
 import { useStakingContract } from './useContract'
 import { useSingleCallResult } from '../state/multicall/hooks'
 import { CurrencyAmount } from '../constants/token'
-import { EPOCH_DURATION, STAKE_DURATION } from '../constants'
+import { EPOCH_DURATION } from '../constants'
 import JSBI from 'jsbi'
 
 export function useStaking() {
@@ -79,12 +79,32 @@ export function useStakingInfo() {
   const numEpochs = useSingleCallResult(contract, 'numEpochs').result
   const rewardPerEpoch = useSingleCallResult(contract, 'getTotalRewardPerEpoch').result
   const startTime = useSingleCallResult(contract, 'stakingStartTime').result
-  //const myLooStakedCount = useSingleCallResult(contract, 'numLootStakedByAccount', [account ?? undefined]).result
-  //const myMLooStakedCount = useSingleCallResult(contract, 'numMLootStakedByAccount', [account ?? undefined]).result
-  //const claimedAGLD = useSingleCallResult(contract, 'claimByAccount', [account ?? undefined]).result
-  const now = Date.parse(new Date().toString()) / 1000
-  const endTime = now + STAKE_DURATION
-  const isActive = !!(now && startTime?.[0] && now > startTime[0] && now < endTime)
+  const currentEpochReward = useSingleCallResult(contract, 'getRewardsForEpoch', [
+    currentEpoch?.[0].toString() ?? undefined
+  ]).result
+  const looStakedCount = useSingleCallResult(contract, 'numLootStakedByEpoch', [
+    currentEpoch?.[0].toString() ?? undefined
+  ]).result
+  const mLooStakedCount = useSingleCallResult(contract, 'numMLootStakedByEpoch', [
+    currentEpoch?.[0].toString() ?? undefined
+  ]).result
+
+  const lootReward = currentEpochReward?.[0]
+  const mLootReward = currentEpochReward?.[1]
+  const perLootReward = lootReward / looStakedCount?.[0]
+  const permLootReward = mLootReward / lootReward?.[0]
+
+  console.log(
+    'tag--->',
+    currentEpoch?.[0].toString(),
+    lootReward?.toString(),
+    mLootReward?.toString(),
+    looStakedCount?.[0].toString(),
+    mLooStakedCount?.[0].toString(),
+    perLootReward,
+    permLootReward
+  )
+  const isActive = currentEpoch?.[0] < numEpochs?.[0]
 
   const nextTime =
     currentEpoch?.[0] && startTime?.[0]
