@@ -623,8 +623,14 @@ export const Staking = () => {
             <HideOnMobile>
               <Box className={'column-item-box'} sx={{ padding: { xs: '50px 21px 44px 20px', md: '50px 40px' } }}>
                 <GridItem title={'Reward settlement time'} value={'2022-03-18 00:00:00 (UTC)'}></GridItem>
-                <GridItem title={'Current rewards'} value={'153,846.15 AGLD'}></GridItem>
-                <GridItem title={'Cumulative rewards'} value={'2,153,846.15 AGLD'}></GridItem>
+                <GridItem
+                  title={'Total Rewards for the current epoch'}
+                  value={`${rewardPerEpoch ? rewardPerEpoch.toSignificant() : '--'} AGLD`}
+                />
+                <GridItem
+                  title={'Cumulative Rewards released'}
+                  value={`${totalReward.toSignificant(6, { groupSeparator: ',' }) ?? '--'} AGLD`}
+                />
                 <GridItem title={'Halving date'} value={'2023-03-18'}></GridItem>
                 <Box display={'flex'} flexDirection="row-reverse" mt={'40px'}>
                   <ExternalLink href="">
