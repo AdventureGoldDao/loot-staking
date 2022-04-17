@@ -179,8 +179,14 @@ export const Staking = () => {
     return CurrencyAmount.ether(JSBI.add(totalLootRewards, totalMLootRewards).toString())
   }, [perLootReward, permLootReward, stakedLootCount, stakedMLootCount])
 
+  const myStakedTotalValue = useMemo(() => {
+    const lootValue = parseInt(stakedLootCount?.toString() ?? '0') * parseFloat(lootData?.result?.floorPrice ?? '0')
+    const mLootValue = parseInt(stakedMLootCount?.toString() ?? '0') * parseFloat(mlootData?.result?.floorPrice ?? '0')
+    return lootValue + mLootValue
+  }, [lootData?.result?.floorPrice, mlootData?.result?.floorPrice, stakedLootCount, stakedMLootCount])
+
   // const myStakedNFTCount = useMemo(() => {
-  //   const lootCount = myLoot.nfts.filter(({ isStaked }) => {
+  //   const lootCount = myLoot.nfts.filtermyStakedTotalValue(({ isStaked }) => {
   //     return isStaked
   //   })
   //   const mlootCount = myLootM.nfts.filter(({ isStaked }) => {
@@ -528,7 +534,7 @@ export const Staking = () => {
                 </Grid>
               </Grid>
               <GridItem title={'My NFT staked'} value={(stakedLootCount + stakedMLootCount).toString()} />
-              <GridItem title={'Staked value'} value={'-- ETH'} />
+              <GridItem title={'Staked value'} value={`${myStakedTotalValue} ETH`} />
               <GridItem
                 title={'Expected to earn (staked 7 days)'}
                 value={`${rewardPerEpoch ? rewardPerEpoch.toSignificant(6, { groupSeparator: ',' }) : '--'} AGLD`}

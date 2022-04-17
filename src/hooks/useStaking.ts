@@ -100,7 +100,6 @@ export function useStakingInfo() {
       ? JSBI.divide(JSBI.BigInt(mLootReward), JSBI.BigInt(mLooStakedCount?.[0].toString())).toString()
       : '0'
 
-  console.log('agg', lootReward?.toString(), looStakedCount?.[0].toString(), perLootReward.toString())
   const isActive =
     numEpochs?.[0] && currentEpoch?.[0] && JSBI.greaterThan(JSBI.BigInt(numEpochs?.[0]), JSBI.BigInt(currentEpoch?.[0]))
 
