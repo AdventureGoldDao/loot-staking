@@ -154,24 +154,36 @@ export const Staking = () => {
 
   const lootData = useProjectInfo('lootproject')
   const mlootData = useProjectInfo('mloot-1')
-  const { claimedAGLD, numLootStaked, numMLootStaked, totalReward } = useStakingInfo()
+  const { claimedAGLD, numLootStaked, numMLootStaked, totalReward, perLootReward, permLootReward } = useStakingInfo()
   const myLoot = useMyNFTs('loot')
   const myLootM = useMyNFTs('mloot')
   const { account, chainId } = useActiveWeb3React()
-
+  console.log('tag-->', perLootReward, permLootReward)
   const { rewardPerEpoch, nextTime, isActive } = useStakingInfo()
 
   const toggleWalletModal = useWalletModalToggle()
 
-  const myStakedNFTCount = useMemo(() => {
+  const [stakedLootCount, stakedMLootCount] = useMemo(() => {
     const lootCount = myLoot.nfts.filter(({ isStaked }) => {
       return isStaked
     })
     const mlootCount = myLootM.nfts.filter(({ isStaked }) => {
       return isStaked
     })
-    return lootCount.length + mlootCount.length
+    return [lootCount.length, mlootCount.length]
   }, [myLoot.nfts, myLootM.nfts])
+
+  //const myCurrentEpochRewards = useMemo(() => {}, [])
+
+  // const myStakedNFTCount = useMemo(() => {
+  //   const lootCount = myLoot.nfts.filter(({ isStaked }) => {
+  //     return isStaked
+  //   })
+  //   const mlootCount = myLootM.nfts.filter(({ isStaked }) => {
+  //     return isStaked
+  //   })
+  //   return lootCount.length + mlootCount.length
+  // }, [myLoot.nfts, myLootM.nfts])
 
   const unClaimRewards = useMemo(() => {
     const lootReward = myLoot.nfts.map(({ reward }) => {
@@ -511,7 +523,7 @@ export const Staking = () => {
                   <Timer timer={Number(nextTime.toString()) * 1000} />
                 </Grid>
               </Grid>
-              <GridItem title={'My NFT staked'} value={myStakedNFTCount.toString()} />
+              <GridItem title={'My NFT staked'} value={(stakedLootCount + stakedMLootCount).toString()} />
               <GridItem title={'Staked value'} value={'-- ETH'} />
               <GridItem
                 title={'Expected to earn (staked 7 days)'}

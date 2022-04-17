@@ -89,22 +89,20 @@ export function useStakingInfo() {
     currentEpoch?.[0].toString() ?? undefined
   ]).result
 
-  const lootReward = currentEpochReward?.[0]
-  const mLootReward = currentEpochReward?.[1]
-  const perLootReward = lootReward / looStakedCount?.[0]
-  const permLootReward = mLootReward / lootReward?.[0]
+  const lootReward = currentEpochReward?.[0].toString()
+  const mLootReward = currentEpochReward?.[1].toString()
+  const perLootReward =
+    looStakedCount?.[0] && JSBI.greaterThan(JSBI.BigInt(looStakedCount?.[0].toString()), JSBI.BigInt('0'))
+      ? JSBI.divide(JSBI.BigInt(lootReward), JSBI.BigInt(looStakedCount?.[0].toString())).toString()
+      : '0'
+  const permLootReward =
+    mLooStakedCount?.[0] && JSBI.greaterThan(JSBI.BigInt(mLooStakedCount?.[0]), JSBI.BigInt('0'))
+      ? JSBI.divide(JSBI.BigInt(mLootReward), JSBI.BigInt(mLooStakedCount?.[0].toString())).toString()
+      : '0'
 
-  console.log(
-    'tag--->',
-    currentEpoch?.[0].toString(),
-    lootReward?.toString(),
-    mLootReward?.toString(),
-    looStakedCount?.[0].toString(),
-    mLooStakedCount?.[0].toString(),
-    perLootReward,
-    permLootReward
-  )
-  const isActive = currentEpoch?.[0] < numEpochs?.[0]
+  console.log('tag--->1', looStakedCount?.[0] && looStakedCount?.[0].toString(), perLootReward.toString())
+  const isActive =
+    numEpochs?.[0] && currentEpoch?.[0] && JSBI.greaterThan(JSBI.BigInt(numEpochs?.[0]), JSBI.BigInt(currentEpoch?.[0]))
 
   const nextTime =
     currentEpoch?.[0] && startTime?.[0]
@@ -131,6 +129,8 @@ export function useStakingInfo() {
     claimedAGLD: 0,
     rewardPerEpoch: rewardPerEpoch ? CurrencyAmount.ether(rewardPerEpoch[0].toString()) : undefined,
     nextTime,
+    perLootReward,
+    permLootReward,
     totalReward:
       currentEpoch && rewardPerEpoch
         ? CurrencyAmount.ether(currentEpoch?.[0] + rewardPerEpoch?.[0])
