@@ -107,7 +107,10 @@ const StakingWrapper = styled('div')(({ theme }) => ({
   '.column-item-box .grid-item-box': {
     color: '#fff',
     marginTop: 24,
-    fontSize: 14
+    fontSize: 20,
+    [theme.breakpoints.down('md')]: {
+      fontSize: 14
+    }
   },
   '.column-item-box .grid-item-box:first-of-type': {
     marginTop: 0
@@ -122,7 +125,10 @@ const StakingWrapper = styled('div')(({ theme }) => ({
     textAlign: 'center',
     borderTop: '1px solid #253A27',
     paddingTop: 20,
-    marginTop: 54
+    marginTop: 54,
+    [theme.breakpoints.down('md')]: {
+      marginTop: 20
+    }
   },
   '.earned-item-box': {
     marginTop: '0 !important'
@@ -421,7 +427,7 @@ export const Staking = () => {
         <div className={'column-main-box'}>
           <div className={'column-box'}>
             <Box id={'column-box-header'} display="flex" justifyContent={'space-between'}>
-              <Typography fontWeight={600} color="#fff" sx={{ fontSize: { xs: 16, md: 24 } }}>
+              <Typography variant={'h4'} fontWeight={600} color="#fff" sx={{ fontSize: { xs: 16, md: 24 } }}>
                 Loot (for Adventures)
               </Typography>
               <span className={'column-header-right'}>
@@ -449,7 +455,7 @@ export const Staking = () => {
               </span>
             </Box>
             <Box display={'flex'} mt={'22px'} justifyContent="space-between" alignItems={'center'}>
-              <Typography fontWeight={600} fontSize={16} color="#fff">
+              <Typography variant={'h5'} fontWeight={600} fontSize={16} color="#fff">
                 Please select the NFT to be staked:
               </Typography>
               {stakeLootBtn}
@@ -500,7 +506,7 @@ export const Staking = () => {
               </span>
             </Box>
             <Box display={'flex'} mt={'22px'} justifyContent="space-between" alignItems={'center'}>
-              <Typography fontWeight={600} fontSize={16} color="#fff">
+              <Typography variant={'h5'} fontWeight={600} fontSize={16} color="#fff">
                 Please select the NFT to be staked:
               </Typography>
               {stakeLootMoreBtn}
@@ -556,7 +562,7 @@ export const Staking = () => {
                     width={matches ? '253px' : `280px`}
                     height={matches ? '32px' : `48px`}
                     style={{
-                      fontSize: matches ? '12px' : '16px'
+                      fontSize: matches ? '12px' : '24px'
                     }}
                     onClick={() => showModal(<ClaimModal />)}
                   >

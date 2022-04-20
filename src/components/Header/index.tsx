@@ -102,7 +102,6 @@ const Filler = styled('div')(({ theme }) => ({
 
 const MainLogo = styled(NavLink)(({ theme }) => ({
   fontSize: 0,
-  width: 270,
   '& img': {
     width: 104
   },

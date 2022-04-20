@@ -10,7 +10,9 @@ const FlexBetween = styled(Box)({
 })
 
 const Text = styled(Typography)({
-  fontSize: '20px'
+  fontSize: '20px',
+  fontFamily: 'Inconsolata-VariableFont',
+  fontWeight: 400
 })
 
 export default function InfoModal({

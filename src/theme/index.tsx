@@ -152,12 +152,12 @@ export const override: any = {
         paddingRight: '0px!important'
       },
       'html, input, textarea, button, body': {
-        fontFamily: 'Inconsolata, Roboto, -apple-system, BlinkMacSystemFont, sans-serif',
+        fontFamily: 'Inconsolata-VariableFont',
         fontDisplay: 'fallback'
       },
       '@supports (font-variation-settings: normal)': {
         'html, input, textarea, button, body': {
-          fontFamily: 'Inconsolata, Roboto, -apple-system, BlinkMacSystemFont, sans-serif',
+          fontFamily: 'Inconsolata-VariableFont',
           fontDisplay: 'fallback'
         }
       }
@@ -168,14 +168,14 @@ export const override: any = {
       root: {
         fontSize: 16,
         fontWeight: 500,
-        fontFamily: 'Inconsolata, Roboto, -apple-system, BlinkMacSystemFont, sans-serif!important'
+        fontFamily: 'Inconsolata-VariableFont'
       }
     }
   },
   MuiButton: {
     styleOverrides: {
       root: {
-        fontFamily: 'Inconsolata, Roboto, -apple-system, BlinkMacSystemFont, sans-serif!important',
+        fontFamily: 'Inconsolata-VariableFont',
         color: theme.palette.primary.contrastText,
         fontWeight: 500,
         borderRadius: theme.shape.borderRadius,
@@ -257,7 +257,7 @@ export const override: any = {
     styleOverrides: {
       root: {
         lineHeight: 1.2,
-        fontFamily: 'Inconsolata, Roboto, -apple-system, BlinkMacSystemFont, sans-serif!important'
+        fontFamily: 'Inconsolata-VariableFont'
       },
       body1: {
         fontSize: 14
@@ -265,11 +265,16 @@ export const override: any = {
       body2: {
         fontSize: 12
       },
+      h4: {
+        fontFamily: 'SourceSerifPro-Black'
+      },
       h5: {
+        fontFamily: 'Inconsolata-VariableFont',
         fontSize: 28,
         fontWeight: 500
       },
       h6: {
+        fontFamily: 'Inconsolata-VariableFont',
         fontSize: 22,
         fontWeight: 500
       },

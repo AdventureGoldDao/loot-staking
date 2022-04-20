@@ -44,10 +44,10 @@ export default function Button(props: Props) {
         fontWeight: 500,
         transition: '.3s',
         borderRadius: borderRadius || `${theme.shape.borderRadius}px`,
-        backgroundColor: backgroundColor || theme.palette.primary.main,
+        background: backgroundColor || 'linear-gradient(265.56deg, #24F986 -0.27%, #1EF65B -0.26%, #00D060 98.59%);',
         color: color || theme.palette.primary.contrastText,
         '&:hover': {
-          backgroundColor: theme.palette.primary.dark
+          opacity: 0.6
         },
         '&:disabled': {
           opacity: 0.3
@@ -66,10 +66,11 @@ export function BlackButton({ style, ...props }: Props) {
     <Button
       {...props}
       style={{
-        backgroundColor: theme.palette.primary.main,
+        background: 'transparent',
+        border: '2px solid #A5FFBE',
         color: theme.palette.primary.contrastText,
         '&:hover': {
-          background: theme.palette.primary.dark
+          background: 'linear-gradient(265.56deg, #24F986 -0.27%, #1EF65B -0.26%, #00D060 98.59%);'
         },
         '&:disabled': {
           backgroundColor: '#B9B9B9'

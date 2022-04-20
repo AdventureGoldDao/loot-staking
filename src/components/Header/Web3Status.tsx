@@ -17,7 +17,10 @@ const ActionButton = styled(BlackButton)(({ theme }) => ({
   fontSize: '14px',
   marginBottom: 15,
   padding: '16px 24px',
-  background: theme.palette.primary.main,
+  background: 'transparent',
+  backgroundColor: 'transparent',
+  color: '#A5FFBE',
+  border: '1px #A5FFBE solid',
   [theme.breakpoints.down('sm')]: {
     maxWidth: 320,
     width: '100%',
