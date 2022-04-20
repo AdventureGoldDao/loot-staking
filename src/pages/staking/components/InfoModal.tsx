@@ -16,6 +16,7 @@ const Text = styled(Typography)({
 })
 
 export default function InfoModal({
+  title,
   shared,
   price,
   cap,
@@ -23,6 +24,7 @@ export default function InfoModal({
   address,
   totalStaked
 }: {
+  title: string
   shared: string
   price: string | undefined
   cap: string | undefined
@@ -34,7 +36,7 @@ export default function InfoModal({
     <Modal closeIcon maxWidth="512px">
       <Box sx={{ padding: 40, color: '#fff' }}>
         <Typography variant="h4" textAlign={'center'} color={'#fff'} fontWeight={600} fontSize={24}>
-          Loot (for Adventures)
+          {title}
         </Typography>
         <Box sx={{ borderBottom: '1px solid #5D8866' }} mt={16} mb={25} />
         <Box display={'grid'} gap="24px">

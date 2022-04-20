@@ -440,6 +440,7 @@ export const Staking = () => {
                   onClick={() =>
                     showModal(
                       <InfoModal
+                        title={'Loot (for Adventures)'}
                         totalStaked={numLootStaked}
                         openseaUrl={'https://opensea.io/collection/lootproject'}
                         address={'https://rinkeby.etherscan.io/address/0x84e3547f63ad6e5a1c4fe82594977525c764f0e8'}
@@ -491,6 +492,7 @@ export const Staking = () => {
                   onClick={() =>
                     showModal(
                       <InfoModal
+                        title={'More Loot'}
                         totalStaked={numMLootStaked}
                         openseaUrl={'https://opensea.io/collection/mloot-1'}
                         address={'https://rinkeby.etherscan.io/address/0xd991eafe6b2d36f786365e0ceb3b6dbe61097c90 '}
