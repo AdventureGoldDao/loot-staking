@@ -1,6 +1,6 @@
 import { useState, useCallback } from 'react'
 import { NavLink, useLocation } from 'react-router-dom'
-import { AppBar, Box, IconButton, MenuItem, styled as muiStyled, styled } from '@mui/material'
+import { Alert, AppBar, Box, IconButton, MenuItem, styled as muiStyled, styled } from '@mui/material'
 import { ExternalLink } from 'theme/components'
 import Web3Status from './Web3Status'
 import { HideOnMobile, ShowOnMobile } from 'theme/index'
@@ -24,8 +24,7 @@ interface Tab extends TabContent {
 
 export const Tabs: Tab[] = [
   { title: 'Staking', route: '/staking' },
-  { title: 'Governance', link: '/comingsoon' },
-  { title: 'About', link: '/comingsoon' }
+  { title: 'Governance', link: 'https://snapshot.org/#/agld-dao.eth' }
 ]
 
 const navLinkSX = ({ theme }: any) => ({
@@ -100,7 +99,7 @@ const Filler = styled('div')(({ theme }) => ({
   }
 }))
 
-const MainLogo = styled(NavLink)(({ theme }) => ({
+const MainLogo = styled(ExternalLink)(({ theme }) => ({
   fontSize: 0,
   '& img': {
     width: 104
@@ -131,11 +130,14 @@ export default function Header() {
 
   return (
     <>
+      <Alert variant="outlined" severity="info">
+        testnet
+      </Alert>
       <MobileMenu isOpen={mobileMenuOpen} onDismiss={handleMobileMenueDismiss} />
       <Filler />
       <StyledAppBar>
         <Box id={'header-main'} display="flex" alignItems="center" height={'100%'} justifyContent={'space-between'}>
-          <MainLogo id={'antimatter'} to={'/'}>
+          <MainLogo id={'antimatter'} href={'https://www.adventuregold.org'}>
             <Image className={'img'} src={antimatter} alt={'antimatter'} />
           </MainLogo>
           <HideOnMobile breakpoint="md">

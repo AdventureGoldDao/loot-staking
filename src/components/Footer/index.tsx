@@ -1,8 +1,8 @@
 import { Box, useTheme } from '@mui/material'
 import { HideOnMobile } from 'theme/index'
-import { ReactComponent as Medium } from 'assets/socialLinksIcon/medium.svg'
+import { ReactComponent as Discord } from 'assets/socialLinksIcon/discord.svg'
 import { ReactComponent as Twitter } from 'assets/socialLinksIcon/twitter.svg'
-import { ReactComponent as Telegram } from 'assets/socialLinksIcon/telegram.svg'
+import { ReactComponent as Mirror } from 'assets/socialLinksIcon/mirror.svg'
 import { ExternalLink } from 'theme/components'
 import TextButton from 'components/Button/TextButton'
 
@@ -25,18 +25,18 @@ export default function Footer() {
           gap="40px"
         >
           <TextButton>
-            <ExternalLink href="">
-              <Medium />
+            <ExternalLink href="https://discord.gg/phSq2EuusS">
+              <Discord />
             </ExternalLink>
           </TextButton>
           <TextButton>
-            <ExternalLink href="">
+            <ExternalLink href="https://twitter.com/GoldAdventure">
               <Twitter />
             </ExternalLink>
           </TextButton>
           <TextButton>
-            <ExternalLink href="">
-              <Telegram />
+            <ExternalLink href="https://mirror.xyz/agld.eth">
+              <Mirror />
             </ExternalLink>
           </TextButton>
         </Box>

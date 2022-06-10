@@ -391,6 +391,9 @@ export const Staking = () => {
           />
           <p className={'staking-ntf-box-desc'}>Receive earning by signing in every week</p>
           <BlackButton
+            onClick={() => {
+              window.open('https://mirror.xyz/agld.eth', '_blank')
+            }}
             borderRadius={matches ? '16px' : '10px'}
             width={matches ? '111px' : '134px'}
             height={matches ? '32px' : '47px'}
@@ -587,7 +590,7 @@ export const Staking = () => {
                     />
                     <GridItem title={'Halving date'} value={'2023-03-18'} />
                     <Box display={'flex'} flexDirection="row-reverse" mt={'40px'}>
-                      <ExternalLink href="https://rinkeby.etherscan.io/address/0x0284173465f4d4f871189ce856153f6269eba4bf">
+                      <ExternalLink href="https://rinkeby.etherscan.io/address/0x84e3547f63ad6e5a1c4fe82594977525c764f0e8">
                         <Box display={'flex'} gap="10px">
                           <Typography>View Contract</Typography>
                           <svg
@@ -641,7 +644,7 @@ export const Staking = () => {
                 />
                 <GridItem title={'Halving date'} value={'2023-03-18'}></GridItem>
                 <Box display={'flex'} flexDirection="row-reverse" mt={'40px'}>
-                  <ExternalLink href="">
+                  <ExternalLink href="https://rinkeby.etherscan.io/address/0x84e3547f63ad6e5a1c4fe82594977525c764f0e8">
                     <Box display={'flex'} gap="10px">
                       <Typography>View Contract</Typography>
                       <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
