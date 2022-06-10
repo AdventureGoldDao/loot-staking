@@ -131,7 +131,7 @@ export default function Header() {
   return (
     <>
       <Alert variant="outlined" severity="info">
-        testnet
+        Please note that the current dApp is on Rinkeby testnet.
       </Alert>
       <MobileMenu isOpen={mobileMenuOpen} onDismiss={handleMobileMenueDismiss} />
       <Filler />
