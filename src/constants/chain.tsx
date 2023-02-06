@@ -82,17 +82,17 @@ export const SUPPORTED_NETWORKS: {
     blockExplorerUrls: string[]
   }
 } = {
-  [ChainId.MAINNET]: {
-    chainId: '0x1',
-    chainName: 'Ethereum',
-    nativeCurrency: {
-      name: 'Ethereum',
-      symbol: 'ETH',
-      decimals: 18
-    },
-    rpcUrls: ['https://mainnet.infura.io/v3'],
-    blockExplorerUrls: ['https://etherscan.com']
-  },
+  // [ChainId.MAINNET]: {
+  //   chainId: '0x1',
+  //   chainName: 'Ethereum',
+  //   nativeCurrency: {
+  //     name: 'Ethereum',
+  //     symbol: 'ETH',
+  //     decimals: 18
+  //   },
+  //   rpcUrls: ['https://mainnet.infura.io/v3'],
+  //   blockExplorerUrls: ['https://etherscan.com']
+  // },
   // [ChainId.ROPSTEN]: {
   //   chainId: '0x3',
   //   chainName: 'Ropsten',
@@ -104,7 +104,7 @@ export const SUPPORTED_NETWORKS: {
   //   rpcUrls: ['https://ropsten.infura.io/v3/'],
   //   blockExplorerUrls: ['https://ropsten.etherscan.io/']
   // },
-  [ChainId.RINKEBY]: {
+  [ChainId.GÖRLI]: {
     chainId: '0x5',
     chainName: 'GÖRLI',
     nativeCurrency: {
