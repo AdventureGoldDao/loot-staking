@@ -1,6 +1,6 @@
 import { useState, useCallback } from 'react'
 import { NavLink, useLocation } from 'react-router-dom'
-import { Alert, AppBar, Box, IconButton, MenuItem, styled as muiStyled, styled } from '@mui/material'
+import { AppBar, Box, IconButton, MenuItem, styled as muiStyled, styled } from '@mui/material'
 import { ExternalLink } from 'theme/components'
 import Web3Status from './Web3Status'
 import { HideOnMobile, ShowOnMobile } from 'theme/index'
@@ -24,7 +24,8 @@ interface Tab extends TabContent {
 
 export const Tabs: Tab[] = [
   { title: 'Staking', route: '/staking' },
-  { title: 'Governance', link: 'https://snapshot.org/#/agld-dao.eth' }
+  { title: 'Governance', link: 'https://snapshot.org/#/agld-dao.eth' },
+  { title: 'Faucet', link: 'https://goerlifaucet.com/' }
 ]
 
 const navLinkSX = ({ theme }: any) => ({
@@ -130,9 +131,6 @@ export default function Header() {
 
   return (
     <>
-      <Alert variant="outlined" severity="info">
-        Please note that the current dApp is on Rinkeby testnet.
-      </Alert>
       <MobileMenu isOpen={mobileMenuOpen} onDismiss={handleMobileMenueDismiss} />
       <Filler />
       <StyledAppBar>

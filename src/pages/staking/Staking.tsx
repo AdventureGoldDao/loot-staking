@@ -7,7 +7,7 @@ import Button, { BlackButton } from 'components/Button/Button'
 import { NFT, useMyNFTs } from '../../hooks/useNFT'
 // import { useAccountLootIds } from 'hooks/useBlockVision'
 // import { useLootNFTDetail } from 'hooks/useNFTInfo'
-import { Box, ButtonBase, Collapse, Grid, styled, Typography } from '@mui/material'
+import { Alert, Box, ButtonBase, Collapse, Grid, styled, Typography } from '@mui/material'
 import LootCard from './components/LootCard'
 import Spinner from 'components/Spinner'
 import NoData from 'components/NoData'
@@ -40,7 +40,7 @@ const StakingWrapper = styled('div')(({ theme }) => ({
   width: '100%',
   margin: '0 auto',
   minHeight: `calc(100vh - ${theme.height.header} - ${theme.height.footer})`,
-  padding: '60px 0 80px',
+  padding: '30px 0 80px',
   flex: 1,
   overflowY: 'auto',
   overflowX: 'hidden',
@@ -369,6 +369,9 @@ export const Staking = () => {
 
   return (
     <StakingWrapper>
+      <Alert sx={{ width: { xs: '92%' }, margin: { xs: 'auto' } }} variant="outlined" severity="info">
+        Please note that the current dApp is on GÖRLI testnet.
+      </Alert>
       <Box
         className={'staking-ntf-box'}
         sx={{
@@ -379,7 +382,7 @@ export const Staking = () => {
           justifyContent: 'space-between'
         }}
       >
-        <Box>
+        <Box sx={{ marginTop: 20 }}>
           <Box
             component="img"
             src={stakingntftitle}

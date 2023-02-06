@@ -20,14 +20,14 @@ export const NETWORK_CHAIN_ID: ChainId = process.env.REACT_APP_CHAIN_ID
 export const IS_TEST_NET = !!(NETWORK_CHAIN_ID === ChainId.RINKEBY)
 
 export const ChainList = [
-  {
-    icon: <ETH />,
-    logo: EthUrl,
-    symbol: 'Ethereum',
-    name: 'Ethereum Main Network',
-    id: ChainId.MAINNET,
-    hex: '0x1'
-  },
+  //{
+  //   icon: <ETH />,
+  //   logo: EthUrl,
+  //   symbol: 'Ethereum',
+  //   name: 'Ethereum Main Network',
+  //   id: ChainId.MAINNET,
+  //   hex: '0x1'
+  // },
   // {
   //   icon: <ETH />,
   //   logo: EthUrl,
@@ -39,10 +39,10 @@ export const ChainList = [
   {
     icon: <ETH />,
     logo: EthUrl,
-    symbol: 'Rinkeby',
-    name: 'Rinkeby Testnet',
+    symbol: 'GÖRLI',
+    name: 'GÖRLI Testnet',
     id: ChainId.RINKEBY,
-    hex: '0x4'
+    hex: '0x5'
   }
   // {
   //   icon: <ETH />,
@@ -105,15 +105,15 @@ export const SUPPORTED_NETWORKS: {
   //   blockExplorerUrls: ['https://ropsten.etherscan.io/']
   // },
   [ChainId.RINKEBY]: {
-    chainId: '0x4',
-    chainName: 'Rinkeby',
+    chainId: '0x5',
+    chainName: 'GÖRLI',
     nativeCurrency: {
-      name: 'Rinkeby',
+      name: 'GÖRLI',
       symbol: 'ETH',
       decimals: 18
     },
-    rpcUrls: ['https://rinkeby.infura.io/v3/'],
-    blockExplorerUrls: ['https://rinkeby.etherscan.io/']
+    rpcUrls: ['https://goerli.infura.io/v3/f338fa7411a945db8bed616683b2ade5'],
+    blockExplorerUrls: ['https://goerli.etherscan.io/']
     // },
     // [ChainId.KOVAN]: {
     //   chainId: '0x2a',

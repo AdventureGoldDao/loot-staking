@@ -8,12 +8,12 @@ import { ChainId } from './chain'
 export const MIN_ETH: JSBI = JSBI.exponentiate(JSBI.BigInt(10), JSBI.BigInt(16)) // .01 ETH
 
 export const BAST_TOKEN: { [chainId in ChainId]: Token } = {
-  [ChainId.MAINNET]: new Token(ChainId.MAINNET, '0x7a250d5630B4cF539739dF2C5dAcb4c659F2488D', 18, 'MATTER', 'Matter'),
-  [ChainId.ROPSTEN]: new Token(ChainId.MAINNET, '0x7a250d5630B4cF539739dF2C5dAcb4c659F2488D', 18, 'MATTER', 'Matter'),
-  [ChainId.RINKEBY]: new Token(ChainId.MAINNET, '0x7a250d5630B4cF539739dF2C5dAcb4c659F2488D', 18, 'MATTER', 'Matter'),
-  [ChainId.GÖRLI]: new Token(ChainId.MAINNET, '0x7a250d5630B4cF539739dF2C5dAcb4c659F2488D', 18, 'MATTER', 'Matter'),
-  [ChainId.KOVAN]: new Token(ChainId.MAINNET, '0x7a250d5630B4cF539739dF2C5dAcb4c659F2488D', 18, 'MATTER', 'Matter'),
-  [ChainId.BSC]: new Token(ChainId.BSC, '0x7a250d5630B4cF539739dF2C5dAcb4c659F2488D', 18, 'MATTER', 'Matter')
+  [ChainId.MAINNET]: new Token(ChainId.MAINNET, '0x7a250d5630B4cF539739dF2C5dAcb4c659F2488D', 18, '', ''),
+  [ChainId.ROPSTEN]: new Token(ChainId.MAINNET, '0x7a250d5630B4cF539739dF2C5dAcb4c659F2488D', 18, '', ''),
+  [ChainId.RINKEBY]: new Token(ChainId.MAINNET, '0x7a250d5630B4cF539739dF2C5dAcb4c659F2488D', 18, '', ''),
+  [ChainId.GÖRLI]: new Token(ChainId.MAINNET, '0x7a250d5630B4cF539739dF2C5dAcb4c659F2488D', 18, '', ''),
+  [ChainId.KOVAN]: new Token(ChainId.MAINNET, '0x7a250d5630B4cF539739dF2C5dAcb4c659F2488D', 18, '', ''),
+  [ChainId.BSC]: new Token(ChainId.BSC, '0x7a250d5630B4cF539739dF2C5dAcb4c659F2488D', 18, '', '')
 }
 
 export const ROUTER_ADDRESS = '0x7a250d5630B4cF539739dF2C5dAcb4c659F2488D'
@@ -140,7 +140,7 @@ export const BLOCKED_ADDRESSES: string[] = [
 export const LOOT_ADDRESS: { [chainId in ChainId]: string } = {
   [ChainId.MAINNET]: '',
   [ChainId.ROPSTEN]: '',
-  [ChainId.RINKEBY]: '0x84E3547f63ad6E5A1c4FE82594977525C764F0E8',
+  [ChainId.RINKEBY]: '0xfDcD980cCd16716b6720A0512EF41eEeb5359fD2',
   [ChainId.KOVAN]: '',
   [ChainId.GÖRLI]: '',
   [ChainId.BSC]: ''
@@ -149,7 +149,7 @@ export const LOOT_ADDRESS: { [chainId in ChainId]: string } = {
 export const LOOT_M_ADDRESS: { [chainId in ChainId]: string } = {
   [ChainId.MAINNET]: '',
   [ChainId.ROPSTEN]: '',
-  [ChainId.RINKEBY]: '0xD991EafE6b2D36F786365e0cEB3b6Dbe61097c90',
+  [ChainId.RINKEBY]: '0x9Ab5FeB3C7EbA70888284e7697c1249783c768c4',
   [ChainId.KOVAN]: '',
   [ChainId.GÖRLI]: '',
   [ChainId.BSC]: ''
@@ -158,7 +158,7 @@ export const LOOT_M_ADDRESS: { [chainId in ChainId]: string } = {
 export const STAKING_ADDRESS: { [chainId in ChainId]: string } = {
   [ChainId.MAINNET]: '',
   [ChainId.ROPSTEN]: '',
-  [ChainId.RINKEBY]: '0x8466194f529534C8602422B2133891068835B253',
+  [ChainId.RINKEBY]: '0x10339F71dA739a418b564Df299Eb53c657583bF6',
   [ChainId.KOVAN]: '',
   [ChainId.GÖRLI]: '',
   [ChainId.BSC]: ''

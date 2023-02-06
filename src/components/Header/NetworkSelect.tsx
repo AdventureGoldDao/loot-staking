@@ -15,8 +15,8 @@ export default function NetworkSelect() {
   return (
     <Box sx={{ width: '130', margin: { xs: '0', sm: '8px 0 15px' } }}>
       <Select
-        defaultValue={chainId ?? 3}
-        value={chainId ?? 3}
+        defaultValue={chainId ?? 5}
+        value={chainId ?? 5}
         width="max-content"
         height={isDownSm ? '24px' : '36px'}
         style={{
