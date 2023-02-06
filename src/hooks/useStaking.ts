@@ -88,7 +88,7 @@ export function useStakingInfo() {
   const mLooStakedCount = useSingleCallResult(contract, 'numMLootStakedByEpoch', [
     currentEpoch?.[0] ? JSBI.ADD(JSBI.BigInt(currentEpoch?.[0]), JSBI.BigInt('1')).toString() : undefined
   ]).result
-
+  console.log('tag', currentEpoch, numEpochs)
   const lootReward = currentEpochReward?.[0].toString()
   const mLootReward = currentEpochReward?.[1].toString()
   const perLootReward =
