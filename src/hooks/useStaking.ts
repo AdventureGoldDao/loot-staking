@@ -3,7 +3,7 @@ import { TransactionResponse } from '@ethersproject/providers'
 import { useCallback } from 'react'
 import { useTransactionAdder } from '../state/transactions/hooks'
 import { useActiveWeb3React } from '.'
-import { useStakingContract } from './useContract'
+import { useClaimContract, useStakingContract } from './useContract'
 import { useSingleCallResult } from '../state/multicall/hooks'
 import { CurrencyAmount } from '../constants/token'
 import { EPOCH_DURATION } from '../constants'
@@ -13,6 +13,9 @@ export function useStaking() {
   const addTransaction = useTransactionAdder()
   const contract = useStakingContract()
   const { account } = useActiveWeb3React()
+  const claimContract = useClaimContract()
+
+  const count = useSingleCallResult(claimContract, 'mintCountOf', [account ?? undefined])?.result?.[0]
 
   const signalLootStake = useCallback(
     async (tokenIDs: string[]) => {
@@ -66,9 +69,31 @@ export function useStaking() {
     [account, addTransaction, contract]
   )
 
+  const claimLoot = useCallback(async () => {
+    if (!account) throw new Error('none account')
+    if (!claimContract) throw new Error('none contract')
+
+    return claimContract.estimateGas.mint({ from: account }).then(estimatedGasLimit => {
+      return claimContract
+        .mint({
+          gasLimit: calculateGasMargin(estimatedGasLimit),
+          // gasLimit: '3500000',
+          from: account
+        })
+        .then((response: TransactionResponse) => {
+          addTransaction(response, {
+            summary: `Claim test tokens`
+          })
+          return response.hash
+        })
+    })
+  }, [account, addTransaction, claimContract])
+
   return {
     signalLootStake,
-    signalLootMoreStake
+    signalLootMoreStake,
+    claimLoot,
+    claimed: !count || !JSBI.equal(JSBI.BigInt(count.toString()), JSBI.BigInt(0))
   }
 }
 

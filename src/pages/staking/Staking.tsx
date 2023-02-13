@@ -259,7 +259,7 @@ export const Staking = () => {
   }, [account, chainId])
 
   const { showModal, hideModal } = useModal()
-  const { signalLootStake, signalLootMoreStake } = useStaking()
+  const { signalLootStake, signalLootMoreStake, claimLoot, claimed } = useStaking()
 
   const stakeLootCallback = useCallback(async () => {
     if (!selectedLootNFT.length) return
@@ -296,6 +296,23 @@ export const Staking = () => {
         console.error(err)
       })
   }, [hideModal, selectedLootMoreNFT, showModal, signalLootMoreStake])
+
+  const claimLootCallback = useCallback(async () => {
+    showModal(<TransactionPendingModal />)
+    claimLoot()
+      .then(() => {
+        hideModal()
+        setSelectedLootMoreNFT([])
+        showModal(<TransactionSubmittedModal />)
+      })
+      .catch((err: any) => {
+        hideModal()
+        showModal(
+          <MessageBox type="error">{err.error && err.error.message ? err.error.message : err?.message}</MessageBox>
+        )
+        console.error(err)
+      })
+  }, [claimLoot, hideModal, showModal])
 
   const stakeLootBtn = useMemo(() => {
     if (!account)
@@ -404,6 +421,16 @@ export const Staking = () => {
           >
             Learn More
           </BlackButton>
+          <Button
+            disabled={claimed}
+            style={{ marginLeft: 20 }}
+            width={matches ? '111px' : '134px'}
+            height={matches ? '32px' : '47px'}
+            fontSize={matches ? '12px' : '16px'}
+            onClick={claimLootCallback}
+          >
+            {claimed ? 'Claimed' : 'Claim Test Loot'}
+          </Button>
         </Box>
 
         <Box

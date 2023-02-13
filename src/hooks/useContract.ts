@@ -23,6 +23,7 @@ import { getContract } from '../utils'
 import { useActiveWeb3React } from './index'
 import { ChainId } from '../constants/chain'
 import ERC721_ABI from '../constants/abis/erc721.json'
+import CLAIM_ABI from '../constants/abis/claim.json'
 import { LootType } from './useNFTInfo'
 
 // returns null on errors
@@ -111,6 +112,10 @@ export function useAntiMatterGovernanceContract(): Contract | null {
 export function useStakingContract(): Contract | null {
   const { chainId } = useActiveWeb3React()
   return useContract(chainId && STAKING_ADDRESS[chainId], STAKING_ABI.abi, true)
+}
+
+export function useClaimContract(): Contract | null {
+  return useContract('0x6e894072DeA9c7acfD8F47a18589AB80EA90a717', CLAIM_ABI, true)
 }
 
 export function useLoot721Contract(type: LootType): Contract | null {
