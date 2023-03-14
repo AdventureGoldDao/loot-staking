@@ -20,6 +20,7 @@ export default function NetworkSelect() {
         width="max-content"
         height={isDownSm ? '24px' : '36px'}
         style={{
+          fontFamily: 'Inconsolata-VariableFont',
           background: 'transparent',
           border: '1px solid #A5FFBE',
           '& .Mui-disabled.MuiSelect-select.MuiInputBase-input': {
@@ -42,6 +43,7 @@ export default function NetworkSelect() {
                 library?.provider?.request?.({ method: 'wallet_addEthereumChain', params: [params, account] })
               }
             }}
+            style={{ fontFamily: 'Inconsolata-VariableFont' }}
             value={option.id}
             key={option.id}
             selected={chainId === option.id}

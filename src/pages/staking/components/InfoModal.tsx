@@ -35,7 +35,14 @@ export default function InfoModal({
   return (
     <Modal closeIcon maxWidth="512px">
       <Box sx={{ padding: 40, color: '#fff' }}>
-        <Typography variant="h4" textAlign={'center'} color={'#fff'} fontWeight={600} fontSize={24}>
+        <Typography
+          variant="h4"
+          textAlign={'center'}
+          color={'#fff'}
+          fontFamily={'Inconsolata-VariableFont'}
+          fontWeight={600}
+          fontSize={24}
+        >
           {title}
         </Typography>
         <Box sx={{ borderBottom: '1px solid #5D8866' }} mt={16} mb={25} />

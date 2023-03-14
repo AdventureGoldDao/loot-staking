@@ -129,7 +129,7 @@ export default function ClaimModal() {
   return (
     <Modal closeIcon maxWidth="512px">
       <Box sx={{ padding: 40, color: '#fff' }}>
-        <Typography variant="h4" color={'#fff'} fontWeight={600} fontSize={24}>
+        <Typography variant="h4" color={'#fff'} fontFamily={'Inconsolata-VariableFont'} fontWeight={600} fontSize={24}>
           Claim AGLD
         </Typography>
         <FlexBetween>
@@ -140,6 +140,7 @@ export default function ClaimModal() {
             width="150px"
             height={'32px'}
             style={{
+              fontFamily: 'Inconsolata-VariableFont',
               background: 'transparent',
               border: '1px solid #A5FFBE'
             }}

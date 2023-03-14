@@ -386,7 +386,11 @@ export const Staking = () => {
 
   return (
     <StakingWrapper>
-      <Alert sx={{ width: { xs: '92%' }, margin: { xs: 'auto' } }} variant="outlined" severity="info">
+      <Alert
+        sx={{ width: { xs: '92%' }, margin: { xs: 'auto' }, fontFamily: 'Inconsolata-VariableFont' }}
+        variant="outlined"
+        severity="info"
+      >
         Please note that the current dApp is on GÖRLI testnet.
       </Alert>
       <Box
@@ -460,7 +464,12 @@ export const Staking = () => {
         <div className={'column-main-box'}>
           <div className={'column-box'}>
             <Box id={'column-box-header'} display="flex" justifyContent={'space-between'}>
-              <Typography variant={'h4'} fontWeight={600} color="#fff" sx={{ fontSize: { xs: 16, md: 24 } }}>
+              <Typography
+                variant={'h4'}
+                fontWeight={600}
+                color="#fff"
+                sx={{ fontSize: { xs: 16, md: 24 }, fontFamily: 'Inconsolata-VariableFont' }}
+              >
                 Loot (for Adventures)
               </Typography>
               <span className={'column-header-right'}>
